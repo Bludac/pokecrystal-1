@@ -2,6 +2,34 @@
 
 JohtoGrassWildMons:
 
+	def_grass_wildmons CHERRYGROVE_CITY
+	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
+	; morn
+	db 3, RATTATA
+	db 4, VOLTORB
+	db 5, GROWLITHE
+	db 3, GRIMER
+	db 6, SANDSHREW
+	db 5, QWILFISH
+	db 5, GEODUDE
+	; day
+	db 3, RATTATA
+	db 4, VOLTORB
+	db 5, GROWLITHE
+	db 3, GRIMER
+	db 6, SANDSHREW
+	db 5, QWILFISH
+	db 5, GEODUDE
+	; nite
+	db 3, RATTATA
+	db 4, VOLTORB
+	db 5, GROWLITHE
+	db 3, GRIMER
+	db 6, SANDSHREW
+	db 5, QWILFISH
+	db 5, GEODUDE
+	end_grass_wildmons
+
 	def_grass_wildmons SPROUT_TOWER_2F
 	db 2 percent, 2 percent, 2 percent ; encounter rates: morn/day/nite
 	; morn

@@ -3088,7 +3088,7 @@ SageGroup:
 
 	; SAGE (2)
 	db "NICO@", TRAINERTYPE_NORMAL
-	db  3, BELLSPROUT
+	db  3, RATTATA
 	db  3, BELLSPROUT
 	db  3, BELLSPROUT
 	db -1 ; end
