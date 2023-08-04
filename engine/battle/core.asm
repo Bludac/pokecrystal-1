@@ -4753,6 +4753,8 @@ UpdateEnemyHUD::
 	pop hl
 	ret
 
+INCLUDE "engine/pokemon/types_short.asm"
+
 DrawEnemyHUD:
 	xor a
 	ldh [hBGMapMode], a
@@ -4767,6 +4769,9 @@ DrawEnemyHUD:
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
 	call GetBaseData
+	;this should put the opposing pokemons type under its hp bar
+	hlcoord 1, 4
+	call PrintEnemyTypes
 	ld de, wEnemyMonNickname
 	hlcoord 1, 0
 	call Battle_DummyFunction
@@ -9178,3 +9183,4 @@ GetWeatherImage:
 	db $88, $14 ; y/x - bottom left
 	db $80, $1c ; y/x - top right
 	db $80, $14 ; y/x - top left
+
