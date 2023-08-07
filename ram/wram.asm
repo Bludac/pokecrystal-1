@@ -352,8 +352,7 @@ wBattleMonNickname:: ds MON_NAME_LENGTH
 
 wBattleMon:: battle_struct wBattleMon
 
-wPlayerAbility:: db
-wEnemyAbility:: db
+	ds 2
 
 wWildMon:: db
 	ds 1
@@ -491,8 +490,7 @@ wLinkBattleRNCount::
 
 wEnemyItemState:: db
 
-wTempPlayerAbility:: db
-wTempEnemyAbility:: db
+	ds 2
 
 wCurEnemyMoveNum:: db
 
@@ -2707,7 +2705,8 @@ wCurBaseDataEnd::
 
 wCurDamage:: dw
 
-	ds 2
+wPlayerAbility:: db
+wEnemyAbility:: db
 
 wMornEncounterRate::  db
 wDayEncounterRate::   db

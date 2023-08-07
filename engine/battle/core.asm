@@ -850,21 +850,13 @@ CompareMovePriority:
 	ld a, [wCurPlayerMove]
 	call GetMovePriority
 	ld b, a
-	ld a, BATTLE_VARS_ABILITY			;pull player ability into a
-	call GetBattleVar
-	cp PRANKSTER						;cp to const PRANKSTER
-	jp nz, .noprankster					;if not PRANKSTER then resume normal processing
-	ld a, BATTLE_VARS_MOVE_TYPE			;set move type for next function
-	call GetBattleVar					;get the move type constant
-	and ~TYPE_MASK						;remove the type and leave the move category
-	cp STATUS							;check to see if the move is a STATUS move
-	jp nz, .noprankster					;if its not status then dont increase priority
-	inc b								;+1 priority
-.noprankster							;resume normal processing
 	push bc
 	ld a, [wCurEnemyMove]
 	call GetMovePriority
 	pop bc
+	ld c, a
+	Call PranksterCheck
+	ld a, c
 	cp b
 	ret
 
@@ -906,6 +898,43 @@ GetMoveEffect:
 	ld a, BANK(Moves)
 	call GetFarByte
 	ld b, a
+	ret
+
+PranksterCheck:
+	push bc
+	ld a, [wCurPlayerMove]
+	call GetMoveCategory
+	cp STATUS
+	jp nz, .EnemyPranksterCheck
+	ld a, [wPlayerAbility]
+	cp PRANKSTER
+	jp nz, .EnemyPranksterCheck
+	pop bc
+	inc b
+	push bc
+.EnemyPranksterCheck
+	ld a, [wCurEnemyMove]
+	call GetMoveCategory
+	cp STATUS
+	jp nz, .done
+	ld a, [wEnemyAbility]
+	cp PRANKSTER
+	jp nz, .done
+	push bc
+	inc c
+	ret
+.done
+	push bc
+	ret
+
+GetMoveCategory:
+	dec a
+	ld hl, Moves + MOVE_TYPE
+	ld bc, MOVE_LENGTH
+	call AddNTimes
+	ld a, BANK(Moves)
+	call GetFarByte
+	and STATUS
 	ret
 
 Battle_EnemyFirst:
@@ -3914,8 +3943,8 @@ InitBattleMon:
 	ld [wBattleMonType1], a
 	ld a, [wBaseType2]
 	ld [wBattleMonType2], a
-	ld a, [wPlayerAbility]
-	ld [wTempPlayerAbility], a
+	ld a, [wBaseAbility]
+	ld [wPlayerAbility], a
 	ld hl, wPartyMonNicknames
 	ld a, [wCurBattleMon]
 	call SkipNames
@@ -3997,8 +4026,8 @@ InitEnemyMon:
 	call GetBaseData
 	ld hl, wOTPartyMonNicknames
 	ld a, [wCurPartyMon]
-	ld a, [wEnemyAbility]
-	ld [wTempEnemyAbility], a
+	ld a, [wBaseAbility]
+	ld [wEnemyAbility], a
 	call SkipNames
 	ld de, wEnemyMonNickname
 	ld bc, MON_NAME_LENGTH
