@@ -3711,7 +3711,7 @@ TryToRunAwayFromBattle:
 	jp z, .cant_escape
 	cp BATTLETYPE_CELEBI
 	jp z, .cant_escape
-	cp BATTLETYPE_FORCESHINY
+	cp BATTLETYPE_SHINY
 	jp z, .cant_escape
 	cp BATTLETYPE_SUICUNE
 	jp z, .cant_escape
@@ -6154,7 +6154,7 @@ LoadEnemyMon:
 
 ; Forced shiny battle type
 ; Used by Red Gyarados at Lake of Rage
-	cp BATTLETYPE_FORCESHINY
+	cp BATTLETYPE_SHINY
 	jr nz, .GenerateDVs
 
 	ld b, ATKDEFDV_SHINY ; $ea

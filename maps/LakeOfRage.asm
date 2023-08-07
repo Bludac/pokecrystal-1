@@ -85,7 +85,7 @@ RedGyarados:
 	cry GYARADOS
 	closetext
 	loadwildmon GYARADOS, 30
-	loadvar VAR_BATTLETYPE, BATTLETYPE_FORCESHINY
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SHINY
 	startbattle
 	ifequal LOSE, .NotBeaten
 	disappear LAKEOFRAGE_GYARADOS
