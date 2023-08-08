@@ -146,7 +146,7 @@ DrawEnemyHUDBorder:
 	dec a
 	call CheckCaughtMon
 	ret z
-	hlcoord 0, 0
+	hlcoord 1, 2
 	ld [hl], $5d
 	ret
 
