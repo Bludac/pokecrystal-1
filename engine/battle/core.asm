@@ -920,11 +920,11 @@ PranksterCheck:
 	ld a, [wEnemyAbility]
 	cp PRANKSTER
 	jp nz, .done
-	push bc
+	pop bc
 	inc c
 	ret
 .done
-	push bc
+	pop bc
 	ret
 
 GetMoveCategory:
@@ -4753,14 +4753,14 @@ PrintPlayerHUD:
 .got_gender_char
 	hlcoord 17, 8
 	ld [hl], a
-	hlcoord 14, 8
+	hlcoord 10, 8
 	push af ; back up gender
 	push hl
 	ld de, wBattleMonStatus
 	predef PlaceNonFaintStatus
 	pop hl
 	pop bc
-	ret nz
+	;ret nz
 	ld a, b
 	cp " "
 	jr nz, .copy_level ; male or female
@@ -4769,6 +4769,7 @@ PrintPlayerHUD:
 .copy_level
 	ld a, [wBattleMonLevel]
 	ld [wTempMonLevel], a
+	hlcoord 14, 8
 	jp PrintLevel
 
 UpdateEnemyHUD::
@@ -4799,7 +4800,7 @@ DrawEnemyHUD:
 	ld [wCurPartySpecies], a
 	call GetBaseData
 	;this should put the opposing pokemons type under its hp bar
-	hlcoord 1, 4
+	hlcoord 2, 3
 	call PrintEnemyTypes
 	ld de, wEnemyMonNickname
 	hlcoord 1, 0
@@ -4835,14 +4836,14 @@ DrawEnemyHUD:
 	hlcoord 9, 1
 	ld [hl], a
 
-	hlcoord 6, 1
+	hlcoord 2, 1
 	push af
 	push hl
 	ld de, wEnemyMonStatus
 	predef PlaceNonFaintStatus
 	pop hl
 	pop bc
-	jr nz, .skip_level
+	;jr nz, .skip_level
 	ld a, b
 	cp " "
 	jr nz, .print_level
@@ -4850,8 +4851,9 @@ DrawEnemyHUD:
 .print_level
 	ld a, [wEnemyMonLevel]
 	ld [wTempMonLevel], a
+	hlcoord 6, 1
 	call PrintLevel
-.skip_level
+;.skip_level
 
 	ld hl, wEnemyMonHP
 	ld a, [hli]
