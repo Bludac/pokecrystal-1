@@ -252,4 +252,5 @@ BitmasksPointers:
 	dw HoOhBitmasks
 	dw CelebiBitmasks
 	dw GarbodorBitmasks
+	dw GarchompBitmasks
 	assert_table_length NUM_POKEMON

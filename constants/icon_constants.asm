@@ -254,6 +254,7 @@
 	const ICON_PUPITAR
 	const ICON_TYRANITAR
 	const ICON_GARBODOR
+	const ICON_GARCHOMP
 
 DEF NUM_ICONS EQU const_value - 1
 

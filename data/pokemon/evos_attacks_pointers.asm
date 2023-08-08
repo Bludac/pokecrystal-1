@@ -254,4 +254,5 @@ EvosAttacksPointers::
 	dw HoOhEvosAttacks
 	dw CelebiEvosAttacks
 	dw GarbodorEvosAttacks
+	dw GarchompEvosAttacks
 	assert_table_length NUM_POKEMON

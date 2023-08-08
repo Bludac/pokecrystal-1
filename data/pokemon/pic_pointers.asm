@@ -510,7 +510,9 @@ PokemonPicPointers::
 	dba CelebiBackpic
 	dba GarbodorFrontpic
 	dba GarbodorBackpic
+	dba GarchompFrontpic
+	dba GarchompBackpic
 	assert_table_length NUM_POKEMON
 	dba EggPic
-	dbw -1, -1 ; unused
+	dbw -1, -1 ;unused
 	assert_table_length EGG

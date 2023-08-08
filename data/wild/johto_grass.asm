@@ -5,29 +5,29 @@ JohtoGrassWildMons:
 	def_grass_wildmons CHERRYGROVE_CITY
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
-	db 3, GARBODOR
-	db 4, GARBODOR
-	db 5, GARBODOR
-	db 3, GARBODOR
-	db 6, GARBODOR
-	db 5, GARBODOR
-	db 5, GARBODOR
+	db 3, GARCHOMP
+	db 4, GARCHOMP
+	db 5, GARCHOMP
+	db 3, GARCHOMP
+	db 6, GARCHOMP
+	db 5, GARCHOMP
+	db 5, GARCHOMP
 	; day
-	db 3, GARBODOR
-	db 4, GARBODOR
-	db 5, GARBODOR
-	db 3, GARBODOR
-	db 6, GARBODOR
-	db 5, GARBODOR
-	db 5, GARBODOR
+	db 3, GARCHOMP
+	db 4, GARCHOMP
+	db 5, GARCHOMP
+	db 3, GARCHOMP
+	db 6, GARCHOMP
+	db 5, GARCHOMP
+	db 5, GARCHOMP
 	; nite
-	db 3, GARBODOR
-	db 4, GARBODOR
-	db 5, GARBODOR
-	db 3, GARBODOR
-	db 6, GARBODOR
-	db 5, GARBODOR
-	db 5, GARBODOR
+	db 3, GARCHOMP
+	db 4, GARCHOMP
+	db 5, GARCHOMP
+	db 3, GARCHOMP
+	db 6, GARCHOMP
+	db 5, GARCHOMP
+	db 5, GARCHOMP
 	end_grass_wildmons
 
 	def_grass_wildmons SPROUT_TOWER_2F

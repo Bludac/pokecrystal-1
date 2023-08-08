@@ -4105,4 +4105,19 @@ GarbodorEvosAttacks:
 	db 56, EXPLOSION
 	db 0 ; no more level-up moves
 
-
+	GarchompEvosAttacks:
+	db 0 ; no more evolutions
+	db 1, CRUNCH
+	db 1, WRAP
+	db 1, LEER
+	db 1, THUNDER_WAVE
+	db 8, TWISTER
+	db 15, AQUA_JET
+	db 22, TAIL_SWIPE
+	db 29, AGILITY
+	db 38, DRAGON_CLAW
+	db 46, DRAGON_DANCE
+	db 54, OUTRAGE
+	db 60, EARTHQUAKE
+	db 67, HYPER_BEAM
+	db 0 ; no more level-up moves

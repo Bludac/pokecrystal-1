@@ -252,4 +252,5 @@ AnimationPointers:
 	dw HoOhAnimation
 	dw CelebiAnimation
 	dw GarbodorAnimation
+	dw GarchompAnimation
 	assert_table_length NUM_POKEMON

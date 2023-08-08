@@ -714,6 +714,8 @@ VoltorbFrontpic:     INCBIN "gfx/pokemon/voltorb/front.animated.2bpp.lz"
 TaurosFrontpic:      INCBIN "gfx/pokemon/tauros/front.animated.2bpp.lz"
 GarbodorFrontpic:    INCBIN "gfx/pokemon/garbodor/front.animated.2bpp.lz"
 GarbodorBackpic:     INCBIN "gfx/pokemon/garbodor/back.2bpp.lz"
+GarchompFrontpic:    INCBIN "gfx/pokemon/garchomp/front.animated.2bpp.lz"
+GarchompBackpic:     INCBIN "gfx/pokemon/garchomp/back.2bpp.lz"
 
 ; Sections "Pics 20" to "Pics 24" are not used for any graphics,
 ; but entries for their banks exist in FixPicBank (see engine/gfx/load_pics.asm).

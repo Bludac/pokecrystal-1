@@ -254,4 +254,5 @@ NewPokedexOrder:
 	db MEW
 	db CELEBI
 	db GARBODOR
+	db GARCHOMP
 	assert_table_length NUM_POKEMON
