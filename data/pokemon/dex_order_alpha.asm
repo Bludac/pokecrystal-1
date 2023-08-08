@@ -66,6 +66,7 @@ AlphabeticalPokedexOrder:
 	db FLAREON
 	db FORRETRESS
 	db FURRET
+	db GARBODOR
 	db GASTLY
 	db GENGAR
 	db GEODUDE

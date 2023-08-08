@@ -4090,3 +4090,19 @@ CelebiEvosAttacks:
 	db 1, FUTURE_SIGHT
 	db 1, SUBSTITUTE
 	db 0 ; no more level-up moves
+
+GarbodorEvosAttacks:
+	db 0 ; no more evolutions
+	db 1, POUND
+	db 1, METAL_CLAW
+	db 1, TOXIC
+	db 1, ACID
+	db 31, BODY_SLAM
+	db 36, SLUDGE_BOMB
+	db 41, PAIN_SPLIT
+	db 46, AMNESIA
+	db 51, GUNK_SHOT
+	db 56, EXPLOSION
+	db 0 ; no more level-up moves
+
+

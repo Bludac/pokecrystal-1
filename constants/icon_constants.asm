@@ -253,6 +253,7 @@
 	const ICON_LARVITAR
 	const ICON_PUPITAR
 	const ICON_TYRANITAR
+	const ICON_GARBODOR
 
 DEF NUM_ICONS EQU const_value - 1
 

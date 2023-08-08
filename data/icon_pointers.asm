@@ -254,5 +254,6 @@ IconPointers:
 	dw LarvitarIcon
 	dw PupitarIcon
 	dw TyranitarIcon
+	dw GarbodorIcon
 
 	assert_table_length NUM_ICONS + 1

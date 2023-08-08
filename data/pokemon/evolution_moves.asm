@@ -251,4 +251,5 @@ EvolutionMoves::
 	db NO_MOVE      ; LUGIA
 	db NO_MOVE      ; HO_OH
 	db NO_MOVE      ; CELEBI
+	db NO_MOVE		; GARBODOR
 	assert_table_length NUM_POKEMON
