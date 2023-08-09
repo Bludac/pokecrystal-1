@@ -5728,7 +5728,7 @@ MoveInfoBox:
 	hlcoord 1, 10
 	ld de, .Disabled
 	call PlaceString
-	jr .done
+	jp .done
 
 .not_disabled
 	ld hl, wMenuCursorY
@@ -5776,11 +5776,80 @@ MoveInfoBox:
 	hlcoord 2, 10
 	predef PrintMoveType
 
+	ld a, [wPlayerMoveStruct + MOVE_ANIM]
+	ld b, a
+	farcall GetMoveType
+	ld a, b
+	cp STATUS - 1
+	jr nc, .status
+	and TYPE_MASK
+	ld b, a
+	farcall MoveBoxTypeMatchup
+	ld a, [wTypeMatchup]
+
+	cp 40
+	jr z, .FourXText
+	cp 20
+	jr z, .TwoXText
+	cp 10
+	jr z, .OneXText
+	cp 05
+	jr z, .HalfXText
+	cp 0
+	jr z, .ZeroXText
+
+	hlcoord 1, 11
+	ld de, .QuartTimesEff
+	call PlaceString
+	jr .done
+.FourXText
+	hlcoord 1, 11
+	ld de, .FourTimesEff
+	call PlaceString
+	jr .done
+.TwoXText
+	hlcoord 1, 11
+	ld de, .TwoTimesEff
+	call PlaceString
+	jr .done
+.OneXText
+	hlcoord 1, 11
+	ld de, .OneTimesEff
+	call PlaceString
+	jr .done
+.HalfXText
+	hlcoord 1, 11
+	ld de, .HalfTimesEff
+	call PlaceString
+	jr .done
+.ZeroXText
+	hlcoord 1, 11
+	ld de, .ZeroTimesEff
+	call PlaceString
+	jr .done
+.status
+	hlcoord 1, 11
+	ld de, .StatusMove
+	call PlaceString
 .done
 	ret
 
 .Disabled:
 	db "Disabled!@"
+.FourTimesEff:
+	db "x4@"
+.TwoTimesEff:
+	db "x2@"
+.OneTimesEff:
+	db "x1@"
+.HalfTimesEff:
+	db "/2@"
+.QuartTimesEff:
+	db "/4@"
+.StatusMove:
+	db "--@"
+.ZeroTimesEff:
+	db "x0@"
 
 .PrintPP:
 	hlcoord 5, 11

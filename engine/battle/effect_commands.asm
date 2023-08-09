@@ -1039,7 +1039,11 @@ BattleCheckTypeMatchup:
 	ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar ; preserves hl, de, and bc
 	and TYPE_MASK
-	; fallthrough
+	call CheckTypeMatchup
+	ret
+MoveBoxTypeMatchup:
+	ld a, b
+	ld hl, wEnemyMonType1
 CheckTypeMatchup:
 	push hl
 	push de

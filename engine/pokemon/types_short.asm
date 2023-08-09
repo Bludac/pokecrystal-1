@@ -56,4 +56,15 @@ PrintTypeShort:
 
 	jp PlaceString
 
+GetMoveType:
+	ld a, b
+	dec a
+	ld bc, MOVE_LENGTH
+	ld hl, Moves + MOVE_TYPE
+	call AddNTimes
+	ld a, Bank(Moves)
+	call GetFarByte
+	ld b, a
+	ret
+
 INCLUDE "data/types/names_short.asm"
