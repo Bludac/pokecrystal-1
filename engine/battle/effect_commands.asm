@@ -912,6 +912,13 @@ BattleCommand_Stab:
 	rr c
 	add hl, bc
 
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp ADAPTABILITY
+	jr nz, .skipadaptability
+	add hl, bc
+
+.skipadaptability
 	ld a, h
 	ld [wCurDamage], a
 	ld a, l
