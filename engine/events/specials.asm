@@ -111,12 +111,6 @@ UnownPrinter:
 	call ExitAllMenus
 	ret
 
-DisplayLinkRecord:
-	call FadeToMenu
-	farcall _DisplayLinkRecord
-	call ExitAllMenus
-	ret
-
 PlayersHousePC:
 	xor a
 	ld [wScriptVar], a

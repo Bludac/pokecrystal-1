@@ -12,10 +12,9 @@ AbilityDamageBoost:
     push de
     ld a, c
     ld hl, ContactMoves
-    ld de, 1
-    call IsInArray
+    call IsInByteArray
     pop de
-    jp nz, .done
+    jp nc, .done
     call GetTenPercent
     add a
     add d
@@ -27,10 +26,9 @@ AbilityDamageBoost:
     push de
     ld a, c
     ld hl, PunchMoves
-    ld de, 1
-    call IsInArray
+    call IsInByteArray
     pop de
-    jp nz, .done
+    jp nc, .done
     call GetTenPercent
     add a
     add d
@@ -42,10 +40,9 @@ AbilityDamageBoost:
     push de
     ld a, c
     ld hl, LauncherMoves
-    ld de, 1
-    call IsInArray
+    call IsInByteArray
     pop de
-    jr nz, .done
+    jp nc, .done
     call GetTenPercent
     add a
     add a
@@ -53,17 +50,16 @@ AbilityDamageBoost:
     add a
     add d
     ld d, a
-    jr .done
+    jp .done
 .sharpness
 	cp SHARPNESS
 	jr nz, .technician
     push de
     ld a, c
     ld hl, SlashMoves
-    ld de, 1
-    call IsInArray
+    call IsInByteArray
     pop de
-    jr nz, .done
+    jr nc, .done
     call GetTenPercent
     add a
     add a
@@ -103,9 +99,10 @@ AbilityDamageBoost:
     add a
     add d
     ld d, a
+    jr .done
 .galvanize
 	cp GALVANIZE
-    jr nz, .done
+    jr nz, .analytic
     ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar
     ld b, a
@@ -116,10 +113,10 @@ AbilityDamageBoost:
     ld b, a
     ldh a, [hBattleTurn]
     and a
-    jr nz, .EnemyMove
+    jr nz, .EnemyMoveGalvanize
     ;ld wPlayerMoveStructType, b      ;these caused errors and i dont know why
     jr .contGalvanize
-.EnemyMove
+.EnemyMoveGalvanize
     ;ld wEnemyMoveStructType, b
 .contGalvanize
     call GetTenPercent
@@ -128,7 +125,26 @@ AbilityDamageBoost:
     add d
     ld d, a
     jr .done
-	;cp ANALYTIC
+.analytic
+	cp ANALYTIC
+    jr nz, .done
+    ldh a, [hBattleTurn]
+    and a
+    jr nz, .EnemyMoveAnalytic
+    ld a, [wEnemyGoesFirst]
+    and a
+    jr z, .done
+    jr .contAnalytic
+.EnemyMoveAnalytic
+    ld a, [wEnemyGoesFirst]
+    and a
+    jr nz, .done
+.contAnalytic
+    call GetTenPercent
+    add a
+    add a
+    add d
+    ld d, a
 .done
     pop bc
     ret
@@ -154,4 +170,5 @@ DamageBoostingAbilities:
     db SHEER_FORCE
     db RECKLESS
     db GALVANIZE
+    db ANALYTIC
     db -1

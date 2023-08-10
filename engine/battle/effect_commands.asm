@@ -898,6 +898,16 @@ BattleCommand_Stab:
 	cp c
 	jr z, .stab
 
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp OMNI_STAB
+	jr z, .stab
+	cp ROCKY_PAYLOAD
+	jr nz, .SkipStab
+	ld a, [wCurType]
+	cp ROCK
+	jr z, .stab
+
 	jr .SkipStab
 
 .stab
@@ -2205,11 +2215,9 @@ PlayerAttackDamage:
 
 	push de
 	ld hl, DamageBoostingAbilities
-	ld de, 1
-	call IsInArray
+	call IsInByteArray
 	pop de
-
-	jr nz, .skipboostingabilities
+	jr nc, .skipboostingabilities
 	call AbilityDamageBoost
 .skipboostingabilities
 	pop hl
@@ -2480,11 +2488,9 @@ EnemyAttackDamage:
 
 	push de
 	ld hl, DamageBoostingAbilities
-	ld de, 1
-	call IsInArray
+	call IsInByteArray
 	pop de
-
-	jr nz, .skipboostingabilities
+	jr nc, .skipboostingabilities
 	call AbilityDamageBoost
 .skipboostingabilities
 	pop hl
@@ -4591,8 +4597,6 @@ BattleCommand_ForceSwitch:
 	cp BATTLETYPE_SHINY
 	jp z, .fail
 	cp BATTLETYPE_TRAP
-	jp z, .fail
-	cp BATTLETYPE_CELEBI
 	jp z, .fail
 	cp BATTLETYPE_SUICUNE
 	jp z, .fail
