@@ -65,8 +65,8 @@ EvolveAfterBattle_MasterLoop:
 
 	ld b, a
 
-	cp EVOLVE_TRADE
-	jr z, .trade
+	cp EVOLVE_ITEM_LEVEL
+	jr z, .helditemlevel
 
 	ld a, [wLinkMode]
 	and a
@@ -141,29 +141,28 @@ EvolveAfterBattle_MasterLoop:
 	jp z, .dont_evolve_3
 	jr .proceed
 
-.trade
-	ld a, [wLinkMode]
-	and a
-	jp z, .dont_evolve_2
-
-	call IsMonHoldingEverstone
-	jp z, .dont_evolve_2
-
-	ld a, [hli]
-	ld b, a
-	inc a
-	jr z, .proceed
-
-	ld a, [wLinkMode]
-	cp LINK_TIMECAPSULE
-	jp z, .dont_evolve_3
-
+.helditemlevel
 	ld a, [wTempMonItem]
 	cp b
 	jp nz, .dont_evolve_3
 
-	xor a
-	ld [wTempMonItem], a
+	cp DRAGON_SCALE
+	jr nz, .kingsrock
+	ld b, 55
+	jr .levelcheck
+.kingsrock
+	cp KINGS_ROCK
+	jr nz, .upgrade
+	ld b, 32
+	jr .levelcheck
+.upgrade
+	cp UP_GRADE
+	jp nz, .dont_evolve_3
+	ld b, 35
+.levelcheck
+	ld a, [wTempMonLevel]
+	cp b
+	jp c, .dont_evolve_3
 	jr .proceed
 
 .item
@@ -176,9 +175,11 @@ EvolveAfterBattle_MasterLoop:
 	ld a, [wForceEvolution]
 	and a
 	jp z, .dont_evolve_3
-	ld a, [wLinkMode]
-	and a
-	jp nz, .dont_evolve_3
+
+	ld b, 30
+	ld a, [wTempMonLevel]
+	cp b
+	jp c, .dont_evolve_3
 	jr .proceed
 
 .level

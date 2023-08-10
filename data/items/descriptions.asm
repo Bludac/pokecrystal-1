@@ -288,7 +288,7 @@ BicycleDesc:
 
 MoonStoneDesc:
 	db   "Evolves certain"
-	next "kinds of #MON.@"
+	next "kinds of #MON.Lv30@"
 
 AntidoteDesc:
 	db   "Cures poisoned"
@@ -344,15 +344,15 @@ MaxElixerDesc:
 
 FireStoneDesc:
 	db   "Evolves certain"
-	next "kinds of #MON.@"
+	next "kinds of #MON.Lv30@"
 
 ThunderStoneDesc:
 	db   "Evolves certain"
-	next "kinds of #MON.@"
+	next "kinds of #MON.Lv30@"
 
 WaterStoneDesc:
 	db   "Evolves certain"
-	next "kinds of #MON.@"
+	next "kinds of #MON.Lv30@"
 
 ChainsawDesc:
 	db   "CUTs down"
@@ -392,7 +392,7 @@ XAccuracyDesc:
 
 LeafStoneDesc:
 	db   "Evolves certain"
-	next "kinds of #MON.@"
+	next "kinds of #MON.Lv30@"
 
 MetalPowderDesc:
 	db   "Raises DEFENSE of"
@@ -583,7 +583,7 @@ PoisonBarbDesc:
 
 KingsRockDesc:
 	db   "May make the foe"
-	next "flinch. (HOLD)@"
+	next "flinch.Lv32(HOLD)@"
 
 BitterBerryDesc:
 	db   "A self-cure for"
@@ -847,8 +847,8 @@ MysteryBerryDesc:
 	next "for PP. (HOLD)@"
 
 DragonScaleDesc:
-	db   "A rare dragon-type"
-	next "item.@"
+	db   "Lv55 Dragonair"
+	next "and Seadra.(HOLD)@"
 
 BerserkGeneDesc:
 	db   "Boosts ATTACK but"
@@ -916,7 +916,7 @@ GorgeousBoxDesc:
 
 SunStoneDesc:
 	db   "Evolves certain"
-	next "kinds of #MON.@"
+	next "kinds of #MON.Lv30@"
 
 PolkadotBowDesc:
 	db   "Powers up fairy-"
@@ -926,8 +926,8 @@ TeruSama22Desc:
 	db   "?@"
 
 UpGradeDesc:
-	db   "A mysterious box"
-	next "made by SILPH CO.@"
+	db   "Evolve Lv35 PORY-"
+	next "GON when held.@"
 
 BerryDesc:
 	db   "A self-restore"

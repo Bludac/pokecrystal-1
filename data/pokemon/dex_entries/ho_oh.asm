@@ -1,10 +1,10 @@
-	db "RAINBOW@" ; species name
-	dw 1206, 4390 ; height, weight
+	db "LEGENDARY@" ; species name
+	dw 603, 3420 ; height, weight
 
-	db   "It will reveal"
-	next "itself before a"
-	next "pure-hearted"
+	db   "An ancient picture"
+	next "scroll shows that"
+	next "people were"
 
-	page "trainer by shining"
-	next "its bright rain-"
-	next "bow-colored wings.@"
+	page "attracted to its"
+	next "movement as it ran"
+	next "through prairies.@"

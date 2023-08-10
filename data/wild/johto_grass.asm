@@ -5,29 +5,29 @@ JohtoGrassWildMons:
 	def_grass_wildmons CHERRYGROVE_CITY
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
-	db 3, GASTLY
-	db 4, GASTLY
-	db 5, GASTLY
-	db 3, GASTLY
-	db 6, GASTLY
-	db 5, GASTLY
-	db 5, GASTLY
+	db 3, LUGIA
+	db 4, HO_OH
+	db 5, CELEBI
+	db 3, CELEBI
+	db 6, HO_OH
+	db 5, LUGIA
+	db 5, LUGIA
 	; day
-	db 3, GASTLY
-	db 4, GASTLY
-	db 5, GASTLY
-	db 3, GASTLY
-	db 6, GASTLY
-	db 5, GASTLY
-	db 5, GASTLY
+	db 3, LUGIA
+	db 4, HO_OH
+	db 5, CELEBI
+	db 3, CELEBI
+	db 6, HO_OH
+	db 5, LUGIA
+	db 5, LUGIA
 	; nite
-	db 3, GASTLY
-	db 4, GASTLY
-	db 5, GASTLY
-	db 3, GASTLY
-	db 6, GASTLY
-	db 5, GASTLY
-	db 5, GASTLY
+	db 3, LUGIA
+	db 4, HO_OH
+	db 5, CELEBI
+	db 3, CELEBI
+	db 6, HO_OH
+	db 5, LUGIA
+	db 5, LUGIA
 	end_grass_wildmons
 
 	def_grass_wildmons SPROUT_TOWER_2F

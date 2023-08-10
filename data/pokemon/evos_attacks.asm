@@ -959,6 +959,7 @@ PrimeapeEvosAttacks:
 
 GrowlitheEvosAttacks:
 	db EVOLVE_ITEM, FIRE_STONE, ARCANINE
+	db EVOLVE_ITEM, THUNDERSTONE, LUGIA
 	db 0 ; no more evolutions
 	db 1, BITE
 	db 1, ROAR
@@ -1010,7 +1011,7 @@ PoliwagEvosAttacks:
 
 PoliwhirlEvosAttacks:
 	db EVOLVE_ITEM, WATER_STONE, POLIWRATH
-	db EVOLVE_ITEM, KINGS_ROCK, POLITOED
+	db EVOLVE_ITEM_LEVEL, KINGS_ROCK, POLITOED
 	db 0 ; no more evolutions
 	db 1, WATER_GUN
 	db 1, POUND
@@ -1298,7 +1299,7 @@ RapidashEvosAttacks:
 
 SlowpokeEvosAttacks:
 	db EVOLVE_LEVEL, 32, SLOWBRO
-	db EVOLVE_ITEM, KINGS_ROCK, SLOWKING
+	db EVOLVE_ITEM_LEVEL, KINGS_ROCK, SLOWKING
 	db 0 ; no more evolutions
 	db 1, CURSE
 	db 1, POUND
@@ -1813,6 +1814,7 @@ LickitungEvosAttacks:
 
 KoffingEvosAttacks:
 	db EVOLVE_LEVEL, 35, WEEZING
+	db EVOLVE_ITEM, WATER_STONE, HO_OH
 	db 0 ; no more evolutions
 	db 1, TOXIC
 	db 1, POUND
@@ -1939,7 +1941,7 @@ HorseaEvosAttacks:
 	db 0 ; no more level-up moves
 
 SeadraEvosAttacks:
-	db EVOLVE_ITEM, DRAGON_SCALE, KINGDRA
+	db EVOLVE_ITEM_LEVEL, DRAGON_SCALE, KINGDRA
 	db 0 ; no more evolutions
 	db 1, WATER_GUN
 	db 1, LEER
@@ -2261,7 +2263,7 @@ FlareonEvosAttacks:
 	db 0 ; no more level-up moves
 
 PorygonEvosAttacks:
-	db EVOLVE_ITEM, UP_GRADE, PORYGON2
+	db EVOLVE_ITEM_LEVEL, UP_GRADE, PORYGON2
 	db 0 ; no more evolutions
 	db 1, FLASH
 	db 1, DISABLE
@@ -2419,6 +2421,7 @@ DratiniEvosAttacks:
 	db 0 ; no more level-up moves
 
 DragonairEvosAttacks:
+	db EVOLVE_ITEM_LEVEL, DRAGON_SCALE, GARCHOMP
 	db EVOLVE_LEVEL, 55, DRAGONITE
 	db 0 ; no more evolutions
 	db 1, WRAP
@@ -4065,30 +4068,55 @@ TyranitarEvosAttacks:
 	db 65, HYPER_BEAM
 	db 0 ; no more level-up moves
 
-LugiaEvosAttacks:
+LugiaEvosAttacks:		;Arcalight
 	db 0 ; no more evolutions
-	db 1, AEROBLAST
-	db 1, CALM_MIND
-	db 1, PSYCHIC_M
-	db 1, RECOVER
-	db 71, FUTURE_SIGHT
+	db 1, SPARK
+	db 1, BITE
+	db 1, ROAR
+	db 1, LEER
+	db 7, EMBER
+	db 12, DOUBLE_KICK
+	db 17, FLAME_WHEEL
+	db 22, STOMP
+	db 28, CRUNCH
+	db 33, EXTREMESPEED
+	db 39, MORNING_SUN
+	db 44, PLAY_ROUGH
+	db 50, FLARE_BLITZ
+	db 56, WILD_CHARGE
 	db 0 ; no more level-up moves
 
-HoOhEvosAttacks:
+HoOhEvosAttacks:		;Freezing
 	db 0 ; no more evolutions
-	db 1, SACRED_FIRE
-	db 1, WILL_O_WISP
-	db 1, BRAVE_BIRD
-	db 1, RECOVER
-	db 71, FLARE_BLITZ
+	db 1, ICY_WIND
+	db 1, TOXIC
+	db 1, POUND
+	db 5, ACID
+	db 12, FAIRY_WIND
+	db 16, WILL_O_WISP
+	db 21, SWEET_SCENT
+	db 25, PAIN_SPLIT
+	db 30, HAZE
+	db 38, SLUDGE_BOMB
+	db 44, DESTINY_BOND
+	db 51, BLIZZARD
+	db 58, EXPLOSION
 	db 0 ; no more level-up moves
 
-CelebiEvosAttacks:
+CelebiEvosAttacks:		;Wyrdeer
 	db 0 ; no more evolutions
-	db 1, LEECH_SEED
-	db 1, HEAL_BELL
-	db 1, FUTURE_SIGHT
-	db 1, SUBSTITUTE
+	db 1, POUND
+	db 1, LEER
+	db 5, CONFUSE_RAY
+	db 10, NIGHT_SHADE
+	db 15, HYPNOSIS
+	db 20, SWIFT
+	db 25, OMINOUS_WIND
+	db 30, PSY_ANTLERS
+	db 35, AURA_SPHERE
+	db 40, SHADOW_BALL
+	db 45, HYPER_VOICE
+	db 50, PSYCH_UP
 	db 0 ; no more level-up moves
 
 GarbodorEvosAttacks:

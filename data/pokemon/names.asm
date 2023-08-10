@@ -248,9 +248,9 @@ PokemonNames::
 	db "LARVITAR@@"
 	db "PUPITAR@@@"
 	db "TYRANITAR@"
-	db "LUGIA@@@@@"
-	db "HO-OH@@@@@"
-	db "CELEBI@@@@"
+	db "ARCALIGHT@"
+	db "FREEZING@@"
+	db "WYRDEER@@@"
 	db "GARBODOR@@"
 	db "GARCHOMP@@"
 	assert_table_length NUM_POKEMON

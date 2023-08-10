@@ -1,10 +1,10 @@
-	db "TIMETRAVEL@" ; species name
-	dw 200, 110 ; height, weight
+	db "BIG HORN@" ; species name
+	dw 511, 2097 ; height, weight
 
-	db   "Revered as a"
-	next "guardian of the"
-	next "forest, CELEBI"
+	db   "The fur shed from"
+	next "its beard retains"
+	next "heat well and is"
 
-	page "appears wherever"
-	next "beautiful forests"
-	next "exist.@"
+	page "a highly useful"
+	next "material for"
+	next "winter clothing.@"

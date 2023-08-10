@@ -1,10 +1,10 @@
 	db "POISON GAS@" ; species name
-	dw 311, 210 ; height, weight
+	dw 910, 35.3 ; height, weight
 
-	db   "When it inhales"
-	next "poisonous gases"
-	next "from garbage, its"
+	db   "It consumes par-"
+	next "ticles that con-"
+	next "taminate the air."
 
-	page "body expands, and"
-	next "its insides smell"
-	next "much worse.@"
+	page "Instead of leaving"
+	next "droppings, it"
+	next "expels clean air.@"

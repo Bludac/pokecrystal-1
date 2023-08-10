@@ -1,10 +1,9 @@
-	db "DIVING@" ; species name
-	dw 1701, 4760 ; height, weight
+	db "POISON GAS@" ; species name
+	dw 311, 209 ; height, weight
+	db   "When it inhales"
+	next "cold air from"
+	next "blizzards, its"
 
-	db   "It has an incred-"
-	next "ible ability to"
-	next "calm raging sto-"
-
-	page "rms. It is said"
-	next "that LUGIA appears"
-	next "when storms start.@"
+	page "body expands, and"
+	next "its insides give"
+	next "off a soft glow.@"

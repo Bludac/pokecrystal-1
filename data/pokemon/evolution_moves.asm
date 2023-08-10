@@ -248,9 +248,9 @@ EvolutionMoves::
 	db NO_MOVE      ; LARVITAR
 	db DEFENSE_CURL ; PUPITAR
 	db CRUNCH       ; TYRANITAR
-	db NO_MOVE      ; LUGIA
-	db NO_MOVE      ; HO_OH
-	db NO_MOVE      ; CELEBI
+	db SPARK        ; LUGIA, ARCALIGHT
+	db ICY_WIND     ; HO_OH, FREEZING
+	db NO_MOVE      ; CELEBI, WYRDEER
 	db NO_MOVE		; GARBODOR
 	db CRUNCH		; GARCHOMP
 	assert_table_length NUM_POKEMON

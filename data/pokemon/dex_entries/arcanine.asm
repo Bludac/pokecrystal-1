@@ -1,10 +1,10 @@
 	db "LEGENDARY@" ; species name
-	dw 603, 3420 ; height, weight
+	dw 607, 3704 ; height, weight
 
-	db   "An ancient picture"
-	next "scroll shows that"
-	next "people were"
+	db   "Despite its bulk,"
+	next "it deftly feints"
+	next "every which way,"
 
-	page "attracted to its"
-	next "movement as it ran"
-	next "through prairies.@"
+	page "leading opponents"
+	next "on a chase as it"
+	next "dances past them.@"
