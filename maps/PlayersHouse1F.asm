@@ -77,8 +77,6 @@ MeetMomScript:
 	sjump .FinishPhone
 
 .FinishPhone:
-	writetext InstructionsNextText
-	waitbutton
 	closetext
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	iftrue .FromRight
@@ -217,32 +215,19 @@ ElmsLookingForYouText:
 	para "ELM, was looking"
 	line "for you."
 
-	para "He said he wanted"
-	line "you to do some-"
-	cont "thing for him."
-
 	para "Oh! I almost for-"
 	line "got! Your #MON"
 
 	para "GEAR is back from"
 	line "the repair shop."
-
-	para "Here you go!"
 	done
 
 MomGivesPokegearText:
 	text "#MON GEAR, or"
 	line "just #GEAR."
 
-	para "It's essential if"
-	line "you want to be a"
-	cont "good trainer."
-
 	para "Oh, the day of the"
 	line "week isn't set."
-
-	para "You mustn't forget"
-	line "that!"
 	done
 
 IsItDSTText:
@@ -263,11 +248,7 @@ ComeHomeForDSTText:
 	done
 
 KnowTheInstructionsText:
-	text "Don't you just"
-	line "turn the #GEAR"
-
-	para "on and select the"
-	line "PHONE icon?"
+	text "Oh good."
 	done
 
 DontKnowTheInstructionsText:
@@ -277,17 +258,6 @@ DontKnowTheInstructionsText:
 	para "Turn the #GEAR"
 	line "on and select the"
 	cont "PHONE icon."
-	done
-
-InstructionsNextText:
-	text "Phone numbers are"
-	line "stored in memory."
-
-	para "Just choose a name"
-	line "you want to call."
-
-	para "Gee, isn't that"
-	line "convenient?"
 	done
 
 HurryUpElmIsWaitingText:

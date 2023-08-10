@@ -60,8 +60,6 @@ ElmsLabWalkUpToElmScript:
 .ElmGetsEmail:
 	writetext ElmText_Accepted
 	promptbutton
-	writetext ElmText_ResearchAmbitions
-	waitbutton
 	closetext
 	playsound SFX_GLASS_TING
 	pause 30
@@ -475,6 +473,7 @@ AideScript_GivePotion:
 	writetext AideText_GiveYouPotion
 	promptbutton
 	verbosegiveitem POTION
+	verbosegiveitem TM_METRONOME
 	writetext AideText_AlwaysBusy
 	waitbutton
 	closetext
@@ -501,7 +500,7 @@ AideScript_GiveYouBalls:
 	promptbutton
 	getitemname STRING_BUFFER_4, POKE_BALL
 	scall AideScript_ReceiveTheBalls
-	giveitem POKE_BALL, 5
+	giveitem POKE_BALL, 50
 	writetext AideText_ExplainBalls
 	promptbutton
 	itemnotify
@@ -730,31 +729,6 @@ ElmText_Intro:
 	para "I needed to ask"
 	line "you a favor."
 
-	para "I'm conducting new"
-	line "#MON research"
-
-	para "right now. I was"
-	line "wondering if you"
-
-	para "could help me with"
-	line "it, <PLAY_G>."
-
-	para "You see…"
-
-	para "I'm writing a"
-	line "paper that I want"
-
-	para "to present at a"
-	line "conference."
-
-	para "But there are some"
-	line "things I don't"
-
-	para "quite understand"
-	line "yet."
-
-	para "So!"
-
 	para "I'd like you to"
 	line "raise a #MON"
 
@@ -774,20 +748,6 @@ ElmText_Refused:
 	line "need your help!"
 	done
 
-ElmText_ResearchAmbitions:
-	text "When I announce my"
-	line "findings, I'm sure"
-
-	para "we'll delve a bit"
-	line "deeper into the"
-
-	para "many mysteries of"
-	line "#MON."
-
-	para "You can count on"
-	line "it!"
-	done
-
 ElmText_GotAnEmail:
 	text "Oh, hey! I got an"
 	line "e-mail!"
@@ -805,30 +765,8 @@ ElmText_MissionFromMrPokemon:
 	line "tance called MR."
 	cont "#MON."
 
-	para "He keeps finding"
-	line "weird things and"
-
-	para "raving about his"
-	line "discoveries."
-
-	para "Anyway, I just got"
-	line "an e-mail from him"
-
-	para "saying that this"
-	line "time it's real."
-
-	para "It is intriguing,"
-	line "but we're busy"
-
-	para "with our #MON"
-	line "research…"
-
-	para "Wait!"
-
-	para "I know!"
-
 	para "<PLAY_G>, can you"
-	line "go in our place?"
+	line "go see him for me?"
 	done
 
 ElmText_ChooseAPokemon:
@@ -902,13 +840,7 @@ ElmDirectionsText1:
 	para "CHERRYGROVE, the"
 	line "next city over."
 
-	para "It's almost a"
-	line "direct route"
-
-	para "there, so you"
-	line "can't miss it."
-
-	para "But just in case,"
+	para "Oh, also,"
 	line "here's my phone"
 
 	para "number. Call me if"
@@ -921,9 +853,6 @@ ElmDirectionsText2:
 
 	para "heal it with this"
 	line "machine."
-
-	para "Feel free to use"
-	line "it anytime."
 	done
 
 ElmDirectionsText3:
@@ -995,24 +924,11 @@ ElmAfterTheftText5:
 	para "PROF.OAK gave you"
 	line "a #DEX?"
 
-	para "<PLAY_G>, is that"
-	line "true? Th-that's"
-	cont "incredible!"
-
-	para "He is superb at"
-	line "seeing the poten-"
-	cont "tial of people as"
-	cont "trainers."
-
 	para "Wow, <PLAY_G>. You"
 	line "may have what it"
 
 	para "takes to become"
 	line "the CHAMPION."
-
-	para "You seem to be"
-	line "getting on great"
-	cont "with #MON too."
 
 	para "You should take"
 	line "the #MON GYM"
@@ -1024,13 +940,7 @@ ElmAfterTheftText5:
 	done
 
 ElmAfterTheftText6:
-	text "…<PLAY_G>. The"
-	line "road to the"
-
-	para "championship will"
-	line "be a long one."
-
-	para "Before you leave,"
+	text "Before you leave,"
 	line "make sure that you"
 	cont "talk to your mom."
 	done
@@ -1235,15 +1145,8 @@ AideText_TheftTestimony:
 	line "look, someone"
 	cont "stole a #MON."
 
-	para "It's unbelievable"
-	line "that anyone would"
-	cont "do that!"
-
 	para "…sigh… That"
 	line "stolen #MON."
-
-	para "I wonder how it's"
-	line "doing."
 
 	para "They say a #MON"
 	line "raised by a bad"
@@ -1273,10 +1176,6 @@ ElmsLabOfficerText1:
 	text "I heard a #MON"
 	line "was stolen here…"
 
-	para "I was just getting"
-	line "some information"
-	cont "from PROF.ELM."
-
 	para "Apparently, it was"
 	line "a young male with"
 	cont "long, red hair…"
@@ -1293,9 +1192,6 @@ ElmsLabOfficerText1:
 ElmsLabOfficerText2:
 	text "OK! So <RIVAL>"
 	line "was his name."
-
-	para "Thanks for helping"
-	line "my investigation!"
 	done
 
 ElmsLabWindowText1:

@@ -73,4 +73,9 @@ AbilityNames::
 	li "Venom"
 	li "Corrosion"
 	li "Ice Body"
+	li "Fluffy"
+	li "Flame Body"
+	li "Sand Rush"
+	li "Slush Rush"
+	li "Analytic"
 	assert_list_length NUM_ABILITIES

@@ -72,4 +72,9 @@
 	const VENOM
 	const CORROSION
 	const ICE_BODY
+	const FLUFFY
+	const FLAME_BODY
+	const SAND_RUSH
+	const SLUSH_RUSH
+	const ANALYTIC
 NUM_ABILITIES EQU const_value

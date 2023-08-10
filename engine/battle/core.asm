@@ -652,9 +652,9 @@ ParsePlayerAction:
 	cp BATTLEPLAYERACTION_SWITCH
 	jr z, .reset_rage
 	and a
-	jr nz, .reset_bide
-	ld a, [wPlayerSubStatus3]
-	and 1 << SUBSTATUS_BIDE
+	;jr nz, .reset_bide
+	;ld a, [wPlayerSubStatus3]
+	;and 1 << SUBSTATUS_BIDE
 	jr nz, .locked_in
 	xor a
 	ld [wMoveSelectionMenuType], a
@@ -703,9 +703,9 @@ ParsePlayerAction:
 	ld [wPlayerProtectCount], a
 	jr .continue_protect
 
-.reset_bide
-	ld hl, wPlayerSubStatus3
-	res SUBSTATUS_BIDE, [hl]
+;.reset_bide
+;	ld hl, wPlayerSubStatus3
+;	res SUBSTATUS_BIDE, [hl]
 
 .locked_in
 	xor a
@@ -807,29 +807,6 @@ TryEnemyFlee:
 	ld a, [wTempEnemyMonSpecies]
 	ld de, 1
 	ld hl, AlwaysFleeMons
-	call IsInArray
-	jr c, .Flee
-
-	call BattleRandom
-	ld b, a
-	cp 50 percent + 1
-	jr nc, .Stay
-
-	push bc
-	ld a, [wTempEnemyMonSpecies]
-	ld de, 1
-	ld hl, OftenFleeMons
-	call IsInArray
-	pop bc
-	jr c, .Flee
-
-	ld a, b
-	cp 10 percent + 1
-	jr nc, .Stay
-
-	ld a, [wTempEnemyMonSpecies]
-	ld de, 1
-	ld hl, SometimesFleeMons
 	call IsInArray
 	jr c, .Flee
 
@@ -4679,6 +4656,7 @@ DrawPlayerHUD:
 	ld b, a
 	call FillInExpBar
 	pop de
+
 	ret
 
 UpdatePlayerHPPal:
@@ -5705,6 +5683,7 @@ MoveSelectionScreen:
 	jp MoveSelectionScreen
 
 MoveInfoBox:
+
 	xor a
 	ldh [hBGMapMode], a
 

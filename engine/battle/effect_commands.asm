@@ -2191,6 +2191,23 @@ PlayerAttackDamage:
 	ld d, a
 	ret z
 
+	push bc
+	push hl
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+
+	push de
+	ld hl, DamageBoostingAbilities
+	ld de, 1
+	call IsInArray
+	pop de
+
+	jr nz, .skipboostingabilities
+	call AbilityDamageBoost
+.skipboostingabilities
+	pop hl
+	pop bc
+
 	ld a, [hl]
 	cp SPECIAL
 	jr nc, .special
@@ -2266,6 +2283,10 @@ PlayerAttackDamage:
 	ld a, 1
 	and a
 	ret
+
+INCLUDE "engine/battle/ability_damage_boost.asm"
+INCLUDE "engine/battle/ten_percent.asm"
+INCLUDE "data/abilities/ability_moves.asm"
 
 TruncateHL_BC:
 .loop
