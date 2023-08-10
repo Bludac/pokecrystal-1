@@ -2473,6 +2473,23 @@ EnemyAttackDamage:
 	and a
 	ret z
 
+	push bc
+	push hl
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+
+	push de
+	ld hl, DamageBoostingAbilities
+	ld de, 1
+	call IsInArray
+	pop de
+
+	jr nz, .skipboostingabilities
+	call AbilityDamageBoost
+.skipboostingabilities
+	pop hl
+	pop bc
+
 	ld a, [hl]
 	cp SPECIAL
 	jr nc, .special
