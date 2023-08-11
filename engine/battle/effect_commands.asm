@@ -1097,6 +1097,10 @@ CheckTypeMatchup:
 	call GetBattleVar
 	bit SUBSTATUS_IDENTIFIED, a
 	jr nz, .End
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp SCRAPPY
+	jr z, .End
 	jr .TypesLoop
 
 .Next:
