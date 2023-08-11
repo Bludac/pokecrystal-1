@@ -49,7 +49,6 @@ AbilityNames::
 	li "Ntrl Cure"
 	li "Sturdy"
 	li "Multiscale"
-	li "Sniper"
 	li "Merciless"
 	li "Skill Link"
 	li "Scrappy"

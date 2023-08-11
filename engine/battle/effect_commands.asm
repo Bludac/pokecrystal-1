@@ -766,6 +766,11 @@ BattleCommand_Critical:
 	and a
 	ret z
 
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp BATTLE_ARMOR
+	ret z
+
 	ldh a, [hBattleTurn]
 	and a
 	ld hl, wEnemyMonItem
@@ -827,10 +832,35 @@ BattleCommand_Critical:
 	ld a, b
 	cp HELD_CRITICAL_UP ; Increased critical chance. Only Scope Lens has this.
 	pop bc
-	jr nz, .Tally
+	jr nz, .SuperLuck
 
 ; +1 critical level
 	inc c
+
+.SuperLuck
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp SUPER_LUCK
+	jr nz, .Merciless
+
+	; +1 critical level
+	inc c
+
+.Merciless
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp MERCILESS
+	jr nz, .Tally
+
+	ld a, BATTLE_VARS_STATUS_OPP
+	call GetBattleVar
+	cp PSN
+	jr nz, .Tally
+
+	xor a
+	inc a					; same as ld a, 1
+	ld [wCriticalHit], a
+	ret
 
 .Tally:
 	ld hl, CriticalHitChances
@@ -839,7 +869,8 @@ BattleCommand_Critical:
 	call BattleRandom
 	cp [hl]
 	ret nc
-	ld a, 1
+	xor a
+	inc a					; same as ld a, 1
 	ld [wCriticalHit], a
 	ret
 

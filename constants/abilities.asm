@@ -48,7 +48,6 @@
 	const NATURAL_CURE
 	const STURDY
 	const MULTISCALE
-	const SNIPER
 	const MERCILESS
 	const SKILL_LINK
 	const SCRAPPY
