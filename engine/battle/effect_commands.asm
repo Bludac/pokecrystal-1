@@ -3375,6 +3375,11 @@ CheckForStatusIfAlreadyHasAny:
 	ret
 
 BattleCommand_SleepTarget:
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp VITAL_SPIRIT
+	jr z, .fail
+
 	call GetOpponentItem
 	ld a, b
 	cp HELD_PREVENT_SLEEP
@@ -3441,6 +3446,10 @@ BattleCommand_PoisonTarget:
 	ld a, [wTypeModifier]
 	and $7f
 	ret z
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp IMMUNITY
+	ret z
 	call CheckIfTargetIsPoisonType
 	ret z
 	call GetOpponentItem
@@ -3468,6 +3477,11 @@ BattleCommand_Poison:
 	ld hl, DoesntAffectText
 	ld a, [wTypeModifier]
 	and $7f
+	jp z, .failed
+
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp IMMUNITY
 	jp z, .failed
 
 	call CheckIfTargetIsPoisonType
@@ -5077,6 +5091,11 @@ BattleCommand_FlinchTarget:
 	call CheckSubstituteOpp
 	ret nz
 
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp INNER_FOCUS
+	ret z
+
 	ld a, BATTLE_VARS_STATUS_OPP
 	call GetBattleVar
 	and SLP_MASK
@@ -5119,6 +5138,11 @@ BattleCommand_HeldFlinch:
 	ld a, b
 	cp HELD_FLINCH
 	ret nz
+
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVarAddr
+	cp INNER_FOCUS
+	ret z
 
 	call CheckSubstituteOpp
 	ret nz
@@ -5385,6 +5409,10 @@ BattleCommand_Recoil:
 	jp StdBattleTextbox
 
 BattleCommand_ConfuseTarget:
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp OWN_TEMPO
+	ret z
 	call GetOpponentItem
 	ld a, b
 	cp HELD_PREVENT_CONFUSE
@@ -5403,6 +5431,10 @@ BattleCommand_ConfuseTarget:
 	jr BattleCommand_FinishConfusingTarget
 
 BattleCommand_Confuse:
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp OWN_TEMPO
+	ret z
 	call GetOpponentItem
 	ld a, b
 	cp HELD_PREVENT_CONFUSE
