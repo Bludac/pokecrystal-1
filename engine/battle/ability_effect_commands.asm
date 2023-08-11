@@ -59,7 +59,7 @@ AbilityDamageBoost:
     ld hl, SlashMoves
     call IsInByteArray
     pop de
-    jr nc, .done
+    jp nc, .done
     call GetTenPercent
     add a
     add a
@@ -67,13 +67,13 @@ AbilityDamageBoost:
     add a
     add d
     ld d, a
-    jr .done
+    jp .done
 .technician
 	cp TECHNICIAN
 	jr nz, .sheerforce
     ld a, d
     cp 60
-    jr c, .done
+    jp nc, .done
     call GetTenPercent
     add a
     add a
@@ -81,12 +81,29 @@ AbilityDamageBoost:
     add a
     add d
     ld d, a
-    jr .done
+    jp .done
 .sheerforce
 	cp SHEER_FORCE
 	jr nz, .reckless
-    ;need code here to check if move has effect chance and then also
-    ;need additional code to zero out that additional chance later
+    ld a, BATTLE_VARS_MOVE_TYPE
+	call GetBattleVar
+    and STATUS
+    cp STATUS
+    jr z, .done
+    ld hl, wPlayerMoveStruct + MOVE_CHANCE
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .got_move_chance
+	ld hl, wEnemyMoveStruct + MOVE_CHANCE
+.got_move_chance
+    ld a, [hl]
+    and a
+    jr z, .done
+    call GetTenPercent
+    add a
+    add a
+    add d
+    ld d, a
     jr .done
 .reckless
 	cp RECKLESS
@@ -105,19 +122,17 @@ AbilityDamageBoost:
     jr nz, .analytic
     ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar
-    ld b, a
     and TYPE_MASK
-    jr nz, .done        ; normal type is zero
-    ld a, b
-    and %11010111
-    ld b, a
+    jr nz, .done    ; normal type is zero
     ldh a, [hBattleTurn]
     and a
     jr nz, .EnemyMoveGalvanize
-    ;ld wPlayerMoveStructType, b      ;these caused errors and i dont know why
+    ld a, ELECTRIC
+    ld [wPlayerMoveStructType], a
     jr .contGalvanize
 .EnemyMoveGalvanize
-    ;ld wEnemyMoveStructType, b
+    ld a, ELECTRIC
+    ld [wEnemyMoveStructType], a
 .contGalvanize
     call GetTenPercent
     add a
@@ -172,11 +187,11 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     cp DARK
     jr z, .rattled_trigger
     cp GHOST
-    jp nz, .done
+    ret
 .rattled_trigger
     call BattleCommand_SpeedUp
     call BattleCommand_StatUpMessage
-    jp .done
+    ret
 .thickfat
     cp THICK_FAT
     jr nz, .levitate
@@ -184,88 +199,201 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     cp FIRE
     jr z, .thick_fat_resist
     cp ICE
-    jp nz, .done
+    ret
 .thick_fat_resist
     ld a, NOT_VERY_EFFECTIVE
     ld [wTypeMatchup], a
-    jp .done
+    ret
 .levitate
     cp LEVITATE
     jr nz, .lightningrod
     ld a, d
     cp GROUND
-    jp nz, .done
+    ret
     xor a                           ; 0 is the same as no effect
     ld [wTypeMatchup], a
-    jr .done
+    ret
 .lightningrod
     cp LIGHTNINGROD
     jr nz, .sapsipper
     ld a, d
     cp ELECTRIC
-    jr nz, .done
+    ret
     xor a
     ld [wTypeMatchup], a
     call BattleCommand_SpecialAttackUp
     call BattleCommand_StatUpMessage
-    jr .done
+    ret
 .sapsipper
     cp SAP_SIPPER
     jr nz, .voltabsorb
     cp GRASS
-    jr nz, .done
+    ret
     xor a
     ld [wTypeMatchup], a
     call BattleCommand_AttackUp
     call BattleCommand_StatUpMessage
-    jr .done
+    ret
 .voltabsorb
     cp VOLT_ABSORB
     jr nz, .waterabsorb
     ld a, d
     cp ELECTRIC
-    jr nz, .done
+    ret
     xor a
     ld [wTypeMatchup], a
     inc a
     ld [wAbsorbAbilityTrigger], a
-    jr .done
+    ret
 .waterabsorb
     cp WATER_ABSORB
     jr nz, .eartheater
     cp WATER
-    jr nz, .done
+    ret
     xor a
     ld [wTypeMatchup], a
     inc a
     ld [wAbsorbAbilityTrigger], a
-    jr .done
+    ret
 .eartheater
     cp EARTH_EATER
     jr nz, .dryskin
     cp GROUND
-    jr nz, .done
+    ret
     xor a
     ld [wTypeMatchup], a
     inc a
     ld [wAbsorbAbilityTrigger], a
-    jr .done
+    ret
 .dryskin
     cp DRY_SKIN
-    jr nz, .done
+    ret
     cp WATER
     jr nz, .fireweak
     xor a
     ld [wTypeMatchup], a
     inc a
     ld [wAbsorbAbilityTrigger], a
-    jr .done
+    ret
 .fireweak
     cp FIRE
-    jr nz, .done
+    ret
     ld a, MORE_EFFECTIVE
     ld [wTypeMatchup], a
-.done
+    ret
+
+ContactHitAbilities:
+    ld a, BATTLE_VARS_SUBSTATUS4_OPP
+	call GetBattleVar
+	bit SUBSTATUS_SUBSTITUTE, a
+	ret nz
+    ld a, BATTLE_VARS_MOVE
+    call GetBattleVar
+    ld hl, ContactMoves
+    call IsInByteArray
+    ret
+    ld a, BATTLE_VARS_ABILITY_OPP
+    call GetBattleVar
+    cp ROUGH_SKIN
+    jr nz, .poisonpoint
+    ld hl, GetEighthMaxHP
+    call CallBattleCore
+    ld hl, SubtractHPFromUser
+    call CallBattleCore
+;this is to see if the pokemon fainted from rough skin
+    ld hl, wBattleMonHP
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .check_fainted
+	ld hl, wEnemyMonHP
+.check_fainted
+	ld a, [hli]
+	or [hl]
+	ret nz
+.fainted
+	call RefreshBattleHuds
+	ld c, 20
+	call DelayFrames
+	xor a
+	ret
+.poisonpoint
+    cp POISON_POINT
+    jr nz, .cottondown
+    call BattleRandom
+    call ThirtyPercentCheck
+    ret nc
+    call BattleCommand_SwitchTurn
+    call BattleCommand_Poison
+    call BattleCommand_SwitchTurn
+    ret
+.cottondown
+    cp COTTON_DOWN
+    jr nz, .flamebody
+	ld a, SPEED
+	call LowerStat
+	call BattleCommand_SwitchTurn
+	call BattleCommand_StatDownMessage
+	call BattleCommand_SwitchTurn
+    ret
+.flamebody
+    cp FLAME_BODY
+    ret nz
+    call BattleRandom
+    call ThirtyPercentCheck
+    ret nc
+    call BattleCommand_SwitchTurn
+    call BattleCommand_Burn
+    call BattleCommand_SwitchTurn
+    ret
+ThirtyPercentCheck:
+    call BattleRandom
+    cp 70 percent
+    ret
+
+SturdyEffect:
+    ;check to see if pkmn is at max hp
+    call BattleCommand_SwitchTurn
+    ld hl, GetMaxHP
+    call CallBattleCore
+    call BattleCommand_SwitchTurn
+    ld hl, wEnemyMonHP
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .got_hp
+	ld hl, wBattleMonHP
+.got_hp
+    ;this perfroms hl-bc and will set the carry flag unless they return zero
+    ;since currentHP cannot be greater than maxHP
+    ld a, l
+	sub c
+	ld l, a
+	ld a, h
+	sbc b
+	ld h, a
+    ret c
+    ;give them the endure substatus if we get this far
+    push bc
+    ldh a, [hBattleTurn]
+	and a
+    jr z, .enemy_substatus
+    ld a, [wPlayerSubStatus1]
+    jr .got_substatus1
+.enemy_substatus
+	ld a, [wEnemySubStatus1]	
+.got_substatus1
+    or SUBSTATUS_ENDURE
+    ld b, a
+    ldh a, [hBattleTurn]
+	and a
+    jr z, .enemy_sturdy
+    ld a, b
+    ld [wPlayerSubStatus1], a
+    pop bc
+    ret
+.enemy_sturdy
+    ld a, b
+    ld [wEnemySubStatus1], a
+    pop bc
     ret
 
 DamageBoostingAbilities:

@@ -80,7 +80,7 @@ ContactMoves:
 	db TAIL_SWIPE
 	db HEADLONGRUSH
 	db FAINT_ATTACK
-	db ATTRACT
+	db ATTRACT		;reminder this is nuzzle
 	db DYNAMICPUNCH
 	db DRAIN_KISS
 	db PSY_ANTLERS
@@ -89,45 +89,45 @@ ContactMoves:
 	
 
 PunchMoves:
-	db POUND
+	db POUND		;non canon
 	db FIRE_PUNCH
 	db ICE_PUNCH
 	db THUNDERPUNCH
 	db DRAIN_PUNCH
 	db BULLET_PUNCH
-	db RAGE
+	db RAGE			;reminder this is rage fist
 	db DIZZY_PUNCH
 	db MACH_PUNCH
 	db DYNAMICPUNCH
-	db ROCK_SMASH
+	db ROCK_SMASH	;reminder this is power up punch
 	db ICE_HAMMER
 	db -1
 
 LauncherMoves:
-	db GUNK_SHOT
+	db GUNK_SHOT	;non canon
 	db AURA_SPHERE
 	db DARK_PULSE
-	db FOCUS_BLAST
-	db FIRE_BLAST
-	db MAGNET_BOMB
-	db SEED_BOMB
-	db TRI_ATTACK
-	db VACUUM_WAVE
+	db FOCUS_BLAST	;non canon
+	db FIRE_BLAST	;non canon
+	db MAGNET_BOMB	;non canon
+	db SEED_BOMB	;non canon
+	db TRI_ATTACK	;non canon
+	db VACUUM_WAVE	;non canon
 	db DRAGONBREATH
-	db SHADOW_BALL
-	db MOONBLAST
+	db SHADOW_BALL	;non canon
+	db MOONBLAST	;non canon
 	db -1
 
 SlashMoves:
 	db AIR_SLASH
 	db CUT
 	db AIR_CUTTER
-	db DRAGON_CLAW
+	db DRAGON_CLAW	;non canon
 	db RAZOR_LEAF
 	db AQUA_CUTTER
-	db SHADOW_CLAW
+	db SHADOW_CLAW	;non canon
 	db SLASH
 	db FURY_CUTTER
-	db METAL_CLAW
+	db METAL_CLAW	;non canon
 	db NIGHT_SLASH
 	db -1

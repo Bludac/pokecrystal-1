@@ -521,6 +521,7 @@ CheckEnemyTurn:
 	; fallthrough
 
 EndTurn:
+	call ContactHitAbilities
 	ld a, $1
 	ld [wTurnEnded], a
 	jp ResetDamage
@@ -1574,6 +1575,13 @@ BattleCommand_EffectChance:
 	call CheckSubstituteOpp
 	jr nz, .failed
 
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp SHEER_FORCE
+	jr nz, .get_move_chance
+	jr .failed
+
+.get_move_chance
 	push hl
 	ld hl, wPlayerMoveStruct + MOVE_CHANCE
 	ldh a, [hBattleTurn]
@@ -1581,8 +1589,14 @@ BattleCommand_EffectChance:
 	jr z, .got_move_chance
 	ld hl, wEnemyMoveStruct + MOVE_CHANCE
 .got_move_chance
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp SERENE_GRACE
+	jr nz, .no_serene_grace
+	add hl, hl
+.no_serene_grace
 	ld a, [hl]
-	sub 100 percent
+	sub 100 percent		;a-100%
 	; If chance was 100%, RNG won't be called (carry not set)
 	; Thus chance will be subtracted from 0, guaranteeing a carry
 	call c, BattleRandom
@@ -1820,6 +1834,12 @@ BattleCommand_FailureText:
 	jp EndMoveEffect
 
 BattleCommand_ApplyDamage:
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp STURDY
+	jr nz, .endure_check
+	call SturdyEffect
+.endure_check
 	ld a, BATTLE_VARS_SUBSTATUS1_OPP
 	call GetBattleVar
 	bit SUBSTATUS_ENDURE, a
@@ -2341,7 +2361,7 @@ PlayerAttackDamage:
 	and a
 	ret
 
-INCLUDE "engine/battle/ability_damage_boost.asm"
+INCLUDE "engine/battle/ability_effect_commands.asm"
 INCLUDE "engine/battle/ten_percent.asm"
 INCLUDE "data/abilities/ability_moves.asm"
 
