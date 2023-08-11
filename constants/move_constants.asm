@@ -16,7 +16,7 @@
 	const ICE_PUNCH    ; 08
 	const THUNDERPUNCH ; 09
 	const AURA_SPHERE  ; 0a SCRATCH
-	const VICEGRIP     ; 0b BUG BITE equivalent
+	const VICEGRIP     ; 0b BUG BITE strength
 	const POISON_JAB   ; 0c GUILLOTINE
 	const ROCK_BLAST   ; 0d RAZOR_WIND
 	const SWORDS_DANCE ; 0e
