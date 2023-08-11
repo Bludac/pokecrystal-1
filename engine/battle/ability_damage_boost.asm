@@ -161,6 +161,99 @@ GetTenPercent:
     ld a, [hl]
     ret
 
+Resist_Immunity_AbilityCheck:        ; d is move type
+    ld a, BATTLE_VARS_ABILITY_OPP
+    call GetBattleVar
+    cp THICK_FAT
+    jr nz, .levitate
+    ld a, d
+    cp FIRE
+    jr z, .thick_fat_resist
+    cp ICE
+    jp nz, .done
+.thick_fat_resist
+    ld a, NOT_VERY_EFFECTIVE
+    ld [wTypeMatchup], a
+    jp .done
+.levitate
+    cp LEVITATE
+    jr nz, .lightningrod
+    ld a, d
+    cp GROUND
+    jp nz, .done
+    xor a                           ; 0 is the same as no effect
+    ld [wTypeMatchup], a
+    jr .done
+.lightningrod
+    cp LIGHTNINGROD
+    jr nz, .sapsipper
+    ld a, d
+    cp ELECTRIC
+    jr nz, .done
+    xor a
+    ld [wTypeMatchup], a
+    call BattleCommand_SpecialAttackUp
+    call BattleCommand_StatUpMessage
+    jr .done
+.sapsipper
+    cp SAP_SIPPER
+    jr nz, .voltabsorb
+    cp GRASS
+    jr nz, .done
+    xor a
+    ld [wTypeMatchup], a
+    call BattleCommand_AttackUp
+    call BattleCommand_StatUpMessage
+    jr .done
+.voltabsorb
+    cp VOLT_ABSORB
+    jr nz, .waterabsorb
+    ld a, d
+    cp ELECTRIC
+    jr nz, .done
+    xor a
+    ld [wTypeMatchup], a
+    inc a
+    ld [wAbsorbAbilityTrigger], a
+    jr .done
+.waterabsorb
+    cp WATER_ABSORB
+    jr nz, .eartheater
+    cp WATER
+    jr nz, .done
+    xor a
+    ld [wTypeMatchup], a
+    inc a
+    ld [wAbsorbAbilityTrigger], a
+    jr .done
+.eartheater
+    cp EARTH_EATER
+    jr nz, .dryskin
+    cp GROUND
+    jr nz, .done
+    xor a
+    ld [wTypeMatchup], a
+    inc a
+    ld [wAbsorbAbilityTrigger], a
+    jr .done
+.dryskin
+    cp DRY_SKIN
+    jr nz, .done
+    cp WATER
+    jr nz, .fireweak
+    xor a
+    ld [wTypeMatchup], a
+    inc a
+    ld [wAbsorbAbilityTrigger], a
+    jr .done
+.fireweak
+    cp FIRE
+    jr nz, .done
+    ld a, MORE_EFFECTIVE
+    ld [wTypeMatchup], a
+.done
+    ret
+
 DamageBoostingAbilities:
     db TOUGH_CLAWS
     db IRON_FIST

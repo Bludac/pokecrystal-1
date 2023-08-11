@@ -1080,6 +1080,13 @@ CheckTypeMatchup:
 	ld a, EFFECTIVE
 	ld [wTypeMatchup], a
 	ld hl, TypeMatchups
+
+	ld a, BATTLE_VARS_SUBSTATUS4_OPP
+	call GetBattleVar
+	bit SUBSTATUS_SUBSTITUTE, a
+	jr z, .TypesLoop
+	call Resist_Immunity_AbilityCheck
+
 .TypesLoop:
 	ld a, [hli]
 	cp -1
@@ -1814,7 +1821,7 @@ BattleCommand_ApplyDamage:
 	bit SUBSTATUS_ENDURE, a
 	jr z, .focus_band
 
-	;call BattleCommand_FalseSwipe
+	call BattleCommand_FalseSwipe
 	ld b, 0
 	jr nc, .damage
 	ld b, 1
@@ -1830,7 +1837,7 @@ BattleCommand_ApplyDamage:
 	call BattleRandom
 	cp c
 	jr nc, .damage
-	;call BattleCommand_FalseSwipe
+	call BattleCommand_FalseSwipe
 	ld b, 0
 	jr nc, .damage
 	ld b, 2
@@ -1897,6 +1904,8 @@ BattleCommand_ApplyDamage:
 	inc de
 	ld [de], a
 	ret
+
+INCLUDE "engine/battle/move_effects/false_swipe.asm"
 
 GetFailureResultText:
 	ld hl, DoesntAffectText
@@ -3166,6 +3175,20 @@ endc
 	ld [wWhichHPBar], a
 	predef AnimateHPBar
 .did_no_damage
+	ld a, [wAbsorbAbilityTrigger]
+	jr z, .noAbsorb
+	push hl
+	call BattleCommand_SwitchTurn
+	ld hl, GetQuarterMaxHP
+	call CallBattleCore
+	ld hl, RestoreHP
+	call CallBattleCore
+	call BattleCommand_SwitchTurn
+	pop hl
+
+	xor a
+	ld [wAbsorbAbilityTrigger], a
+.noAbsorb
 	jp RefreshBattleHuds
 
 DoPlayerDamage:

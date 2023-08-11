@@ -2742,7 +2742,7 @@ wMonTriedToEvolve:: db
 
 wTimeOfDay:: db
 
-	ds 1
+wAbsorbAbilityTrigger:: db
 
 
 SECTION "Enemy Party", WRAMX
