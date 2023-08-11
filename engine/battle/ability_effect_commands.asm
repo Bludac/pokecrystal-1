@@ -291,7 +291,7 @@ ContactHitAbilities:
     call GetBattleVar
     ld hl, ContactMoves
     call IsInByteArray
-    ret
+    ret nc
     ld a, BATTLE_VARS_ABILITY_OPP
     call GetBattleVar
     cp ROUGH_SKIN
@@ -323,7 +323,7 @@ ContactHitAbilities:
     call ThirtyPercentCheck
     ret nc
     call BattleCommand_SwitchTurn
-    call BattleCommand_Poison
+    call BattleCommand_PoisonTarget
     call BattleCommand_SwitchTurn
     ret
 .cottondown
@@ -394,6 +394,25 @@ SturdyEffect:
     ld a, b
     ld [wEnemySubStatus1], a
     pop bc
+    ret
+
+DefiantCompetitive:
+    ld a, BATTLE_VARS_ABILITY_OPP
+    call GetBattleVar
+    cp DEFIANT
+    jr nz, .competitive
+    call BattleCommand_SwitchTurn
+    call BattleCommand_AttackUp2
+    call BattleCommand_StatUpMessage
+    call BattleCommand_SwitchTurn
+    ret
+.competitive
+    cp COMPETITIVE
+    ret nz
+    call BattleCommand_SwitchTurn
+    call BattleCommand_SpecialAttackUp2
+    call BattleCommand_StatUpMessage
+    call BattleCommand_SwitchTurn
     ret
 
 DamageBoostingAbilities:

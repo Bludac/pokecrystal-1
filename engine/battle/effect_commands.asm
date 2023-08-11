@@ -521,7 +521,6 @@ CheckEnemyTurn:
 	; fallthrough
 
 EndTurn:
-	call ContactHitAbilities
 	ld a, $1
 	ld [wTurnEnded], a
 	jp ResetDamage
@@ -1085,7 +1084,7 @@ CheckTypeMatchup:
 	ld a, BATTLE_VARS_SUBSTATUS4_OPP
 	call GetBattleVar
 	bit SUBSTATUS_SUBSTITUTE, a
-	jr z, .TypesLoop
+	jr nz, .TypesLoop
 	call Resist_Immunity_AbilityCheck
 
 .TypesLoop:
@@ -3198,6 +3197,7 @@ endc
 	xor a
 	ld [wWhichHPBar], a
 	predef AnimateHPBar
+	call ContactHitAbilities
 .did_no_damage
 	ld a, [wAbsorbAbilityTrigger]
 	jr z, .noAbsorb
@@ -3272,7 +3272,22 @@ DoPlayerDamage:
 	ld a, 1
 	ld [wWhichHPBar], a
 	predef AnimateHPBar
+	call ContactHitAbilities
 .did_no_damage
+	ld a, [wAbsorbAbilityTrigger]
+	jr z, .noAbsorb
+	push hl
+	call BattleCommand_SwitchTurn
+	ld hl, GetQuarterMaxHP
+	call CallBattleCore
+	ld hl, RestoreHP
+	call CallBattleCore
+	call BattleCommand_SwitchTurn
+	pop hl
+
+	xor a
+	ld [wAbsorbAbilityTrigger], a
+.noAbsorb
 	jp RefreshBattleHuds
 
 DoSubstituteDamage:
@@ -4140,6 +4155,7 @@ BattleCommand_StatDown:
 	jr z, .CouldntLower
 
 .Hit:
+	call DefiantCompetitive
 	xor a
 	ld [wFailedMessage], a
 	ret

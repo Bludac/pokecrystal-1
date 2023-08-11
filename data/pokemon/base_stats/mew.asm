@@ -8,7 +8,7 @@
 	db 64 ; base exp
 	db NO_ITEM, MIRACLEBERRY ; items
 	db GENDER_UNKNOWN ; gender ratio
-	db OMNI_STAB
+	db POISON_POINT
 	db 120 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/mew/front.dimensions"

@@ -8,17 +8,17 @@
 	const SHARPNESS ;5 
 	const TECHNICIAN ;6 
 	const ADAPTABILITY ;7
-	const LEVITATE
+	const LEVITATE 
 	const BATTLE_ARMOR
-	const SHED_SKIN
+	const SHED_SKIN ;a
 	const SPEED_BOOST
 	const COMPOUND_EYES
 	const NO_GUARD
 	const LIGHTNINGROD
-	const SAP_SIPPER
-	const ROUGH_SKIN
-	const POISON_POINT
-	const COTTON_DOWN
+	const SAP_SIPPER ;f
+	const ROUGH_SKIN ;10
+	const POISON_POINT ;11
+	const COTTON_DOWN ;12
 	const TINTED_LENS
 	const FILTER
 	const POISON_TOUCH

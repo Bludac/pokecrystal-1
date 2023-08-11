@@ -2464,10 +2464,11 @@ MewtwoEvosAttacks:
 
 MewEvosAttacks:
 	db 0 ; no more evolutions
-	db 1, PSYCHIC_M
-	db 1, TRANSFORM
-	db 1, SUBSTITUTE
-	db 1, DRAIN_PUNCH
+;	db 1, PSYCHIC_M
+;	db 1, TRANSFORM
+;	db 1, SUBSTITUTE
+;	db 1, DRAIN_PUNCH
+	db 1, GROWL
 	db 0 ; no more level-up moves
 
 ChikoritaEvosAttacks:
