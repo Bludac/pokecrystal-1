@@ -164,6 +164,20 @@ GetTenPercent:
 Resist_Immunity_AbilityCheck:        ; d is move type
     ld a, BATTLE_VARS_ABILITY_OPP
     call GetBattleVar
+    cp RATTLED
+    jr nz, .thickfat
+    ld a, d
+    cp BUG
+    jr z, .rattled_trigger
+    cp DARK
+    jr z, .rattled_trigger
+    cp GHOST
+    jp nz, .done
+.rattled_trigger
+    call BattleCommand_SpeedUp
+    call BattleCommand_StatUpMessage
+    jp .done
+.thickfat
     cp THICK_FAT
     jr nz, .levitate
     ld a, d
