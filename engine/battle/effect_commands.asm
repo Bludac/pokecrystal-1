@@ -258,29 +258,6 @@ BattleCommand_CheckTurn:
 
 .not_confused
 
-	ld a, [wPlayerSubStatus1]
-	add a ; bit SUBSTATUS_ATTRACT
-	jr nc, .not_infatuated
-
-	ld hl, InLoveWithText
-	call StdBattleTextbox
-	xor a
-	ld [wNumHits], a
-	ld de, ANIM_IN_LOVE
-	call FarPlayBattleAnimation
-
-	; 50% chance of infatuation
-	call BattleRandom
-	cp 50 percent + 1
-	jr c, .not_infatuated
-
-	ld hl, InfatuationText
-	call StdBattleTextbox
-	call CantMove
-	jp EndTurn
-
-.not_infatuated
-
 	; We can't disable a move that doesn't exist.
 	ld a, [wDisabledMove]
 	and a
@@ -1255,6 +1232,9 @@ BattleCommand_CheckHit:
 	call .BlizzardHail
 	ret z
 
+	call .NoGuard
+	ret z
+
 	call .XAccuracy
 	ret nz
 
@@ -1460,6 +1440,17 @@ BattleCommand_CheckHit:
 	cp WEATHER_HAIL
 	ret
 
+.NoGuard:
+; return z if either pokemon has no guard
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp NO_GUARD
+	ret z
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp NO_GUARD
+	ret
+
 .XAccuracy:
 	ld a, BATTLE_VARS_SUBSTATUS4
 	call GetBattleVar
@@ -1486,6 +1477,13 @@ BattleCommand_CheckHit:
 	ld c, a
 
 .got_acc_eva
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp COMPOUND_EYES
+	jr nz, .skip_compound_eyes
+	inc b
+
+.skip_compound_eyes
 	cp b
 	jr c, .skip_foresight_check
 
@@ -5266,6 +5264,11 @@ INCLUDE "engine/battle/move_effects/mist.asm"
 INCLUDE "engine/battle/move_effects/focus_energy.asm"
 
 BattleCommand_Recoil:
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp ROCK_HEAD
+	ret z
+	
 	ld hl, wBattleMonMaxHP
 	ldh a, [hBattleTurn]
 	and a
