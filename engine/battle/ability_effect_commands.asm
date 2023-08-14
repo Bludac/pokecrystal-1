@@ -187,7 +187,7 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     cp DARK
     jr z, .rattled_trigger
     cp GHOST
-    ret
+    ret nz
 .rattled_trigger
     call BattleCommand_SpeedUp
     call BattleCommand_StatUpMessage
@@ -199,87 +199,109 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     cp FIRE
     jr z, .thick_fat_resist
     cp ICE
-    ret
+    ret nz
 .thick_fat_resist
     ld a, NOT_VERY_EFFECTIVE
     ld [wTypeMatchup], a
+    ld [wTypeModifier], a
     ret
 .levitate
     cp LEVITATE
     jr nz, .lightningrod
     ld a, d
     cp GROUND
-    ret
+    ret nz
     xor a                           ; 0 is the same as no effect
     ld [wTypeMatchup], a
-    ret
+    ld [wTypeModifier], a
+    jp .immune
 .lightningrod
     cp LIGHTNINGROD
     jr nz, .sapsipper
     ld a, d
     cp ELECTRIC
-    ret
+    ret nz
     xor a
     ld [wTypeMatchup], a
+    ld [wTypeModifier], a
+    call BattleCommand_SwitchTurn
     call BattleCommand_SpecialAttackUp
     call BattleCommand_StatUpMessage
-    ret
+    call BattleCommand_SwitchTurn
+    jp .immune
 .sapsipper
     cp SAP_SIPPER
     jr nz, .voltabsorb
     cp GRASS
-    ret
+    ret nz
     xor a
     ld [wTypeMatchup], a
+    ld [wTypeModifier], a
+    call BattleCommand_SwitchTurn
     call BattleCommand_AttackUp
     call BattleCommand_StatUpMessage
-    ret
+    call BattleCommand_SwitchTurn
+    jp .immune
 .voltabsorb
     cp VOLT_ABSORB
     jr nz, .waterabsorb
     ld a, d
     cp ELECTRIC
-    ret
+    ret nz
     xor a
     ld [wTypeMatchup], a
+    ld [wTypeModifier], a
     inc a
     ld [wAbsorbAbilityTrigger], a
+    jp .absorbed
     ret
 .waterabsorb
     cp WATER_ABSORB
     jr nz, .eartheater
     cp WATER
-    ret
+    ret nz
     xor a
     ld [wTypeMatchup], a
+    ld [wTypeModifier], a
     inc a
     ld [wAbsorbAbilityTrigger], a
+    jp .absorbed
     ret
 .eartheater
     cp EARTH_EATER
     jr nz, .dryskin
     cp GROUND
-    ret
+    ret nz
     xor a
     ld [wTypeMatchup], a
+    ld [wTypeModifier], a
     inc a
     ld [wAbsorbAbilityTrigger], a
+    jp .absorbed
     ret
 .dryskin
     cp DRY_SKIN
-    ret
+    ret nz
     cp WATER
     jr nz, .fireweak
     xor a
     ld [wTypeMatchup], a
+    ld [wTypeModifier], a
     inc a
     ld [wAbsorbAbilityTrigger], a
+    jp .absorbed
     ret
 .fireweak
     cp FIRE
-    ret
+    ret nz
     ld a, MORE_EFFECTIVE
     ld [wTypeMatchup], a
+    ld [wTypeModifier], a
+    ret
+.immune
+    inc a
+.absorbed
+    ld [wAttackMissed], a
     ret
 
 ContactHitAbilities:

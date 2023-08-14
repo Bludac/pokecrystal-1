@@ -952,6 +952,11 @@ BattleCommand_Stab:
 	ld b, a
 	ld hl, TypeMatchups
 
+	push de
+	ld d, b
+	call Resist_Immunity_AbilityCheck
+	pop de
+
 .TypesLoop:
 	ld a, [hli]
 
@@ -1797,6 +1802,20 @@ BattleCommand_FailureText:
 	ld a, [wAttackMissed]
 	and a
 	ret z
+
+	ld a, [wAbsorbAbilityTrigger]
+	and a
+	jr z, .noAbsorb
+	push hl
+	ld hl, GetQuarterMaxHP
+	call CallBattleCore
+	ld hl, RestoreHP
+	call CallBattleCore
+	pop hl
+
+	xor a
+	ld [wAbsorbAbilityTrigger], a
+.noAbsorb
 
 	call GetFailureResultText
 	ld a, BATTLE_VARS_MOVE_ANIM
@@ -3199,20 +3218,6 @@ endc
 	predef AnimateHPBar
 	call ContactHitAbilities
 .did_no_damage
-	ld a, [wAbsorbAbilityTrigger]
-	jr z, .noAbsorb
-	push hl
-	call BattleCommand_SwitchTurn
-	ld hl, GetQuarterMaxHP
-	call CallBattleCore
-	ld hl, RestoreHP
-	call CallBattleCore
-	call BattleCommand_SwitchTurn
-	pop hl
-
-	xor a
-	ld [wAbsorbAbilityTrigger], a
-.noAbsorb
 	jp RefreshBattleHuds
 
 DoPlayerDamage:
@@ -3274,20 +3279,6 @@ DoPlayerDamage:
 	predef AnimateHPBar
 	call ContactHitAbilities
 .did_no_damage
-	ld a, [wAbsorbAbilityTrigger]
-	jr z, .noAbsorb
-	push hl
-	call BattleCommand_SwitchTurn
-	ld hl, GetQuarterMaxHP
-	call CallBattleCore
-	ld hl, RestoreHP
-	call CallBattleCore
-	call BattleCommand_SwitchTurn
-	pop hl
-
-	xor a
-	ld [wAbsorbAbilityTrigger], a
-.noAbsorb
 	jp RefreshBattleHuds
 
 DoSubstituteDamage:
