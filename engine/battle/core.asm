@@ -251,13 +251,19 @@ HandleBetweenTurnEffects:
 	jr z, .CheckEnemyFirst
 	call CheckFaint_PlayerThenEnemy
 	ret c
-	call HandleFutureSight
-	call CheckFaint_PlayerThenEnemy
-	ret c
 	call HandleWeather
 	call CheckFaint_PlayerThenEnemy
 	ret c
+	call SetPlayerTurn
+	call ResidualDamage
+	call SetEnemyTurn
+	call ResidualDamage
+	call CheckFaint_PlayerThenEnemy
+	ret c
 	call HandleWrap
+	call CheckFaint_PlayerThenEnemy
+	ret c
+	call HandleFutureSight
 	call CheckFaint_PlayerThenEnemy
 	ret c
 	call HandlePerishSong
@@ -268,13 +274,19 @@ HandleBetweenTurnEffects:
 .CheckEnemyFirst:
 	call CheckFaint_EnemyThenPlayer
 	ret c
-	call HandleFutureSight
-	call CheckFaint_EnemyThenPlayer
-	ret c
 	call HandleWeather
 	call CheckFaint_EnemyThenPlayer
 	ret c
+	call SetEnemyTurn
+	call ResidualDamage
+	call SetPlayerTurn
+	call ResidualDamage
+	call CheckFaint_PlayerThenEnemy
+	ret c
 	call HandleWrap
+	call CheckFaint_EnemyThenPlayer
+	ret c
+	call HandleFutureSight
 	call CheckFaint_EnemyThenPlayer
 	ret c
 	call HandlePerishSong
@@ -954,7 +966,7 @@ Battle_EnemyFirst:
 
 .switch_item
 	call SetEnemyTurn
-	call ResidualDamage
+	;call ResidualDamage
 	jp z, HandleEnemyMonFaint
 	call RefreshBattleHuds
 	call PlayerTurn_EndOpponentProtectEndureDestinyBond
@@ -967,7 +979,7 @@ Battle_EnemyFirst:
 	call HasPlayerFainted
 	jp z, HandlePlayerMonFaint
 	call SetPlayerTurn
-	call ResidualDamage
+	;call ResidualDamage
 	jp z, HandlePlayerMonFaint
 	call RefreshBattleHuds
 	xor a ; BATTLEPLAYERACTION_USEMOVE
@@ -992,7 +1004,7 @@ Battle_PlayerFirst:
 	jp z, HandlePlayerMonFaint
 	push bc
 	call SetPlayerTurn
-	call ResidualDamage
+	;call ResidualDamage
 	pop bc
 	jp z, HandlePlayerMonFaint
 	push bc
@@ -1014,7 +1026,7 @@ Battle_PlayerFirst:
 
 .switched_or_used_item
 	call SetEnemyTurn
-	call ResidualDamage
+	;call ResidualDamage
 	jp z, HandleEnemyMonFaint
 	call RefreshBattleHuds
 	xor a ; BATTLEPLAYERACTION_USEMOVE
@@ -1086,7 +1098,6 @@ ResidualDamage:
 	ld de, ANIM_BRN
 	bit BRN, a
 	jr nz, .got_anim
-
 	ld hl, HurtByFrostbiteText
 	ld de, ANIM_FRZ
 .got_anim
@@ -4096,6 +4107,8 @@ SpikesDamage:
 
 	call GetEighthMaxHP
 	call SubtractHPFromTarget
+
+	call HandleHealingItems
 
 	pop hl
 	call .hl

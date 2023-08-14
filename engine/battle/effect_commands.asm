@@ -2143,6 +2143,10 @@ BattleCommand_CheckFaint:
 	call BattleCommand_RaiseSub
 
 .finish
+	push hl
+	ld hl HandleHealingItems
+	call CallBattleCore
+	pop hl
 	jp EndMoveEffect
 
 BattleCommand_BuildOpponentRage:
