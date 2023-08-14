@@ -72,7 +72,7 @@ AbilityDamageBoost:
 	cp TECHNICIAN
 	jr nz, .sheerforce
     ld a, d
-    cp 60
+    cp 61
     jp nc, .done
     call GetTenPercent
     add a
@@ -342,12 +342,12 @@ ContactHitAbilities:
     call ThirtyPercentCheck
     ret nc
     call BattleCommand_SwitchTurn
-    call BattleCommand_Burn
+    call BattleCommand_BurnTarget
     call BattleCommand_SwitchTurn
     ret
 ThirtyPercentCheck:
     call BattleRandom
-    cp 70 percent
+    cp 30 percent
     ret
 
 SturdyEffect:
