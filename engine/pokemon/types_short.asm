@@ -17,7 +17,7 @@ PrintEnemyTypes:
 	ld a, [wBaseType2]
 	cp b
 	pop hl
-	jr z, .hide_type_short_2
+	ret z
 
 	ld bc, 4
 	add hl, bc
@@ -25,18 +25,6 @@ PrintEnemyTypes:
 .Print:
 	ld b, a
 	jr PrintTypeShort
-
-.hide_type_short_2
-	; Erase any type name that was here before.
-	; Seems to be pointless in localized versions.
-	ld a, " "
-	ld bc, SCREEN_WIDTH - 3
-	add hl, bc
-	ld [hl], a
-	inc bc
-	add hl, bc
-	ld bc, NAME_LENGTH_JAPANESE - 1
-	jp ByteFill
 
 PrintTypeShort:
 ; Print type b at hl.
