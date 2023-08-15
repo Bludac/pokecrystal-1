@@ -189,8 +189,10 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     cp GHOST
     ret nz
 .rattled_trigger
+    call BattleCommand_SwitchTurn
     call BattleCommand_SpeedUp
     call BattleCommand_StatUpMessage
+    call BattleCommand_SwitchTurn
     ret
 .thickfat
     cp THICK_FAT
@@ -203,6 +205,9 @@ Resist_Immunity_AbilityCheck:        ; d is move type
 .thick_fat_resist
     ld a, NOT_VERY_EFFECTIVE
     ld [wTypeMatchup], a
+    ld a, [wTypeModifier]
+    and %10000000
+    add NOT_VERY_EFFECTIVE
     ld [wTypeModifier], a
     ret
 .levitate
@@ -226,7 +231,6 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     ld [wTypeModifier], a
     call BattleCommand_SwitchTurn
     call BattleCommand_SpecialAttackUp
-    call BattleCommand_StatUpAnim
     call BattleCommand_StatUpMessage
     call BattleCommand_SwitchTurn
     jp .immune
@@ -240,7 +244,6 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     ld [wTypeModifier], a
     call BattleCommand_SwitchTurn
     call BattleCommand_AttackUp
-    call BattleCommand_StatUpAnim
     call BattleCommand_StatUpMessage
     call BattleCommand_SwitchTurn
     jp .immune
@@ -298,6 +301,9 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     ret nz
     ld a, MORE_EFFECTIVE
     ld [wTypeMatchup], a
+    ld a, [wTypeModifier]
+    and %10000000
+    add MORE_EFFECTIVE
     ld [wTypeModifier], a
     ret
 .immune

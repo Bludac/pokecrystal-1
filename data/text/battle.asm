@@ -1102,17 +1102,17 @@ RoughSkinText:
 CottonDownText:
 	text "<TARGET> is"
 	line "covered in cotton."
-	prompt
+	done
 
 DefiantText:
 	text "<USER>"
 	line "is Defiant."
-	prompt
+	done
 
 CompetitiveText:
 	text "<USER>"
 	line "is Competitive."
-	prompt
+	done
 
 PoisonPointText:
 	text "<USER>"
@@ -1132,12 +1132,12 @@ PoisonTouchText:
 RainDishHealText:
 	text "The RAIN heals"
 	line "<USER>."
-	prompt
+	done
 
 IceBodyHealText:
 	text "The HAIL heals"
 	line "<USER>."
-	prompt
+	done
 
 ArmorTailText:
 	text "Priority moves"
@@ -1149,7 +1149,7 @@ ToxicSpikesRemovedText:
 	text "<USER>"
 	line "absorbed the"
 	cont "Toxic Spikes."
-	done
+	prompt
 
 BattleText_PoisonedBySpikes:
 	text "<USER>"
@@ -1162,3 +1162,9 @@ ToxicSpikesText:
 	line "surround"
 	cont "<TARGET>!"
 	prompt
+
+BattleText_ShedSkin:
+	text "<USER>"
+	line "has shed their"
+	cont "skin!"
+	done

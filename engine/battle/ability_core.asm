@@ -77,3 +77,47 @@ HandlePoisonHeal:   ;eigthmaxhp stored in bc
 	ld [wHPBuffer3], a
 .overflow
     jp UpdateHPBarBattleHuds
+
+HandleBetweenTurnAbilities:
+	ld a, [wEnemyGoesFirst]
+	jr z, .DoEnemyFirst
+	call SetPlayerTurn
+	call .do_it
+	call SetEnemyTurn
+	jp .do_it
+
+.DoEnemyFirst:
+	call SetEnemyTurn
+	call .do_it
+	call SetPlayerTurn
+.do_it
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp SPEED_BOOST
+	jr nz, .shedskin
+	farcall BattleCommand_SpeedUp
+    farcall BattleCommand_StatUpMessage
+	ret
+.shedskin
+	cp SHED_SKIN
+	ret nz
+	ld a, BATTLE_VARS_STATUS
+	call GetBattleVar
+	cp 0
+	ret z
+	call BattleRandom
+    cp 33 percent
+	ret nc
+	ldh a, [hBattleTurn]
+    and a
+	jr nz, .shedskin_enemy
+	ld [wBattleMonStatus], a
+	jr .text
+.shedskin_enemy
+	xor a
+	ld [wEnemyMonStatus], a
+.text
+	ld hl, BattleText_ShedSkin
+	call StdBattleTextbox
+	call UpdateBattleHUDs
+	ret
