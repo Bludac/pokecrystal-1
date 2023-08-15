@@ -1707,6 +1707,24 @@ HandleWeather:
 	call .PrintWeatherMessage
 
 	ld a, [wBattleWeather]
+	cp WEATHER_RAIN
+	jr nz, .check_sandstorm
+	call SetPlayerTurn
+	call .rain_dish
+	call SetEnemyTurn
+.rain_dish
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp RAIN_DISH
+	ret nz
+	call GetSixteenthMaxHP
+	call SwitchTurnCore
+	call RestoreHP
+	call SwitchTurnCore
+	ld hl, RainDishHealText
+	jp StdBattleTextbox
+
+.check_sandstorm
 	cp WEATHER_SANDSTORM
 	jr nz, .check_hail
 
@@ -1786,6 +1804,18 @@ HandleWeather:
 	call SetPlayerTurn
 
 .HailDamage:
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp ICE_BODY
+	jr nz, .underground_check
+	call GetSixteenthMaxHP
+	call SwitchTurnCore
+	call RestoreHP
+	call SwitchTurnCore
+	ld hl, IceBodyHealText
+	jp StdBattleTextbox
+
+.underground_check
 	ld a, BATTLE_VARS_SUBSTATUS3
 	call GetBattleVar
 	bit SUBSTATUS_UNDERGROUND, a
@@ -4078,7 +4108,7 @@ SpikesDamage:
 .ok
 
 	bit SCREENS_SPIKES, [hl]
-	ret z
+	jr z, .toxic_spikes
 
 	; Flying-types aren't affected by Spikes.
 	ld a, [de]
@@ -4088,6 +4118,10 @@ SpikesDamage:
 	ld a, [de]
 	cp FLYING
 	ret z
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp LEVITATE
+	ret z
 
 	push bc
 
@@ -4096,6 +4130,50 @@ SpikesDamage:
 
 	call GetEighthMaxHP
 	call SubtractHPFromTarget
+	
+	pop hl
+	call .hl
+
+	call WaitBGMap
+
+.toxic_spikes
+	ld a, [de]
+	cp FLYING
+	ret z
+	inc de
+	ld a, [de]
+	cp FLYING
+	ret z
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp LEVITATE
+	ret z
+
+	;this should remove toxic spikes if the pokemon is a grounded poison type
+	ld a, [de]
+	cp POISON
+	res SCREENS_TOXIC_SPIKES, [hl]
+	push hl
+	ld hl, ToxicSpikesRemovedText
+	call StdBattleTextbox
+	pop hl
+	ret z
+	inc de
+	ld a, [de]
+	cp POISON
+	res SCREENS_TOXIC_SPIKES, [hl]
+	push hl
+	ld hl, ToxicSpikesRemovedText
+	call StdBattleTextbox
+	pop hl
+	ret z
+
+	push bc
+
+	ld hl, BattleText_PoisonedBySpikes
+	call StdBattleTextbox
+
+	farcall BattleCommand_PoisonTarget
 
 	pop hl
 	call .hl

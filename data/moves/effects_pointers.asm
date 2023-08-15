@@ -94,7 +94,7 @@ MoveEffectsPointers:
 	dw Encore
 	dw PainSplit
 	dw Snore
-	dw NormalHit
+	dw ToxicSpikes
 	dw LockOn
 	dw NormalHit
 	dw DefrostOpponent

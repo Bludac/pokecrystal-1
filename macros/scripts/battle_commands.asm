@@ -72,7 +72,7 @@ ENDM
 	command encore                  ; 41
 	command painsplit               ; 42
 	command snore                   ; 43
-	command unused44	            ; 44
+	command toxicspikes	            ; 44
 	command lockon                  ; 45
 	command unused46                ; 46
 	command defrostopponent         ; 47

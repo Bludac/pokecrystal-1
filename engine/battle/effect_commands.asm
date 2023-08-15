@@ -1230,6 +1230,9 @@ BattleCommand_CheckHit:
 	call .Protect
 	jp nz, .Miss
 
+	call .ArmorTail
+	jp z, .Miss
+
 	call .DrainSub
 	jp z, .Miss
 
@@ -1342,6 +1345,39 @@ BattleCommand_CheckHit:
 	call DelayFrames
 
 	ld a, 1
+	and a
+	ret
+
+.ArmorTail:
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp ARMOR_TAIL
+	ret nz
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	cp EFFECT_PRIORITY_HIT
+	jr z, .armor_tail_blocked
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp PRANKSTER
+	ret nz
+	ld a, BATTLE_VARS_MOVE_TYPE
+	call GetBattleVar
+	and STATUS
+	cp STATUS
+	ret nz
+
+.armor_tail_blocked
+	ld c, 40
+	call DelayFrames
+
+	ld hl, ArmorTailText
+	call StdBattleTextbox
+
+	ld c, 40
+	call DelayFrames
+
+	xor a
 	and a
 	ret
 
@@ -2154,8 +2190,6 @@ BattleCommand_CheckFaint:
 	cp EFFECT_POISON_MULTI_HIT
 	jr z, .multiple_hit_raise_sub
 	cp EFFECT_TRIPLE_KICK
-	jr z, .multiple_hit_raise_sub
-	cp EFFECT_BEAT_UP
 	jr nz, .finish
 
 .multiple_hit_raise_sub
@@ -2648,8 +2682,6 @@ EnemyAttackDamage:
 	ld a, 1
 	and a
 	ret
-
-INCLUDE "engine/battle/move_effects/beat_up.asm"
 
 BattleCommand_ClearMissDamage:
 	ld a, [wAttackMissed]
@@ -3217,6 +3249,7 @@ endc
 	ld [wWhichHPBar], a
 	predef AnimateHPBar
 	call ContactHitAbilities
+	call PoisonTouch
 .did_no_damage
 	jp RefreshBattleHuds
 
@@ -3328,8 +3361,6 @@ DoSubstituteDamage:
 	cp EFFECT_POISON_MULTI_HIT
 	jr z, .ok
 	cp EFFECT_TRIPLE_KICK
-	jr z, .ok
-	cp EFFECT_BEAT_UP
 	jr z, .ok
 	xor a
 	ld [hl], a
@@ -4959,8 +4990,6 @@ BattleCommand_EndLoop:
 	ld a, 1
 	jr z, .double_hit
 	ld a, [hl]
-	cp EFFECT_BEAT_UP
-	jr z, .beat_up
 	cp EFFECT_TRIPLE_KICK
 	jr nz, .not_triple_kick
 .reject_triple_kick_sample
@@ -4972,34 +5001,6 @@ BattleCommand_EndLoop:
 	ld a, 1
 	ld [bc], a
 	jr .done_loop
-
-.beat_up
-	ldh a, [hBattleTurn]
-	and a
-	jr nz, .check_ot_beat_up
-	ld a, [wPartyCount]
-	cp 1
-	jp z, .only_one_beatup
-	dec a
-	jr .double_hit
-
-.check_ot_beat_up
-	ld a, [wBattleMode]
-	cp WILD_BATTLE
-	jp z, .only_one_beatup
-	ld a, [wOTPartyCount]
-	cp 1
-	jp z, .only_one_beatup
-	dec a
-	jr .double_hit
-
-.only_one_beatup
-; BUG: Beat Up works incorrectly with only one Pokémon in the party (see docs/bugs_and_glitches.md)
-	ld a, BATTLE_VARS_SUBSTATUS3
-	call GetBattleVarAddr
-	res SUBSTATUS_IN_LOOP, [hl]
-	call BattleCommand_BeatUpFailText
-	jp EndMoveEffect
 
 .not_triple_kick
 	ld a, BATTLE_VARS_ABILITY
@@ -5047,11 +5048,7 @@ BattleCommand_EndLoop:
 	push bc
 	ld a, BATTLE_VARS_MOVE_EFFECT
 	call GetBattleVar
-	cp EFFECT_BEAT_UP
-	jr z, .beat_up_2
 	call StdBattleTextbox
-.beat_up_2
-
 	pop bc
 	xor a
 	ld [bc], a
@@ -6031,6 +6028,8 @@ INCLUDE "engine/battle/move_effects/protect.asm"
 
 INCLUDE "engine/battle/move_effects/spikes.asm"
 
+INCLUDE "engine/battle/move_effects/toxic_spikes.asm"
+
 INCLUDE "engine/battle/move_effects/foresight.asm"
 
 INCLUDE "engine/battle/move_effects/perish_song.asm"
@@ -6041,14 +6040,15 @@ INCLUDE "engine/battle/move_effects/rollout.asm"
 
 BattleCommand_Unused02:
 BattleCommand_Unused26:
-BattleCommand_Unused44:
 BattleCommand_Unused46:
 BattleCommand_Unused52:
 BattleCommand_Unused5F:
 BattleCommand_Unused63:
 BattleCommand_Unused6C:
 BattleCommand_Unused9D:
+BattleCommand_UnusedA1:
 BattleCommand_UnusedA5:
+BattleCommand_UnusedA8:
 	ret
 
 INCLUDE "engine/battle/move_effects/fury_cutter.asm"

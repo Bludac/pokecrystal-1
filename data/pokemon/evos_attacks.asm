@@ -836,14 +836,14 @@ DiglettEvosAttacks:
 	db 21, BULLDOZE
 	db 27, SPIKES
 	db 32, SLASH
-	db 37, BEAT_UP
+	db 37, NIGHT_SLASH
 	db 41, SANDSTORM
 	db 46, EARTHQUAKE
 	db 0 ; no more level-up moves
 
 DugtrioEvosAttacks:
 	db 0 ; no more evolutions
-	db 1, BEAT_UP
+	db 1, ROCK_SLIDE
 	db 1, POUND
 	db 1, GROWL
 	db 6, MAGNITUDE
@@ -1461,7 +1461,7 @@ GrimerEvosAttacks:
 	db 7, DISABLE
 	db 10, BITE
 	db 16, POISON_TAIL
-	db 21, BEAT_UP
+	db 21, FAINT_ATTACK
 	db 25, SCREECH
 	db 30, SWEET_SCENT
 	db 37, CRUNCH
@@ -1477,7 +1477,7 @@ MukEvosAttacks:
 	db 7, DISABLE
 	db 10, BITE
 	db 16, POISON_TAIL
-	db 21, BEAT_UP
+	db 21, FAINT_ATTACK
 	db 25, SCREECH
 	db 30, SWEET_SCENT
 	db 39, CRUNCH
@@ -2468,6 +2468,7 @@ MewEvosAttacks:
 ;	db 1, TRANSFORM
 ;	db 1, SUBSTITUTE
 ;	db 1, DRAIN_PUNCH
+	db 1, POUND
 	db 1, GROWL
 	db 0 ; no more level-up moves
 
@@ -3529,7 +3530,7 @@ SneaselEvosAttacks:
 	db 30, ICE_PUNCH
 	db 36, NIGHT_SLASH
 	db 42, ICICLE_CRASH
-	db 48, BEAT_UP
+	db 48, CRUNCH
 	db 0 ; no more level-up moves
 
 TeddiursaEvosAttacks:

@@ -50,7 +50,7 @@ EvolutionMoves::
 	db NO_MOVE      ; VENONAT
 	db AIR_SLASH    ; VENOMOTH
 	db NO_MOVE      ; DIGLETT
-	db BEAT_UP	    ; DUGTRIO
+	db ROCK_SLIDE   ; DUGTRIO
 	db NO_MOVE      ; MEOWTH
 	db SLASH        ; PERSIAN
 	db NO_MOVE      ; PSYDUCK

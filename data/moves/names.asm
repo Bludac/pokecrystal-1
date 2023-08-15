@@ -250,7 +250,7 @@ MoveNames::
 	li "FUTURE SIGHT"
 	li "POWERUPPUNCH"
 	li "WHIRLPOOL"
-	li "BEAT UP"
+	li "TOXIC SPIKES"
 	li "HAIL"
 	li "WOOD HAMMER"
 	li "MOONBLAST"

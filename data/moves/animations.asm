@@ -252,7 +252,7 @@ BattleAnimations::
 	dw BattleAnim_FutureSight
 	dw BattleAnim_RockSmash
 	dw BattleAnim_Whirlpool
-	dw BattleAnim_BeatUp
+	dw BattleAnim_ToxicSpikes
 	dw BattleAnim_Hail
 	dw BattleAnim_WoodHammer
 	dw BattleAnim_Moonblast
@@ -3600,6 +3600,7 @@ BattleAnim_MudSlap:
 ;.done
 ;	anim_ret
 
+BattleAnim_ToxicSpikes:
 BattleAnim_Spikes:
 	anim_1gfx ANIM_GFX_MISC
 	anim_sound 6, 2, SFX_MENU
@@ -4659,25 +4660,25 @@ BattleAnim_Whirlpool:
 	anim_wait 1
 	anim_ret
 
-BattleAnim_BeatUp:
-	anim_if_param_equal $0, .current_mon
-	anim_sound 0, 0, SFX_BALL_POOF
-	anim_bgeffect ANIM_BG_RETURN_MON, $0, BG_EFFECT_USER, $0
-	anim_wait 16
-	anim_beatup
-	anim_sound 0, 0, SFX_BALL_POOF
-	anim_bgeffect ANIM_BG_ENTER_MON, $0, BG_EFFECT_USER, $0
-	anim_wait 16
-.current_mon
-	anim_1gfx ANIM_GFX_HIT
-	anim_call BattleAnim_TargetObj_1Row
-	anim_bgeffect ANIM_BG_TACKLE, $0, BG_EFFECT_USER, $0
-	anim_wait 4
-	anim_sound 0, 1, SFX_BEAT_UP
-	anim_obj ANIM_OBJ_HIT_BIG_YFIX, 136, 48, $0
-	anim_wait 8
-	anim_call BattleAnim_ShowMon_0
-	anim_ret
+;BattleAnim_BeatUp:
+;	anim_if_param_equal $0, .current_mon
+;	anim_sound 0, 0, SFX_BALL_POOF
+;	anim_bgeffect ANIM_BG_RETURN_MON, $0, BG_EFFECT_USER, $0
+;	anim_wait 16
+;	anim_beatup
+;	anim_sound 0, 0, SFX_BALL_POOF
+;	anim_bgeffect ANIM_BG_ENTER_MON, $0, BG_EFFECT_USER, $0
+;	anim_wait 16
+;.current_mon
+;	anim_1gfx ANIM_GFX_HIT
+;	anim_call BattleAnim_TargetObj_1Row
+;	anim_bgeffect ANIM_BG_TACKLE, $0, BG_EFFECT_USER, $0
+;	anim_wait 4
+;	anim_sound 0, 1, SFX_BEAT_UP
+;	anim_obj ANIM_OBJ_HIT_BIG_YFIX, 136, 48, $0
+;	anim_wait 8
+;	anim_call BattleAnim_ShowMon_0
+;	anim_ret
 
 BattleAnimSub_Drain:
 	anim_obj ANIM_OBJ_DRAIN, 132, 44, $0

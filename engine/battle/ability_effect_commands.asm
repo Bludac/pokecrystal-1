@@ -226,6 +226,7 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     ld [wTypeModifier], a
     call BattleCommand_SwitchTurn
     call BattleCommand_SpecialAttackUp
+    call BattleCommand_StatUpAnim
     call BattleCommand_StatUpMessage
     call BattleCommand_SwitchTurn
     jp .immune
@@ -239,6 +240,7 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     ld [wTypeModifier], a
     call BattleCommand_SwitchTurn
     call BattleCommand_AttackUp
+    call BattleCommand_StatUpAnim
     call BattleCommand_StatUpMessage
     call BattleCommand_SwitchTurn
     jp .immune
@@ -322,6 +324,8 @@ ContactHitAbilities:
     call CallBattleCore
     ld hl, SubtractHPFromUser
     call CallBattleCore
+    ld hl, RoughSkinText
+	call StdBattleTextbox
 ;this is to see if the pokemon fainted from rough skin
     ld hl, wBattleMonHP
 	ldh a, [hBattleTurn]
@@ -341,10 +345,16 @@ ContactHitAbilities:
 .poisonpoint
     cp POISON_POINT
     jr nz, .cottondown
+    ld a, BATTLE_VARS_STATUS_OPP
+    call GetBattleVar
+    and a
+    ret nz
     call BattleRandom
     call ThirtyPercentCheck
     ret nc
     call BattleCommand_SwitchTurn
+    ld hl, PoisonPointText
+	call StdBattleTextbox
     call BattleCommand_PoisonTarget
     call BattleCommand_SwitchTurn
     ret
@@ -354,19 +364,45 @@ ContactHitAbilities:
 	ld a, SPEED
 	call LowerStat
 	call BattleCommand_SwitchTurn
+    ld hl, CottonDownText
+	call StdBattleTextbox
 	call BattleCommand_StatDownMessage
 	call BattleCommand_SwitchTurn
     ret
 .flamebody
     cp FLAME_BODY
     ret nz
+    ld a, BATTLE_VARS_STATUS_OPP
+    call GetBattleVar
+    and a
+    ret nz
     call BattleRandom
     call ThirtyPercentCheck
     ret nc
     call BattleCommand_SwitchTurn
+    ld hl, FlameBodyText
+	call StdBattleTextbox
     call BattleCommand_BurnTarget
     call BattleCommand_SwitchTurn
     ret
+
+PoisonTouch:
+    ld a, BATTLE_VARS_ABILITY
+    call GetBattleVar
+    cp POISON_TOUCH
+    ret nz
+    ld a, BATTLE_VARS_STATUS_OPP
+    call GetBattleVar
+    and a
+    ret nz
+    call BattleRandom
+    call ThirtyPercentCheck
+    ret nc
+    ld hl, PoisonTouchText
+	call StdBattleTextbox
+    call BattleCommand_PoisonTarget
+    ret
+
 ThirtyPercentCheck:
     call BattleRandom
     cp 30 percent
@@ -423,18 +459,38 @@ DefiantCompetitive:
     call GetBattleVar
     cp DEFIANT
     jr nz, .competitive
+    ld a, [wLoweredStat]
+    push bc
+    ld b, a
+    push bc
     call BattleCommand_SwitchTurn
+    ld hl, DefiantText
+	call StdBattleTextbox
     call BattleCommand_AttackUp2
     call BattleCommand_StatUpMessage
     call BattleCommand_SwitchTurn
+    pop bc
+    ld a, b
+    ld [wLoweredStat], a
+    pop bc
     ret
 .competitive
     cp COMPETITIVE
     ret nz
+    ld a, [wLoweredStat]
+    push bc
+    ld b, a
+    push bc
     call BattleCommand_SwitchTurn
+    ld hl, CompetitiveText
+	call StdBattleTextbox
     call BattleCommand_SpecialAttackUp2
     call BattleCommand_StatUpMessage
     call BattleCommand_SwitchTurn
+    pop bc
+    ld a, b
+    ld [wLoweredStat], a
+    pop bc
     ret
 
 DamageBoostingAbilities:

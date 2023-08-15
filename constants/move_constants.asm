@@ -256,7 +256,7 @@
 	const FUTURE_SIGHT ; f8
 	const ROCK_SMASH   ; f9 power up punch effect
 	const WHIRLPOOL    ; fa
-	const BEAT_UP      ; fb
+	const TOXIC_SPIKES ; fb BEAT_UP
 	const HAIL		   ; fc
 	const WOOD_HAMMER  ; fd
 	const MOONBLAST    ; fe

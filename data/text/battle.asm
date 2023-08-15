@@ -1093,3 +1093,72 @@ BattleText_NoTimeLeftToday: ; unreferenced
 	text "There is no time"
 	line "left today!"
 	done
+
+RoughSkinText:
+	text "<TARGET>"
+	line "has Rough Skin."
+	prompt
+
+CottonDownText:
+	text "<TARGET> is"
+	line "covered in cotton."
+	prompt
+
+DefiantText:
+	text "<USER>"
+	line "is Defiant."
+	prompt
+
+CompetitiveText:
+	text "<USER>"
+	line "is Competitive."
+	prompt
+
+PoisonPointText:
+	text "<USER>"
+	line "has Poison Point."
+	prompt
+
+FlameBodyText:
+	text "<USER>"
+	line "has Flame Body."
+	prompt
+
+PoisonTouchText:
+	text "<USER>"
+	line "has Poison Touch."
+	prompt
+
+RainDishHealText:
+	text "The RAIN heals"
+	line "<USER>."
+	prompt
+
+IceBodyHealText:
+	text "The HAIL heals"
+	line "<USER>."
+	prompt
+
+ArmorTailText:
+	text "Priority moves"
+	line "don't work against"
+	cont "this #MON."
+	done
+
+ToxicSpikesRemovedText:
+	text "<USER>"
+	line "absorbed the"
+	cont "Toxic Spikes."
+	done
+
+BattleText_PoisonedBySpikes:
+	text "<USER>"
+	line "has been PSN by"
+	cont "Toxic Spikes"
+	done
+
+ToxicSpikesText:
+	text "Toxic Spikes"
+	line "surround"
+	cont "<TARGET>!"
+	prompt

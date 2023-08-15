@@ -1421,6 +1421,12 @@ Spikes:
 	spikes
 	endmove
 
+ToxicSpikes:	
+	usedmovetext
+	doturn
+	toxicspikes
+	endmove
+
 Foresight:	
 	usedmovetext
 	doturn
