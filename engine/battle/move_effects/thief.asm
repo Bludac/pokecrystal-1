@@ -27,16 +27,6 @@ BattleCommand_Thief:
 	ld a, [wEffectFailed]
 	and a
 	ret nz
-
-	ld a, [wLinkMode]
-	and a
-	jr z, .stealenemyitem
-
-	ld a, [wBattleMode]
-	dec a
-	ret z
-
-.stealenemyitem
 	call .enemyitem
 	xor a
 	ld [hl], a

@@ -7838,7 +7838,6 @@ BattleIntro:
 	xor a
 	ldh [hMapAnims], a
 	farcall PlayBattleMusic
-	farcall ShowLinkBattleParticipants
 	farcall FindFirstAliveMonAndStartBattle
 	call DisableSpriteUpdates
 	farcall ClearBattleRAM
@@ -8094,18 +8093,6 @@ CleanUpBattleRAM:
 	dec b
 	jr nz, .loop
 	call WaitSFX
-	ret
-
-ShowLinkBattleParticipantsAfterEnd:
-	;farcall StubbedTrainerRankings_LinkBattles
-	; farcall BackupMobileEventIndex
-	ld a, [wCurOTMon]
-	ld hl, wOTPartyMon1Status
-	call GetPartyLocation
-	ld a, [wEnemyMonStatus]
-	ld [hl], a
-	call ClearTilemap
-	farcall _ShowLinkBattleParticipants
 	ret
 
 BattleEnd_HandleRoamMons:

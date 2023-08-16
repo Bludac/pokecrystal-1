@@ -9,17 +9,6 @@ DoPlayerTurn:
 
 DoEnemyTurn:
 	call SetEnemyTurn
-
-	ld a, [wLinkMode]
-	and a
-	jr z, DoTurn
-
-	ld a, [wBattleAction]
-	cp BATTLEACTION_STRUGGLE
-	jr z, DoTurn
-	cp BATTLEACTION_SWITCH1
-	ret nc
-
 	; fallthrough
 
 DoTurn:

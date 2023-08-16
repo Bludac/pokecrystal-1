@@ -9,10 +9,6 @@ ReadTrainerParty:
 	bit 0, a
 	ret nz
 
-	ld a, [wLinkMode]
-	and a
-	ret nz
-
 	ld hl, wOTPartyCount
 	xor a
 	ld [hli], a
@@ -492,10 +488,6 @@ SetTrainerBattleLevel:
 
 	ld a, [wInBattleTowerBattle]
 	bit 0, a
-	ret nz
-
-	ld a, [wLinkMode]
-	and a
 	ret nz
 
 	ld a, [wOtherTrainerClass]

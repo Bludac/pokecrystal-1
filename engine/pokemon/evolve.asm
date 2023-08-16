@@ -68,10 +68,6 @@ EvolveAfterBattle_MasterLoop:
 	cp EVOLVE_ITEM_LEVEL
 	jr z, .helditemlevel
 
-	ld a, [wLinkMode]
-	and a
-	jp nz, .dont_evolve_2
-
 	ld a, b
 	cp EVOLVE_ITEM
 	jp z, .item
@@ -335,9 +331,6 @@ EvolveAfterBattle_MasterLoop:
 	pop de
 	pop bc
 	pop hl
-	ld a, [wLinkMode]
-	and a
-	ret nz
 	ld a, [wBattleMode]
 	and a
 	ret nz

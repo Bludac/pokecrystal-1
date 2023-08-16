@@ -1344,9 +1344,6 @@ RemoveMonFromPartyOrBox:
 	ld a, [wPokemonWithdrawDepositParameter]
 	and a
 	jp nz, CloseSRAM
-	ld a, [wLinkMode]
-	and a
-	ret nz
 	; Shift mail
 	ld a, BANK(sPartyMail)
 	call OpenSRAM
