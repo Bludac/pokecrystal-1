@@ -3282,8 +3282,14 @@ endc
 	xor a
 	ld [wWhichHPBar], a
 	predef AnimateHPBar
+
 	call ContactHitAbilities
 	call PoisonTouch
+	farcall HalfHPAbilityCheck
+	farcall HandleHPHealingItem
+	farcall UseHeldStatusHealingItem
+	farcall UseConfusionHealingItem
+
 .did_no_damage
 	jp RefreshBattleHuds
 
@@ -3301,8 +3307,8 @@ DoPlayerDamage:
 	ld a, [wPlayerSubStatus4]
 	bit SUBSTATUS_SUBSTITUTE, a
 	jp nz, DoSubstituteDamage
-
 .ignore_substitute
+
 	; Subtract wCurDamage from wBattleMonHP.
 	;  store original HP in little endian wHPBuffer2
 	;  store new HP in little endian wHPBuffer3
@@ -3344,7 +3350,14 @@ DoPlayerDamage:
 	ld a, 1
 	ld [wWhichHPBar], a
 	predef AnimateHPBar
+
 	call ContactHitAbilities
+	call PoisonTouch
+	farcall HalfHPAbilityCheck
+	farcall HandleHPHealingItem
+	farcall UseHeldStatusHealingItem
+	farcall UseConfusionHealingItem
+
 .did_no_damage
 	jp RefreshBattleHuds
 

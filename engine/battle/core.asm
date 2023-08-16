@@ -282,9 +282,10 @@ HandleBetweenTurnEffects:
 	ret c
 
 .NoMoreFaintingConditions:
-	call HalfHPAbility
+	call HalfHPAbility		;called before leftovers in case the above put the pokemon below half
 	call HandleLeftovers
 	call ResidualDamage
+	call HalfHPAbility		;called twice since damage is taken down here sometimes
 	call HandleMysteryberry
 	call HandleSafeguard
 	call HandleScreens

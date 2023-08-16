@@ -127,13 +127,15 @@ HalfHPAbility:
 	ld a, [wEnemySubStatus4]
 	bit SUBSTATUS_BERSERK_PANIC, a
 	jr nz, .alreadytriggered
-	call .turn
+	call HalfHPAbilityCheck
 .alreadytriggered
 	call SetEnemyTurn
 	ld a, [wPlayerSubStatus4]
 	bit SUBSTATUS_BERSERK_PANIC, a
 	ret nz
-.turn
+	jp HalfHPAbilityCheck
+
+HalfHPAbilityCheck:
 	ld de, wEnemyMonHP + 1
 	ld hl, wEnemyMonMaxHP
 	ldh a, [hBattleTurn]
