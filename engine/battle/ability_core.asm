@@ -121,3 +121,82 @@ HandleBetweenTurnAbilities:
 	call StdBattleTextbox
 	call UpdateBattleHUDs
 	ret
+
+HalfHPAbility:
+	call SetPlayerTurn
+	ld a, [wEnemySubStatus4]
+	bit SUBSTATUS_BERSERK_PANIC, a
+	jr nz, .alreadytriggered
+	call .turn
+.alreadytriggered
+	call SetEnemyTurn
+	ld a, [wPlayerSubStatus4]
+	bit SUBSTATUS_BERSERK_PANIC, a
+	ret nz
+.turn
+	ld de, wEnemyMonHP + 1
+	ld hl, wEnemyMonMaxHP
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .go
+	ld de, wBattleMonHP + 1
+	ld hl, wBattleMonMaxHP
+
+.go
+; If, and only if, Pokemon's HP is less than half max, activate the ability.
+; Store current HP in Buffer 3/4
+	push bc
+	ld a, [de]
+	ld [wHPBuffer2], a
+	add a
+	ld c, a
+	dec de
+	ld a, [de]
+	inc de
+	ld [wHPBuffer2 + 1], a
+	adc a
+	ld b, a
+	ld a, b
+	cp [hl]
+	ld a, c
+	pop bc
+	jr z, .equal
+	jr c, .less
+	ret
+
+.equal
+	inc hl
+	cp [hl]
+	dec hl
+	ret nc
+
+.less
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp BERSERK
+	jr nz, .Panic
+	call SwitchTurnCore
+	call SetSubStatus4
+	ld hl, BattleText_Berserk
+	call StdBattleTextbox
+    farcall BattleCommand_SpecialAttackUp2
+    farcall BattleCommand_StatUpMessage
+	call SwitchTurnCore
+    ret
+.Panic
+	cp PANIC
+	ret nz
+	call SwitchTurnCore
+	call SetSubStatus4
+	ld hl, BattleText_Panic
+	call StdBattleTextbox
+    farcall BattleCommand_SpeedUp2
+    farcall BattleCommand_StatUpMessage
+	call SwitchTurnCore
+    ret
+
+SetSubStatus4:
+	ld a, BATTLE_VARS_SUBSTATUS4
+	call GetBattleVarAddr
+	set SUBSTATUS_BERSERK_PANIC, [hl]
+	ret

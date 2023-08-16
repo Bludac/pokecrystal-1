@@ -1145,6 +1145,41 @@ CheckTypeMatchup:
 	jr .TypesLoop
 
 .End:
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp TINTED_LENS
+	jr nz, .filter
+	ld a, [wTypeMatchup]
+	cp 10
+	jr nc, .EndButActuallyThisTime
+	cp 0
+	jr z, .EndButActuallyThisTime
+	cp 5
+	jr nz, .x4resist
+	ld a, EFFECTIVE
+	ld [wTypeMatchup], a
+	jr .EndButActuallyThisTime
+.x4resist
+	ld a, NOT_VERY_EFFECTIVE
+	ld [wTypeMatchup], a
+	jr .EndButActuallyThisTime
+.filter
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp FILTER
+	jr nz, .EndButActuallyThisTime
+	ld a, [wTypeMatchup]
+	cp 40
+	jr nz, .x2effective
+	ld a, 30
+	ld [wTypeMatchup], a
+	jr .EndButActuallyThisTime
+.x2effective
+	cp 20
+	jr nz, .EndButActuallyThisTime
+	ld a, 15
+	ld [wTypeMatchup], a
+.EndButActuallyThisTime
 	pop bc
 	pop de
 	pop hl
@@ -1866,7 +1901,6 @@ BattleCommand_FailureText:
 	inc hl
 	ld a, [hl]
 
-; BUG: Beat Up may fail to raise Substitute (see docs/bugs_and_glitches.md)
 	cp EFFECT_MULTI_HIT
 	jr z, .multihit
 	cp EFFECT_DOUBLE_HIT
@@ -1913,7 +1947,7 @@ BattleCommand_ApplyDamage:
 	jr nz, .damage
 
 	call BattleRandom
-	cp c
+	cp c				;30 percent chance to activate
 	jr nc, .damage
 	call BattleCommand_FalseSwipe
 	ld b, 0

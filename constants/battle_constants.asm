@@ -183,6 +183,9 @@ DEF ALL_STATUS EQU (1 << PSN) | (1 << BRN) | (1 << FRZ) | (1 << PAR) | SLP_MASK
 ; wPlayerSubStatus2 or wEnemySubStatus2 bit flags
 	const_def
 	const SUBSTATUS_CURLED
+	;room for 7 more, would just need to check if this is handled differently than
+	;the other substatuses, no reason we couldnt just add substatuses though
+	;would just a lot to add them to all the relevant places they are zeroed out
 
 ; wPlayerSubStatus3 or wEnemySubStatus3 bit flags
 	const_def
@@ -200,7 +203,7 @@ DEF ALL_STATUS EQU (1 << PSN) | (1 << BRN) | (1 << FRZ) | (1 << PAR) | SLP_MASK
 	const SUBSTATUS_X_ACCURACY
 	const SUBSTATUS_MIST
 	const SUBSTATUS_FOCUS_ENERGY
-	const_skip
+	const SUBSTATUS_BERSERK_PANIC
 	const SUBSTATUS_SUBSTITUTE
 	const SUBSTATUS_RECHARGE
 	const SUBSTATUS_RAGE
@@ -224,6 +227,7 @@ DEF ALL_STATUS EQU (1 << PSN) | (1 << BRN) | (1 << FRZ) | (1 << PAR) | SLP_MASK
 	const SCREENS_SAFEGUARD
 	const SCREENS_LIGHT_SCREEN
 	const SCREENS_REFLECT
+	;room for 3 more here before other measures would be necessary
 
 ; values in wBattleWeather
 	const_def
@@ -236,6 +240,7 @@ DEF ALL_STATUS EQU (1 << PSN) | (1 << BRN) | (1 << FRZ) | (1 << PAR) | SLP_MASK
 	const WEATHER_SUN_END
 	const WEATHER_SANDSTORM_END
 	const WEATHER_HAIL_END
+	;this can be as many as 255
 
 ; wBattleAction
 	const_def

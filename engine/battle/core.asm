@@ -282,6 +282,7 @@ HandleBetweenTurnEffects:
 	ret c
 
 .NoMoreFaintingConditions:
+	call HalfHPAbility
 	call HandleLeftovers
 	call HandleMysteryberry
 	call HandleSafeguard
@@ -4138,6 +4139,9 @@ SpikesDamage:
 	call WaitBGMap
 
 .toxic_spikes
+	bit SCREENS_SPIKES, [hl]
+	ret z
+
 	ld a, [de]
 	cp FLYING
 	ret z
@@ -5727,20 +5731,24 @@ MoveInfoBox:
 	farcall GetMoveType
 	ld a, b
 	cp STATUS - 1
-	jr nc, .status
+	jp nc, .status
 	and TYPE_MASK
 	ld b, a
 	farcall MoveBoxTypeMatchup
 	ld a, [wTypeMatchup]
 
 	cp 40
-	jr z, .FourXText
+	jr nc, .FourXText
+	cp 30
+	jr nc, .FilterThreeXText
 	cp 20
-	jr z, .TwoXText
+	jr nc, .TwoXText
+	cp 15
+	jr nc, .FilterOneAndAHalfXText
 	cp 10
-	jr z, .OneXText
+	jr nc, .OneXText
 	cp 05
-	jr z, .HalfXText
+	jr nc, .HalfXText
 	cp 0
 	jr z, .ZeroXText
 
@@ -5753,9 +5761,19 @@ MoveInfoBox:
 	ld de, .FourTimesEff
 	call PlaceString
 	jr .done
+.FilterThreeXText
+	hlcoord 1, 11
+	ld de, .ThreeTimesEff
+	call PlaceString
+	jr .done
 .TwoXText
 	hlcoord 1, 11
 	ld de, .TwoTimesEff
+	call PlaceString
+	jr .done
+.FilterOneAndAHalfXText
+	hlcoord 1, 11
+	ld de, .OneAndHalfTimesEff
 	call PlaceString
 	jr .done
 .OneXText
@@ -5784,8 +5802,12 @@ MoveInfoBox:
 	db "Disabled!@"
 .FourTimesEff:
 	db "x4@"
+.ThreeTimesEff:
+	db "x3@"
 .TwoTimesEff:
 	db "x2@"
+.OneAndHalfTimesEff:
+	db "1.5@"
 .OneTimesEff:
 	db "x1@"
 .HalfTimesEff:

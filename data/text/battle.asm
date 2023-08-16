@@ -1168,3 +1168,13 @@ BattleText_ShedSkin:
 	line "has shed their"
 	cont "skin!"
 	done
+
+BattleText_Berserk:
+	text "<USER>"
+	line "is Berserk!"
+	done
+
+BattleText_Panic:
+	text "<USER>"
+	line "is in a Panic!"
+	done
