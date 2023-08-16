@@ -284,6 +284,7 @@ HandleBetweenTurnEffects:
 .NoMoreFaintingConditions:
 	call HalfHPAbility
 	call HandleLeftovers
+	call ResidualDamage
 	call HandleMysteryberry
 	call HandleSafeguard
 	call HandleScreens
@@ -503,7 +504,7 @@ DetermineMoveOrder:
 
 .use_move
 	ld a, [wBattlePlayerAction]
-	and a ; BATTLEPLAYERACTION_USEMOVE?
+	and a ; BATTLEPLAYERACTION_USEMOVE is 0, item and switch are 1 and 2 respectively
 	jp nz, .player_first
 	call CompareMovePriority
 	jr z, .equal_priority
@@ -565,14 +566,14 @@ DetermineMoveOrder:
 	ld hl, SpeedBoostingAbilities
 	call IsInByteArray
 	pop de
-	jr nc, .enemyspeedboost
+	jr nc, .enemyspeedboostweather
 	ld h, d
 	ld l, e
 	call WeatherSpeedBoost
 	ld d, h
 	ld e, l
 
-.enemyspeedboost
+.enemyspeedboostweather
 	ld hl, wEnemyMonSpeed
 
 	ld a, [wEnemyAbility]
@@ -956,7 +957,7 @@ Battle_EnemyFirst:
 
 .switch_item
 	call SetEnemyTurn
-	call ResidualDamage
+	;call ResidualDamage
 	jp z, HandleEnemyMonFaint
 	call RefreshBattleHuds
 	call PlayerTurn_EndOpponentProtectEndureDestinyBond
@@ -969,7 +970,7 @@ Battle_EnemyFirst:
 	call HasPlayerFainted
 	jp z, HandlePlayerMonFaint
 	call SetPlayerTurn
-	call ResidualDamage
+	;call ResidualDamage
 	jp z, HandlePlayerMonFaint
 	call RefreshBattleHuds
 	xor a ; BATTLEPLAYERACTION_USEMOVE
@@ -994,7 +995,7 @@ Battle_PlayerFirst:
 	jp z, HandlePlayerMonFaint
 	push bc
 	call SetPlayerTurn
-	call ResidualDamage
+	;call ResidualDamage
 	pop bc
 	jp z, HandlePlayerMonFaint
 	push bc
@@ -1016,7 +1017,7 @@ Battle_PlayerFirst:
 
 .switched_or_used_item
 	call SetEnemyTurn
-	call ResidualDamage
+	;call ResidualDamage
 	jp z, HandleEnemyMonFaint
 	call RefreshBattleHuds
 	xor a ; BATTLEPLAYERACTION_USEMOVE
@@ -1071,7 +1072,17 @@ ResidualDamage:
 ; Return z if the user fainted before
 ; or as a result of residual damage.
 ; For Sandstorm damage, see HandleWeather.
-
+	ld a, [wEnemyGoesFirst]
+	jr z, .DoEnemyFirst
+	call SetPlayerTurn
+	call .do_it
+	call SetEnemyTurn
+	jp .do_it
+.DoEnemyFirst:
+	call SetEnemyTurn
+	call .do_it
+	call SetPlayerTurn
+.do_it
 	call HasUserFainted
 	ret z
 
@@ -4173,18 +4184,19 @@ SpikesDamage:
 	pop hl
 	ret z
 
+	;we should only get here if the pokemon is grounded and not poison
+	;don't want any confusing text if the pokemon has a status already
 	push bc
-
+	ld a, BATTLE_VARS_STATUS
+	call GetBattleVar
+	cp 0
+	ret nz
 	ld hl, BattleText_PoisonedBySpikes
 	call StdBattleTextbox
-
 	farcall BattleCommand_PoisonTarget
-
 	pop hl
 	call .hl
-
 	jp WaitBGMap
-
 .hl
 	jp hl
 
