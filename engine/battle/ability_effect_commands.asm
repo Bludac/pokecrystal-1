@@ -499,6 +499,41 @@ DefiantCompetitive:
     pop bc
     ret
 
+EnterBattleAbility:
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	ld hl, EnterBattleAbilities
+	call IsInByteArray
+	ret nc
+	cp INTIMIDATE
+	jr nz, .imposter
+    call BattleCommand_AttackDown
+    call BattleCommand_StatDownMessage
+    ret
+.imposter
+	cp IMPOSTER
+	jr nz, .drought
+    call BattleCommand_Transform
+    ret
+.drought
+	cp DROUGHT
+	jr nz, .drizzle
+    call BattleCommand_StartSun
+    ret
+.drizzle
+	cp DRIZZLE
+	jr nz, .snowwarning
+    call BattleCommand_StartRain
+    ret
+.snowwarning
+	cp SNOW_WARNING
+	jr nz, .sandstream
+    call BattleCommand_StartHail
+    ret
+.sandstream
+    call BattleCommand_StartSandstorm
+	ret
+
 DamageBoostingAbilities:
     db TOUGH_CLAWS
     db IRON_FIST
@@ -509,4 +544,13 @@ DamageBoostingAbilities:
     db RECKLESS
     db GALVANIZE
     db ANALYTIC
+    db -1
+
+EnterBattleAbilities:
+	db INTIMIDATE
+	db IMPOSTER
+	db DROUGHT
+	db DRIZZLE
+	db SNOW_WARNING
+	db SAND_STREAM
     db -1

@@ -36,6 +36,7 @@ BattleCommand_BatonPass:
 	call CallBattleCore
 
 	call ResetBatonPassStatus
+	call EnterBattleAbility
 	ret
 
 .Enemy:
@@ -66,7 +67,9 @@ BattleCommand_BatonPass:
 	ld hl, SpikesDamage
 	call CallBattleCore
 
-	jr ResetBatonPassStatus
+	call ResetBatonPassStatus
+	call EnterBattleAbility
+	ret
 
 BatonPass_LinkPlayerSwitch:
 	ld a, [wLinkMode]

@@ -22,15 +22,6 @@ DoBattle:
 .alive
 	ld a, d
 	ld [wBattleAction], a
-	ld a, [wLinkMode]
-	and a
-	jr z, .not_linked
-
-	ldh a, [hSerialConnectionStatus]
-	cp USING_INTERNAL_CLOCK
-	jr z, .player_2
-
-.not_linked
 	ld a, [wBattleMode]
 	dec a
 	jr z, .wild
@@ -44,8 +35,6 @@ DoBattle:
 .wild
 	ld c, 40
 	call DelayFrames
-
-.player_2
 	call LoadTilemapToTempTilemap
 	call CheckPlayerPartyForFitMon
 	ld a, d
@@ -94,22 +83,10 @@ DoBattle:
 	call LoadTilemapToTempTilemap
 	call SetPlayerTurn
 	call SpikesDamage
-	ld a, [wLinkMode]
-	and a
-	jr z, .not_linked_2
-	ldh a, [hSerialConnectionStatus]
-	cp USING_INTERNAL_CLOCK
-	jr nz, .not_linked_2
-	xor a
-	ld [wEnemySwitchMonIndex], a
-	call NewEnemyMonStatus
-	call ResetEnemyStatLevels
-	call BreakAttraction
-	call EnemySwitch
 	call SetEnemyTurn
-	call SpikesDamage
-
-.not_linked_2
+	farcall EnterBattleAbility
+	call SetPlayerTurn
+	farcall EnterBattleAbility
 	jp BattleTurn
 
 .tutorial_debug
@@ -121,27 +98,10 @@ WildFled_EnemyFled_LinkBattleCanceled:
 	and BATTLERESULT_BITMASK
 	add DRAW
 	ld [wBattleResult], a
-	ld a, [wLinkMode]
-	and a
+
 	ld hl, BattleText_WildFled
-	jr z, .print_text
-
-	ld a, [wBattleResult]
-	and BATTLERESULT_BITMASK
-	ld [wBattleResult], a ; WIN
-	ld hl, BattleText_EnemyFled
-	jr nc, .print_text
-
-	ld hl, wcd2a
-	bit 4, [hl]
-	jr nz, .skip_text
-
-	ld hl, BattleText_LinkErrorBattleCanceled
-
-.print_text
 	call StdBattleTextbox
 
-.skip_text
 	call StopDangerSound
 	jr c, .skip_sfx
 
@@ -452,58 +412,10 @@ HandleBerserkGene:
 	jp StdBattleTextbox
 
 EnemyTriesToFlee:
-	ld a, [wLinkMode]
 	and a
-	jr z, .not_linked
-	ld a, [wBattleAction]
-	cp BATTLEACTION_FORFEIT
-	jr z, .forfeit
-
-.not_linked
-	and a
-	ret
-
-.forfeit
-	call WildFled_EnemyFled_LinkBattleCanceled
-	scf
 	ret
 
 DetermineMoveOrder:
-	ld a, [wLinkMode]
-	and a
-	jr z, .use_move
-	ld a, [wBattleAction]
-	cp BATTLEACTION_STRUGGLE
-	jr z, .use_move
-	cp BATTLEACTION_SKIPTURN
-	jr z, .use_move
-	sub BATTLEACTION_SWITCH1
-	jr c, .use_move
-	ld a, [wBattlePlayerAction]
-	cp BATTLEPLAYERACTION_SWITCH
-	jr nz, .switch
-	ldh a, [hSerialConnectionStatus]
-	cp USING_INTERNAL_CLOCK
-	jr z, .player_2
-
-	call BattleRandom
-	cp 50 percent + 1
-	jp c, .player_first
-	jp .enemy_first
-
-.player_2
-	call BattleRandom
-	cp 50 percent + 1
-	jp c, .enemy_first
-	jp .player_first
-
-.switch
-	callfar AI_Switch
-	call SetEnemyTurn
-	call SpikesDamage
-	jp .enemy_first
-
-.use_move
 	ld a, [wBattlePlayerAction]
 	and a ; BATTLEPLAYERACTION_USEMOVE is 0, item and switch are 1 and 2 respectively
 	jp nz, .player_first
@@ -957,12 +869,31 @@ Battle_EnemyFirst:
 	jp z, HandleEnemyMonFaint
 
 .switch_item
-	call SetEnemyTurn
+	;call SetEnemyTurn
 	;call ResidualDamage
-	jp z, HandleEnemyMonFaint
-	call RefreshBattleHuds
+	;jp z, HandleEnemyMonFaint
+	;call RefreshBattleHuds
+	ld a, [wBattleAction]
+	cp BATTLEACTION_SWITCH1					;value is 4, enemy moves are 0-3
+	jr c, .noabilitiesbeforeplayeraction
+	cp 10									;value 4-9 are the AI switching
+	jr nc, .noabilitiesbeforeplayeraction
+	ld a, [wBattlePlayerAction]
+	cp BATTLEPLAYERACTION_SWITCH
+	jr z, .noabilitiesbeforeplayeraction
+	call SetEnemyTurn
+	farcall EnterBattleAbility
+.noabilitiesbeforeplayeraction
 	call PlayerTurn_EndOpponentProtectEndureDestinyBond
 	ret c
+	ld a, [wBattlePlayerAction]
+	cp BATTLEPLAYERACTION_SWITCH
+	jr nz, .playerdidntswitch
+	call SetEnemyTurn
+	farcall EnterBattleAbility
+	call SetPlayerTurn
+	farcall EnterBattleAbility
+.playerdidntswitch
 	ld a, [wForcedSwitch]
 	and a
 	ret nz
@@ -970,10 +901,10 @@ Battle_EnemyFirst:
 	jp z, HandleEnemyMonFaint
 	call HasPlayerFainted
 	jp z, HandlePlayerMonFaint
-	call SetPlayerTurn
+	;call SetPlayerTurn
 	;call ResidualDamage
-	jp z, HandlePlayerMonFaint
-	call RefreshBattleHuds
+	;jp z, HandlePlayerMonFaint
+	;call RefreshBattleHuds
 	xor a ; BATTLEPLAYERACTION_USEMOVE
 	ld [wBattlePlayerAction], a
 	ret
@@ -995,17 +926,24 @@ Battle_PlayerFirst:
 	call HasPlayerFainted
 	jp z, HandlePlayerMonFaint
 	push bc
-	call SetPlayerTurn
+	;call SetPlayerTurn
 	;call ResidualDamage
-	pop bc
-	jp z, HandlePlayerMonFaint
-	push bc
-	call RefreshBattleHuds
+	;pop bc
+	;jp z, HandlePlayerMonFaint
+	;push bc
+	;call RefreshBattleHuds
 	pop af
 	jr c, .switched_or_used_item
 	call LoadTilemapToTempTilemap
 	call TryEnemyFlee
 	jp c, WildFled_EnemyFled_LinkBattleCanceled
+
+	ld a, [wBattlePlayerAction]
+	cp BATTLEPLAYERACTION_SWITCH
+	jr nz, .noswitch									;if player and enemy switch, then enemy always switches first
+	call SetPlayerTurn
+	farcall EnterBattleAbility
+.noswitch
 	call EnemyTurn_EndOpponentProtectEndureDestinyBond
 	ret c
 	ld a, [wForcedSwitch]
@@ -1017,10 +955,10 @@ Battle_PlayerFirst:
 	jp z, HandleEnemyMonFaint
 
 .switched_or_used_item
-	call SetEnemyTurn
+	;call SetEnemyTurn
 	;call ResidualDamage
-	jp z, HandleEnemyMonFaint
-	call RefreshBattleHuds
+	;jp z, HandleEnemyMonFaint
+	;call RefreshBattleHuds
 	xor a ; BATTLEPLAYERACTION_USEMOVE
 	ld [wBattlePlayerAction], a
 	ret
@@ -2162,6 +2100,10 @@ DoubleSwitch:
 	call PlayerPartyMonEntrance
 	ld a, $1
 	call EnemyPartyMonEntrance
+	call SetPlayerTurn
+	farcall EnterBattleAbility
+	call SetEnemyTurn
+	farcall EnterBattleAbility
 	jr .done
 
 .player_1
@@ -2174,6 +2116,10 @@ DoubleSwitch:
 	pop af
 	ld [wCurPartyMon], a
 	call PlayerPartyMonEntrance
+	call SetEnemyTurn
+	farcall EnterBattleAbility
+	call SetPlayerTurn
+	farcall EnterBattleAbility
 
 .done
 	xor a ; BATTLEPLAYERACTION_USEMOVE
@@ -2382,18 +2328,6 @@ HandleEnemySwitch:
 	call UpdateHPPal
 	call WaitBGMap
 	farcall EnemySwitch_TrainerHud
-	ld a, [wLinkMode]
-	and a
-	jr z, .not_linked
-
-	call LinkBattleSendReceiveAction
-	ld a, [wBattleAction]
-	cp BATTLEACTION_FORFEIT
-	ret z
-
-	call SafeLoadTempTilemapToTilemap
-
-.not_linked
 	ld hl, wBattleMonHP
 	ld a, [hli]
 	or [hl]
@@ -2421,6 +2355,12 @@ EnemyPartyMonEntrance:
 	call ResetBattleParticipants
 	call SetEnemyTurn
 	call SpikesDamage
+	ld hl, wBattleMonHP
+	ld a, [hli]
+	or [hl]
+	jr z, .saveforlater
+	farcall EnterBattleAbility
+.saveforlater
 	xor a
 	ld [wEnemyMoveStruct + MOVE_ANIM], a
 	ld [wBattlePlayerAction], a
@@ -2433,17 +2373,11 @@ WinTrainerBattle:
 	ld a, $1
 	ld [wBattleLowHealthAlarm], a
 	ld [wBattleEnded], a
-	ld a, [wLinkMode]
-	and a
 	ld a, b
-	call z, PlayVictoryMusic
+	call PlayVictoryMusic
 	callfar Battle_GetTrainerName
 	ld hl, BattleText_EnemyWasDefeated
 	call StdBattleTextbox
-
-	ld a, [wLinkMode]
-	and a
-	ret nz
 
 	ld a, [wInBattleTowerBattle]
 	bit 0, a
@@ -2799,14 +2733,7 @@ ForcePlayerMonChoice:
 	call LoadStandardMenuHeader
 	call SetUpBattlePartyMenu
 	call ForcePickPartyMonInBattle
-	ld a, [wLinkMode]
-	and a
-	jr z, .skip_link
-	ld a, BATTLEPLAYERACTION_USEITEM
-	ld [wBattlePlayerAction], a
-	call LinkBattleSendReceiveAction
 
-.skip_link
 	xor a ; BATTLEPLAYERACTION_USEMOVE
 	ld [wBattlePlayerAction], a
 	ld hl, wEnemyMonHP
@@ -2849,6 +2776,7 @@ ForcePlayerMonChoice:
 	call LoadTilemapToTempTilemap
 	call SetPlayerTurn
 	call SpikesDamage
+	farcall EnterBattleAbility
 	ld a, $1
 	and a
 	ld c, a
@@ -3172,16 +3100,6 @@ EnemySwitch_SetMode:
 CheckWhetherSwitchmonIsPredetermined:
 ; returns the enemy switchmon index in b, or
 ; returns carry if the index is not yet determined.
-	ld a, [wLinkMode]
-	and a
-	jr z, .not_linked
-
-	ld a, [wBattleAction]
-	sub BATTLEACTION_SWITCH1
-	ld b, a
-	jr .return_carry
-
-.not_linked
 	ld a, [wEnemySwitchMonIndex]
 	and a
 	jr z, .check_wBattleHasJustStarted
@@ -3465,9 +3383,6 @@ CheckWhetherToAskSwitch:
 	ld a, [wPartyCount]
 	dec a
 	jp z, .return_nc
-	ld a, [wLinkMode]
-	and a
-	jp nz, .return_nc
 	ld a, [wOptions]
 	bit BATTLE_SHIFT, a
 	jr nz, .return_nc
@@ -3696,10 +3611,6 @@ TryToRunAwayFromBattle:
 	cp BATTLETYPE_SUICUNE
 	jp z, .cant_escape
 
-	ld a, [wLinkMode]
-	and a
-	jp nz, .can_escape
-
 	ld a, [wBattleMode]
 	dec a
 	jp nz, .cant_run_from_trainer
@@ -3813,27 +3724,6 @@ TryToRunAwayFromBattle:
 	ret
 
 .can_escape
-	ld a, [wLinkMode]
-	and a
-	ld a, DRAW
-	jr z, .fled
-	call LoadTilemapToTempTilemap
-	xor a ; BATTLEPLAYERACTION_USEMOVE
-	ld [wBattlePlayerAction], a
-	ld a, BATTLEACTION_FORFEIT
-	ld [wCurMoveNum], a
-	xor a
-	ld [wCurPlayerMove], a
-	call LinkBattleSendReceiveAction
-	call SafeLoadTempTilemapToTilemap
-
-	; Got away safely
-	ld a, [wBattleAction]
-	cp BATTLEACTION_FORFEIT
-	ld a, DRAW
-	jr z, .fled
-	dec a ; LOSE
-.fled
 	ld b, a
 	ld a, [wBattleResult]
 	and BATTLERESULT_BITMASK
@@ -4993,9 +4883,6 @@ LoadBattleMenu2:
 	ret
 
 BattleMenu_Pack:
-	ld a, [wLinkMode]
-	and a
-	jp nz, .ItemsCantBeUsed
 
 	ld a, [wBattleType]
     cp BATTLETYPE_SETNOITEMS
@@ -5224,48 +5111,7 @@ TryPlayerSwitch:
 PlayerSwitch:
 	ld a, 1
 	ld [wPlayerIsSwitching], a
-	ld a, [wLinkMode]
-	and a
-	jr z, .not_linked
-	call LoadStandardMenuHeader
-	call LinkBattleSendReceiveAction
-	call CloseWindow
-
-.not_linked
 	call ParseEnemyAction
-	ld a, [wLinkMode]
-	and a
-	jr nz, .linked
-
-.switch
-	call BattleMonEntrance
-	and a
-	ret
-
-.linked
-	ld a, [wBattleAction]
-	cp BATTLEACTION_STRUGGLE
-	jp z, .switch
-	cp BATTLEACTION_SKIPTURN
-	jp z, .switch
-	cp BATTLEACTION_SWITCH1
-	jp c, .switch
-	cp BATTLEACTION_FORFEIT
-	jr nz, .dont_run
-	call WildFled_EnemyFled_LinkBattleCanceled
-	ret
-
-.dont_run
-	ldh a, [hSerialConnectionStatus]
-	cp USING_EXTERNAL_CLOCK
-	jr z, .player_1
-	call BattleMonEntrance
-	call EnemyMonEntrance
-	and a
-	ret
-
-.player_1
-	call EnemyMonEntrance
 	call BattleMonEntrance
 	and a
 	ret
@@ -5438,9 +5284,6 @@ MoveSelectionScreen:
 	dec a
 	ld b, D_DOWN | D_UP | A_BUTTON | B_BUTTON
 	jr z, .okay
-	ld a, [wLinkMode]
-	and a
-	jr nz, .okay
 	ld b, D_DOWN | D_UP | A_BUTTON | B_BUTTON | SELECT
 
 .okay
@@ -5898,42 +5741,7 @@ ParseEnemyAction:
 	ld a, [wEnemyIsSwitching]
 	and a
 	ret nz
-	ld a, [wLinkMode]
-	and a
-	jr z, .not_linked
-	call EmptyBattleTextbox
-	call LoadTilemapToTempTilemap
-	ld a, [wBattlePlayerAction]
-	and a ; BATTLEPLAYERACTION_USEMOVE?
-	call z, LinkBattleSendReceiveAction
-	call SafeLoadTempTilemapToTilemap
-	ld a, [wBattleAction]
-	cp BATTLEACTION_STRUGGLE
-	jp z, .struggle
-	cp BATTLEACTION_SKIPTURN
-	jp z, .skip_turn
-	cp BATTLEACTION_SWITCH1
-	jp nc, ResetVarsForSubstatusRage
-	ld [wCurEnemyMoveNum], a
-	ld c, a
-	ld a, [wEnemySubStatus1]
-	bit SUBSTATUS_ROLLOUT, a
-	jp nz, .skip_load
-	ld a, [wEnemySubStatus3]
-	and 1 << SUBSTATUS_CHARGED | 1 << SUBSTATUS_RAMPAGE | 1 << SUBSTATUS_BIDE
-	jp nz, .skip_load
 
-	ld hl, wEnemySubStatus5
-	bit SUBSTATUS_ENCORED, [hl]
-	ld a, [wLastEnemyMove]
-	jp nz, .finish
-	ld hl, wEnemyMonMoves
-	ld b, 0
-	add hl, bc
-	ld a, [hl]
-	jp .finish
-
-.not_linked
 	ld hl, wEnemySubStatus5
 	bit SUBSTATUS_ENCORED, [hl]
 	jr z, .skip_encore
@@ -6080,11 +5888,6 @@ LoadEnemyMon:
 	ld hl, wEnemyMonSpecies
 	ld bc, wEnemyMonEnd - wEnemyMon
 	call ByteFill
-
-; We don't need to be here if we're in a link battle
-	ld a, [wLinkMode]
-	and a
-	jp nz, InitEnemyMon
 
 ; and also not in a BattleTower-Battle
 	ld a, [wInBattleTowerBattle]
@@ -6969,70 +6772,9 @@ EmptyBattleTextbox:
 _BattleRandom::
 ; If the normal RNG is used in a link battle it'll desync.
 ; To circumvent this a shared PRNG is used instead.
-
 ; But if we're in a non-link battle we're safe to use it
-	ld a, [wLinkMode]
-	and a
-	jp z, Random
-
-; The PRNG operates in streams of 10 values.
-
-; Which value are we trying to pull?
-	push hl
-	push bc
-	ld a, [wLinkBattleRNCount]
-	ld c, a
-	ld b, 0
-	ld hl, wLinkBattleRNs
-	add hl, bc
-	inc a
-	ld [wLinkBattleRNCount], a
-
-; If we haven't hit the end yet, we're good
-	cp 10 - 1 ; Exclude last value. See the closing comment
-	ld a, [hl]
-	pop bc
-	pop hl
-	ret c
-
-; If we have, we have to generate new pseudorandom data
-; Instead of having multiple PRNGs, ten seeds are used
-	push hl
-	push bc
-	push af
-
-; Reset count to 0
-	xor a
-	ld [wLinkBattleRNCount], a
-	ld hl, wLinkBattleRNs
-	ld b, 10 ; number of seeds
-
-; Generate next number in the sequence for each seed
-; a[n+1] = (a[n] * 5 + 1) % 256
-.loop
-	; get last #
-	ld a, [hl]
-
-	; a * 5 + 1
-	ld c, a
-	add a
-	add a
-	add c
-	inc a
-
-	; update #
-	ld [hli], a
-	dec b
-	jr nz, .loop
-
-; This has the side effect of pulling the last value first,
-; then wrapping around. As a result, when we check to see if
-; we've reached the end, we check the one before it.
-
-	pop af
-	pop bc
-	pop hl
-	ret
+; which is always
+	jp Random
 
 Call_PlayBattleAnim_OnlyIfVisible:
 	ld a, BATTLE_VARS_SUBSTATUS3
@@ -7066,9 +6808,6 @@ FinishBattleAnim:
 GiveExperiencePoints:
 ; Give experience.
 ; Don't give experience if linked or in the Battle Tower.
-	ld a, [wLinkMode]
-	and a
-	ret nz
 
 	ld a, [wInBattleTowerBattle]
 	bit 0, a
@@ -7702,18 +7441,6 @@ AnimateExpBar:
 	ret
 
 SendOutMonText:
-	ld a, [wLinkMode]
-	and a
-	jr z, .not_linked
-
-; If we're in a LinkBattle print just "Go <PlayerMon>"
-; unless DoBattle already set [wBattleHasJustStarted]
-	ld hl, GoMonText
-	ld a, [wBattleHasJustStarted]
-	and a
-	jr nz, .skip_to_textbox
-
-.not_linked
 ; Depending on the HP of the enemy mon, the game prints a different text
 	ld hl, wEnemyMonHP
 	ld a, [hli]
@@ -8100,10 +7827,6 @@ StartBattle:
 	pop af
 	ld [wTimeOfDayPal], a
 	scf
-	ret
-
-CallDoBattle: ; unreferenced
-	call DoBattle
 	ret
 
 BattleIntro:

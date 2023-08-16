@@ -4860,7 +4860,8 @@ BattleCommand_ForceSwitch:
 	call StdBattleTextbox
 
 	ld hl, SpikesDamage
-	jp CallBattleCore
+	call CallBattleCore
+	jp EnterBattleAbility
 
 .switch_fail
 	jp .fail
@@ -4957,7 +4958,8 @@ BattleCommand_ForceSwitch:
 	call StdBattleTextbox
 
 	ld hl, SpikesDamage
-	jp CallBattleCore
+	call CallBattleCore
+	jp EnterBattleAbility
 
 .fail
 	call BattleCommand_LowerSub
