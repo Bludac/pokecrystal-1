@@ -1507,26 +1507,6 @@ Return:
 	kingsrock
 	endmove
 
-Present:	
-	usedmovetext
-	doturn
-	checkhit
-	critical
-	damagestats
-	present
-	damagecalc
-	stab
-	damagevariation
-	clearmissdamage
-	failuretext
-	applydamage
-	criticaltext
-	supereffectivetext
-	checkfaint
-	buildopponentrage
-	kingsrock
-	endmove
-
 Safeguard:	
 	usedmovetext
 	doturn

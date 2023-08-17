@@ -8,7 +8,7 @@
 	db 103 ; base exp
 	db NO_ITEM, NO_ITEM ; items
 	db GENDER_UNKNOWN ; gender ratio
-	db NO_ABILITY
+	db RECKLESS
 	db 20 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/voltorb/front.dimensions"

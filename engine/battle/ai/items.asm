@@ -684,8 +684,10 @@ AI_Switch:
 	ld hl, wEnemyMonStatus
 	ld bc, MON_MAXHP - MON_STATUS
 	call CopyBytes
-	pop af
 
+	farcall SwitchOutAbility
+	
+	pop af
 	jr c, .skiptext
 	ld hl, EnemyWithdrewText
 	call PrintText

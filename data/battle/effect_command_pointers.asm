@@ -101,7 +101,7 @@ BattleCommandPointers:
 	dw BattleCommand_FuryCutter
 	dw BattleCommand_Unused5F
 	dw BattleCommand_HappinessPower
-	dw BattleCommand_Present
+	dw BattleCommand_Unused61
 	dw BattleCommand_DamageCalc
 	dw BattleCommand_Unused63
 	dw BattleCommand_Safeguard

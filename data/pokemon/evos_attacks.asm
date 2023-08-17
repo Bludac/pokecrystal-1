@@ -3682,7 +3682,6 @@ OctilleryEvosAttacks:
 
 DelibirdEvosAttacks:
 	db 0 ; no more evolutions
-	db 1, PRESENT
 	db 1, POWDER_SNOW
 	db 1, FAIRY_WIND
 	db 7, HAIL

@@ -8,7 +8,7 @@
 	db 64 ; base exp
 	db NO_ITEM, NO_ITEM ; items
 	db GENDER_F12_5 ; gender ratio
-	db THICK_FAT
+	db ARMOR_TAIL
 	db 20 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/chikorita/front.dimensions"

@@ -3,12 +3,12 @@
 	db 110,  85,  95,  50,  80,  95
 	;   hp  atk  def  spd  sat  sdf
 
-	db POISON, POISON ; type
+	db POISON, FIGHTING ; type
 	db 45 ; catch rate
 	db 127 ; base exp
 	db NO_ITEM, NO_ITEM ; items
 	db GENDER_F50 ; gender ratio
-	db NO_ABILITY
+	db POISON_TOUCH
 	db 20 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/lickitung/front.dimensions"

@@ -8,7 +8,7 @@
 	db 216 ; base exp
 	db NO_ITEM, NO_ITEM ; items
 	db GENDER_UNKNOWN ; gender ratio
-	db NO_ABILITY
+	db NO_GUARD
 	db 80 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/raikou/front.dimensions"

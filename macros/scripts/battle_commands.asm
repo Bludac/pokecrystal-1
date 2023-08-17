@@ -101,7 +101,7 @@ ENDM
 	command furycutter              ; 5e
 	command unused5f                ; 5f
 	command happinesspower          ; 60
-	command present                 ; 61
+	command unused61                ; 61
 	command damagecalc              ; 62
 	command unused63		        ; 63
 	command safeguard               ; 64

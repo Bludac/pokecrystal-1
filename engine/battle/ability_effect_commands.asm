@@ -259,7 +259,6 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     inc a
     ld [wAbsorbAbilityTrigger], a
     jp .absorbed
-    ret
 .waterabsorb
     cp WATER_ABSORB
     jr nz, .eartheater
@@ -271,7 +270,6 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     inc a
     ld [wAbsorbAbilityTrigger], a
     jp .absorbed
-    ret
 .eartheater
     cp EARTH_EATER
     jr nz, .dryskin
@@ -283,10 +281,9 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     inc a
     ld [wAbsorbAbilityTrigger], a
     jp .absorbed
-    ret
 .dryskin
     cp DRY_SKIN
-    ret nz
+    jr nz, .fluffy
     cp WATER
     jr nz, .fireweak
     xor a
@@ -295,7 +292,6 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     inc a
     ld [wAbsorbAbilityTrigger], a
     jp .absorbed
-    ret
 .fireweak
     cp FIRE
     ret nz
@@ -306,6 +302,10 @@ Resist_Immunity_AbilityCheck:        ; d is move type
     add MORE_EFFECTIVE
     ld [wTypeModifier], a
     ret
+.fluffy
+    cp FLUFFY
+    ret nz
+    jr .fireweak
 .immune
     inc a
 .absorbed
@@ -541,6 +541,29 @@ EnterBattleAbility:
 .sandstream
     call BattleCommand_StartSandstorm
 	ret
+
+SwitchOutAbility:
+    ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp REGENERATOR
+	jr nz, .naturalcure
+	farcall RegernatorHeal
+	ret
+.naturalcure
+	cp NATURAL_CURE
+	ret nz
+	ld a, BATTLE_VARS_STATUS
+	call GetBattleVar
+	cp PSN
+	ret c
+	xor a
+    ld a, [hBattleTurn]
+    and a
+    jr nz, .enemycure
+    ld [wBattleMonStatus], a
+.enemycure
+	ld [wEnemyMonStatus], a
+    ret
 
 DamageBoostingAbilities:
     db TOUGH_CLAWS

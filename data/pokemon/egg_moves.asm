@@ -324,7 +324,6 @@ RhyhornEggMoves:
 	db -1 ; end
 
 ChanseyEggMoves:
-	db PRESENT
 	db METRONOME
 	db HEAL_BELL
 	db -1 ; end
@@ -481,13 +480,11 @@ ChinchouEggMoves:
 
 PichuEggMoves:
 	db REVERSAL
-	db PRESENT
 	db ENCORE
 	db FURY_ATTACK
 	db -1 ; end
 
 CleffaEggMoves:
-	db PRESENT
 	db METRONOME
 	db AMNESIA
 	db BELLY_DRUM
@@ -495,12 +492,10 @@ CleffaEggMoves:
 
 IgglybuffEggMoves:
 	db PERISH_SONG
-	db PRESENT
 	db FAINT_ATTACK
 	db -1 ; end
 
 TogepiEggMoves:
-	db PRESENT
 	db PECK
 	db FORESIGHT
 	db FUTURE_SIGHT
@@ -525,7 +520,6 @@ MareepEggMoves:
 
 MarillEggMoves:
 	db LIGHT_SCREEN
-	db PRESENT
 	db AMNESIA
 	db FUTURE_SIGHT
 	db BELLY_DRUM
@@ -612,7 +606,6 @@ SnubbullEggMoves:
 	db METRONOME
 	db FAINT_ATTACK
 	db REFLECT
-	db PRESENT
 	db CRUNCH
 	db HEAL_BELL
 	db LICK
@@ -752,7 +745,6 @@ MagbyEggMoves:
 	db -1 ; end
 
 MiltankEggMoves:
-	db PRESENT
 	db REVERSAL
 	db SEISMIC_TOSS
 	db -1 ; end

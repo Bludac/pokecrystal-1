@@ -123,7 +123,7 @@ MoveEffectsPointers:
 	dw FuryCutter
 	dw NormalHit
 	dw Return
-	dw Present
+	dw NormalHit
 	dw NormalHit
 	dw Safeguard
 	dw SacredFire

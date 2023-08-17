@@ -1,14 +1,14 @@
 	db LEDYBA ; 165
 
-	db  50,  20,  40,  55,  55,  80
+	db  50,  55,  40,  55,  20,  80
 	;   hp  atk  def  spd  sat  sdf
 
-	db BUG, ELECTRIC ; type
+	db BUG, FLYING ; type
 	db 255 ; catch rate
 	db 54 ; base exp
 	db NO_ITEM, NO_ITEM ; items
 	db GENDER_F50 ; gender ratio
-	db NO_ABILITY
+	db IRON_FIST
 	db 15 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/ledyba/front.dimensions"

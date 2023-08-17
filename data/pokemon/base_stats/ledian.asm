@@ -1,14 +1,14 @@
 	db LEDIAN ; 166
 
-	db  70,  35,  50,  85,  85, 110
+	db  70,  85,  50,  85,  35, 110
 	;   hp  atk  def  spd  sat  sdf
 
-	db BUG, ELECTRIC ; type
+	db BUG, FLYING ; type
 	db 90 ; catch rate
 	db 134 ; base exp
 	db NO_ITEM, NO_ITEM ; items
 	db GENDER_F50 ; gender ratio
-	db NO_ABILITY
+	db IRON_FIST
 	db 15 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/ledian/front.dimensions"

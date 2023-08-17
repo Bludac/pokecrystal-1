@@ -940,7 +940,7 @@ Battle_PlayerFirst:
 
 	ld a, [wBattlePlayerAction]
 	cp BATTLEPLAYERACTION_SWITCH
-	jr nz, .noswitch									;if player and enemy switch, then enemy always switches first
+	jr nz, .noswitch		;if player and enemy switch, then enemy always switches first
 	call SetPlayerTurn
 	farcall EnterBattleAbility
 .noswitch
@@ -1025,6 +1025,13 @@ ResidualDamage:
 	call HasUserFainted
 	ret z
 
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp MAGIC_GUARD
+	jr nz, .noMagicGuard
+	and a
+	ret
+.noMagicGuard
 	ld a, BATTLE_VARS_STATUS
 	call GetBattleVar
 	and 1 << PSN | 1 << BRN | 1 << FRZ
@@ -1708,6 +1715,11 @@ HandleWeather:
 	call SetPlayerTurn
 
 .SandstormDamage:
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp MAGIC_GUARD
+	ret z
+
 	ld a, BATTLE_VARS_SUBSTATUS3
 	call GetBattleVar
 	bit SUBSTATUS_UNDERGROUND, a
@@ -1770,6 +1782,8 @@ HandleWeather:
 .HailDamage:
 	ld a, BATTLE_VARS_ABILITY
 	call GetBattleVar
+	cp MAGIC_GUARD
+	ret z
 	cp ICE_BODY
 	jr nz, .underground_check
 	call GetSixteenthMaxHP
@@ -3054,6 +3068,10 @@ SlideBattlePicOut:
 	ret
 
 ForceEnemySwitch:
+	call SwitchTurnCore
+	farcall SwitchOutAbility
+	call SwitchTurnCore
+
 	call ResetEnemyBattleVars
 	ld a, [wEnemySwitchMonIndex]
 	dec a
@@ -4037,6 +4055,8 @@ SpikesDamage:
 	ld a, BATTLE_VARS_ABILITY
 	call GetBattleVar
 	cp LEVITATE
+	ret z
+	cp MAGIC_GUARD
 	ret z
 
 	push bc
@@ -5118,6 +5138,8 @@ TryPlayerSwitch:
 	call CloseWindow
 	call GetMemSGBLayout
 	call SetPalettes
+
+	farcall SwitchOutAbility
 	ld a, [wCurPartyMon]
 	ld [wCurBattleMon], a
 PlayerSwitch:
@@ -8440,6 +8462,13 @@ BattleStartMessage:
 	ld c, $2 ; start
 	; farcall Mobile_PrintOpponentBattleMessage
 
+	ret
+
+RegernatorHeal:
+	call GetQuarterMaxHP
+	call SwitchTurnCore
+	call RestoreHP
+	call SwitchTurnCore
 	ret
 
 GetWeatherImage:

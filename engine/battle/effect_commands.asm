@@ -2456,7 +2456,7 @@ PlayerAttackDamage:
 	ld a, BATTLE_VARS_ABILITY
 	call GetBattleVar
 	cp GUTS
-	jr nz, .level
+	jr nz, .fluffy
 	ld a, BATTLE_VARS_STATUS
 	call GetBattleVar
 	cp PSN
@@ -2475,6 +2475,16 @@ PlayerAttackDamage:
 	srl a
 	add b
 	ld b, a
+	jr .level
+.fluffy
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp FLUFFY
+	jr nz, .level
+	xor a
+	add c
+	add c
+	ld c, a
 	jr .level
 .done
 	push hl
@@ -4907,229 +4917,14 @@ BattleCommand_Rampage:
 
 INCLUDE "engine/battle/move_effects/teleport.asm"
 
+INCLUDE "engine/battle/move_effects/roar.asm"
+
 SetBattleDraw:
 	ld a, [wBattleResult]
 	and BATTLERESULT_BITMASK
 	or DRAW
 	ld [wBattleResult], a
 	ret
-
-BattleCommand_ForceSwitch:
-	ld a, [wBattleType]
-	cp BATTLETYPE_SHINY
-	jp z, .fail
-	cp BATTLETYPE_TRAP
-	jp z, .fail
-	cp BATTLETYPE_SUICUNE
-	jp z, .fail
-	ldh a, [hBattleTurn]
-	and a
-	jp nz, .force_player_switch
-	ld a, [wAttackMissed]
-	and a
-	jr nz, .missed
-	ld a, [wBattleMode]
-	dec a
-	jr nz, .trainer
-	ld a, [wCurPartyLevel]
-	ld b, a
-	ld a, [wBattleMonLevel]
-	cp b
-	jr nc, .wild_force_flee
-	add b
-	ld c, a
-	inc c
-.random_loop_wild
-	call BattleRandom
-	cp c
-	jr nc, .random_loop_wild
-	srl b
-	srl b
-	cp b
-	jr nc, .wild_force_flee
-.missed
-	jp .fail
-
-.wild_force_flee
-	call UpdateBattleMonInParty
-	xor a
-	ld [wNumHits], a
-	inc a ; TRUE
-	ld [wForcedSwitch], a
-	call SetBattleDraw
-	ld a, [wPlayerMoveStructAnimation]
-	jp .succeed
-
-.trainer
-	call FindAliveEnemyMons
-	jr c, .switch_fail
-	ld a, [wEnemyGoesFirst]
-	and a
-	jr z, .switch_fail
-	call UpdateEnemyMonInParty
-	ld a, $1
-	ld [wBattleAnimParam], a
-	call AnimateCurrentMove
-	ld c, $14
-	call DelayFrames
-	hlcoord 1, 0
-	lb bc, 4, 10
-	call ClearBox
-	ld c, 20
-	call DelayFrames
-	ld a, [wOTPartyCount]
-	ld b, a
-	ld a, [wCurOTMon]
-	ld c, a
-; select a random enemy mon to switch to
-.random_loop_trainer
-	call BattleRandom
-	and $7
-	cp b
-	jr nc, .random_loop_trainer
-	cp c
-	jr z, .random_loop_trainer
-	push af
-	push bc
-	ld hl, wOTPartyMon1HP
-	call GetPartyLocation
-	ld a, [hli]
-	or [hl]
-	pop bc
-	pop de
-	jr z, .random_loop_trainer
-	ld a, d
-	inc a
-	ld [wEnemySwitchMonIndex], a
-	callfar ForceEnemySwitch
-
-	ld hl, DraggedOutText
-	call StdBattleTextbox
-
-	ld hl, SpikesDamage
-	call CallBattleCore
-	jp EnterBattleAbility
-
-.switch_fail
-	jp .fail
-
-.force_player_switch
-	ld a, [wAttackMissed]
-	and a
-	jr nz, .player_miss
-
-	ld a, [wBattleMode]
-	dec a
-	jr nz, .vs_trainer
-
-	ld a, [wBattleMonLevel]
-	ld b, a
-	ld a, [wCurPartyLevel]
-	cp b
-	jr nc, .wild_succeed_playeristarget
-
-	add b
-	ld c, a
-	inc c
-.wild_random_loop_playeristarget
-	call BattleRandom
-	cp c
-	jr nc, .wild_random_loop_playeristarget
-
-	srl b
-	srl b
-	cp b
-	jr nc, .wild_succeed_playeristarget
-
-.player_miss
-	jr .fail
-
-.wild_succeed_playeristarget
-	call UpdateBattleMonInParty
-	xor a
-	ld [wNumHits], a
-	inc a ; TRUE
-	ld [wForcedSwitch], a
-	call SetBattleDraw
-	ld a, [wEnemyMoveStructAnimation]
-	jr .succeed
-
-.vs_trainer
-	call CheckPlayerHasMonToSwitchTo
-	jr c, .fail
-
-	ld a, [wEnemyGoesFirst]
-	cp $1
-	jr z, .switch_fail
-
-	call UpdateBattleMonInParty
-	ld a, $1
-	ld [wBattleAnimParam], a
-	call AnimateCurrentMove
-	ld c, 20
-	call DelayFrames
-	hlcoord 9, 7
-	lb bc, 5, 11
-	call ClearBox
-	ld c, 20
-	call DelayFrames
-	ld a, [wPartyCount]
-	ld b, a
-	ld a, [wCurBattleMon]
-	ld c, a
-.random_loop_trainer_playeristarget
-	call BattleRandom
-	and $7
-	cp b
-	jr nc, .random_loop_trainer_playeristarget
-
-	cp c
-	jr z, .random_loop_trainer_playeristarget
-
-	push af
-	push bc
-	ld hl, wPartyMon1HP
-	call GetPartyLocation
-	ld a, [hli]
-	or [hl]
-	pop bc
-	pop de
-	jr z, .random_loop_trainer_playeristarget
-
-	ld a, d
-	ld [wCurPartyMon], a
-	ld hl, SwitchPlayerMon
-	call CallBattleCore
-
-	ld hl, DraggedOutText
-	call StdBattleTextbox
-
-	ld hl, SpikesDamage
-	call CallBattleCore
-	jp EnterBattleAbility
-
-.fail
-	call BattleCommand_LowerSub
-	call BattleCommand_MoveDelay
-	call BattleCommand_RaiseSub
-	jp PrintButItFailed
-
-.succeed
-	push af
-	call SetBattleDraw
-	ld a, $1
-	ld [wBattleAnimParam], a
-	call AnimateCurrentMove
-	ld c, 20
-	call DelayFrames
-	pop af
-
-	ld hl, FledInFearText
-	cp ROAR
-	jr z, .do_text
-	ld hl, BlownAwayText
-.do_text
-	jp StdBattleTextbox
 
 CheckPlayerHasMonToSwitchTo:
 	ld a, [wPartyCount]
@@ -5542,11 +5337,18 @@ INCLUDE "engine/battle/move_effects/mist.asm"
 INCLUDE "engine/battle/move_effects/focus_energy.asm"
 
 BattleCommand_Recoil:
+	ld a, BATTLE_VARS_MOVE_ANIM
+	call GetBattleVar
+	cp STRUGGLE
+	jr z, .skipAbilities
 	ld a, BATTLE_VARS_ABILITY
 	call GetBattleVar
 	cp ROCK_HEAD
 	ret z
-
+	cp MAGIC_GUARD
+	ret z
+.skipAbilities
+	
 	ld hl, wBattleMonMaxHP
 	ldh a, [hBattleTurn]
 	and a
@@ -6239,6 +6041,7 @@ BattleCommand_Unused26:
 BattleCommand_Unused46:
 BattleCommand_Unused52:
 BattleCommand_Unused5F:
+BattleCommand_Unused61:
 BattleCommand_Unused63:
 BattleCommand_Unused6a:
 BattleCommand_Unused6C:
@@ -6251,8 +6054,6 @@ BattleCommand_UnusedA8:
 INCLUDE "engine/battle/move_effects/fury_cutter.asm"
 
 INCLUDE "engine/battle/move_effects/return.asm"
-
-INCLUDE "engine/battle/move_effects/present.asm"
 
 INCLUDE "engine/battle/move_effects/safeguard.asm"
 

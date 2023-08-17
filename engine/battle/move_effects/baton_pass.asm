@@ -31,6 +31,7 @@ BattleCommand_BatonPass:
 	call GetSGBLayout
 	call SetPalettes
 
+	call SwitchOutAbility	
 	ld hl, PassedBattleMonEntrance
 	call CallBattleCore
 
@@ -50,6 +51,8 @@ BattleCommand_BatonPass:
 	call UpdateEnemyMonInParty
 	call AnimateCurrentMove
 
+	call SwitchOutAbility	
+	
 ; Passed enemy PartyMon entrance
 	xor a
 	ld [wEnemySwitchMonIndex], a
