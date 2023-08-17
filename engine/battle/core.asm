@@ -1113,11 +1113,23 @@ ResidualDamage:
 	call SubtractHPFromUser
 	ld a, $1
 	ldh [hBGMapMode], a
+
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp LIQUID_OOZE
+	jr nz, .restore
+	call SwitchTurnCore
+	call SubtractHPFromUser
+	call SwitchTurnCore
+	ld hl, LeechSeedOozeText
+	call StdBattleTextbox
+	jr .not_seeded
+.restore
 	call RestoreHP
 	ld hl, LeechSeedSapsText
 	call StdBattleTextbox
-.not_seeded
 
+.not_seeded
 	call HasUserFainted
 	jr z, .fainted
 
@@ -1662,12 +1674,12 @@ HandleWeather:
 	cp WEATHER_RAIN
 	jr nz, .check_sandstorm
 	call SetPlayerTurn
-	call .rain_dish
+	call .dryskin
 	call SetEnemyTurn
-.rain_dish
+.dryskin
 	ld a, BATTLE_VARS_ABILITY
 	call GetBattleVar
-	cp RAIN_DISH
+	cp DRY_SKIN
 	ret nz
 	call GetSixteenthMaxHP
 	call SwitchTurnCore

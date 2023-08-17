@@ -8,7 +8,7 @@
 	db 131 ; base exp
 	db NO_ITEM, KINGS_ROCK ; items
 	db GENDER_F50 ; gender ratio
-	db RAIN_DISH
+	db DRY_SKIN
 	db 20 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/poliwhirl/front.dimensions"

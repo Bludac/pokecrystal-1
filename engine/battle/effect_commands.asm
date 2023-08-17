@@ -838,6 +838,18 @@ BattleCommand_Critical:
 	xor a
 	inc a					; same as ld a, 1
 	ld [wCriticalHit], a
+	
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp VENOM
+	ret nz
+	ld a, BATTLE_VARS_STATUS_OPP
+	call GetBattleVar
+	cp PSN
+	ret nc
+    ld hl, VenomText
+	call StdBattleTextbox
+    call BattleCommand_PoisonTarget
 	ret
 
 INCLUDE "data/moves/critical_hit_moves.asm"
@@ -2219,6 +2231,12 @@ BattleCommand_CheckFaint:
 	call BattleCommand_RaiseSub
 
 .finish
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp MOXIE
+	jp nz, EndMoveEffect
+	call BattleCommand_AttackUp
+    call BattleCommand_StatUpMessage
 	jp EndMoveEffect
 
 BattleCommand_BuildOpponentRage:
@@ -2386,6 +2404,14 @@ PlayerAttackDamage:
 	ld a, [hli]
 	ld b, a
 	ld c, [hl]
+
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp SPECIAL_PUNCH
+	jr nz, .attack
+	ld hl, wPlayerSpAtk
+	jr .thickclub
+.attack
 	ld hl, wPlayerAttack
 	jr .thickclub
 
@@ -2420,15 +2446,43 @@ PlayerAttackDamage:
 
 .thickclub
 ; Note: Returns player attack at hl in hl.
+; physical and special truncates are handled differently due to guts
 	call ThickClubBoost
+	push hl
+	call DittoMetalPowder
+	pop hl
 
+	call TruncateHL_BC
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp GUTS
+	jr nz, .level
+	ld a, BATTLE_VARS_STATUS
+	call GetBattleVar
+	cp PSN
+	jr c, .level
+	cp SLP_MASK
+	jr nc, .level
+	cp BRN
+	jr nz, .otherstatus
+	ld a, b
+	add b
+	add b
+	ld b, a
+	jr .level
+.otherstatus
+	ld a, b
+	srl a
+	add b
+	ld b, a
+	jr .level
 .done
 	push hl
 	call DittoMetalPowder
 	pop hl
 
 	call TruncateHL_BC
-
+.level
 	ld a, [wBattleMonLevel]
 	ld e, a
 
@@ -2659,6 +2713,14 @@ EnemyAttackDamage:
 	ld a, [hli]
 	ld b, a
 	ld c, [hl]
+	
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp SPECIAL_PUNCH
+	jr nz, .attack
+	ld hl, wEnemySpAtk
+	jr .thickclub
+.attack
 	ld hl, wEnemyAttack
 	jr .thickclub
 
@@ -3203,7 +3265,7 @@ DoEnemyDamage:
 	ld b, a
 	ld a, [hl]
 	or b
-	jr z, .did_no_damage
+	jp z, .did_no_damage
 
 	ld a, c
 	and a
@@ -3213,6 +3275,30 @@ DoEnemyDamage:
 	jp nz, DoSubstituteDamage
 
 .ignore_substitute
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp MULTISCALE
+	jr nz, .fulldamage
+	push hl
+	ld hl, wEnemyMonMaxHP
+	ld de, wEnemyMonHP
+	ld c, 2
+	call CompareBytes
+	pop hl
+	jr nz, .fulldamage
+	ld a, [hl]
+	srl a
+	jr nc, .even
+	ld c, %10000000
+.even
+	ld [hl], a
+	inc hl
+	ld a, [hl]
+	srl a
+	add c
+	ld [hl], a
+
+.fulldamage
 	; Subtract wCurDamage from wEnemyMonHP.
 	;  store original HP in little endian wHPBuffer2
 	ld a, [hld]
@@ -3288,7 +3374,7 @@ DoPlayerDamage:
 	ld b, a
 	ld a, [hl]
 	or b
-	jr z, .did_no_damage
+	jp z, .did_no_damage
 
 	ld a, c
 	and a
@@ -3298,6 +3384,30 @@ DoPlayerDamage:
 	jp nz, DoSubstituteDamage
 .ignore_substitute
 
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp MULTISCALE
+	jr nz, .fulldamage
+	push hl
+	ld hl, wBattleMonMaxHP
+	ld de, wBattleMonHP
+	ld c, 2
+	call CompareBytes
+	pop hl
+	jr nz, .fulldamage
+	ld a, [hl]
+	srl a
+	jr nc, .even
+	ld c, %10000000
+.even
+	ld [hl], a
+	inc hl
+	ld a, [hl]
+	srl a
+	add c
+	ld [hl], a
+
+.fulldamage
 	; Subtract wCurDamage from wBattleMonHP.
 	;  store original HP in little endian wHPBuffer2
 	;  store new HP in little endian wHPBuffer3
@@ -3516,9 +3626,14 @@ BattleCommand_PoisonTarget:
 	call GetBattleVarAddr
 	and a
 	ret nz
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp CORROSION
+	jr z, .skiptypeimmunity
 	ld a, [wTypeModifier]
 	and $7f
 	ret z
+.skiptypeimmunity
 	ld a, BATTLE_VARS_ABILITY_OPP
 	call GetBattleVar
 	cp IMMUNITY
@@ -3547,11 +3662,17 @@ BattleCommand_PoisonTarget:
 	ret
 
 BattleCommand_Poison:
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp CORROSION
+	jr z, .skiptypeimmunity
+
 	ld hl, DoesntAffectText
 	ld a, [wTypeModifier]
 	and $7f
 	jp z, .failed
 
+.skiptypeimmunity
 	ld a, BATTLE_VARS_ABILITY_OPP
 	call GetBattleVar
 	cp IMMUNITY
@@ -3717,6 +3838,24 @@ SapHealth:
 	ldh [hDividend + 1], a
 .at_least_one
 
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp LIQUID_OOZE
+	jr nz, .no_ooze
+	ld hl, hDividend
+	ld a, [hli]
+	ld [wCurDamage], a
+	ld a, [hl]
+	ld [wCurDamage], a
+
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .enemyooze
+	jp DoPlayerDamage
+.enemyooze
+	jp DoEnemyDamage
+.no_ooze
+
 	ld hl, wBattleMonHP
 	ld de, wBattleMonMaxHP
 	ldh a, [hBattleTurn]
@@ -3725,7 +3864,6 @@ SapHealth:
 	ld hl, wEnemyMonHP
 	ld de, wEnemyMonMaxHP
 .battlemonhp
-
 	; Store current HP in little endian wHPBuffer2
 	ld bc, wHPBuffer2 + 1
 	ld a, [hli]
@@ -4093,6 +4231,14 @@ RaiseStat:
 	ret
 
 BattleCommand_AttackDown:
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp HYPER_CUTTER
+	jr nz, .proceed
+	ld a, 4
+	ld [wFailedMessage], a
+	ret
+.proceed
 	ld a, ATTACK
 	jr BattleCommand_StatDown
 
@@ -4121,6 +4267,14 @@ BattleCommand_EvasionDown:
 	jr BattleCommand_StatDown
 
 BattleCommand_AttackDown2:
+	ld a, BATTLE_VARS_ABILITY_OPP
+	call GetBattleVar
+	cp HYPER_CUTTER
+	jr nz, .proceed
+	ld a, 4
+	ld [wFailedMessage], a
+	ret
+.proceed
 	ld a, $10 | ATTACK
 	jr BattleCommand_StatDown
 
@@ -4396,6 +4550,10 @@ BattleCommand_StatDownFailText:
 	jp z, TryPrintButItFailed
 	dec a
 	ld hl, ProtectedByMistText
+	jp z, StdBattleTextbox
+	dec a
+	dec a
+	ld hl, HyperCutterText
 	jp z, StdBattleTextbox
 	ld a, [wLoweredStat]
 	and $f
@@ -6082,6 +6240,7 @@ BattleCommand_Unused46:
 BattleCommand_Unused52:
 BattleCommand_Unused5F:
 BattleCommand_Unused63:
+BattleCommand_Unused6a:
 BattleCommand_Unused6C:
 BattleCommand_Unused9D:
 BattleCommand_UnusedA1:
@@ -6133,81 +6292,6 @@ INCLUDE "engine/battle/move_effects/baton_pass.asm"
 INCLUDE "engine/battle/move_effects/pursuit.asm"
 
 INCLUDE "engine/battle/move_effects/rapid_spin.asm"
-
-BattleCommand_HealMorn:
-	ld b, MORN_F
-BattleCommand_TimeBasedHealContinue:
-; Time- and weather-sensitive heal.
-
-	ld hl, wBattleMonMaxHP
-	ld de, wBattleMonHP
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .start
-	ld hl, wEnemyMonMaxHP
-	ld de, wEnemyMonHP
-
-.start
-; Index for .Multipliers
-; Default restores half max HP.
-	ld c, 2
-
-; Don't bother healing if HP is already full.
-	push bc
-	call CompareBytes
-	pop bc
-	jr z, .Full
-
-; Don't factor in time of day
-.Weather:
-	ld a, [wBattleWeather]
-	and a
-	jr z, .Heal
-
-; x2 in sun
-; /2 in rain/sandstorm
-	inc c
-	cp WEATHER_SUN
-	jr z, .Heal
-	dec c
-	dec c
-
-.Heal:
-	ld b, 0
-	ld hl, .Multipliers
-	add hl, bc
-	add hl, bc
-
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	ld a, BANK(GetMaxHP)
-	rst FarCall
-
-	call AnimateCurrentMove
-	call BattleCommand_SwitchTurn
-
-	callfar RestoreHP
-
-	call BattleCommand_SwitchTurn
-	call UpdateUserInParty
-
-; 'regained health!'
-	ld hl, RegainedHealthText
-	jp StdBattleTextbox
-
-.Full:
-	call AnimateFailedMove
-
-; 'hp is full!'
-	ld hl, HPIsFullText
-	jp StdBattleTextbox
-
-.Multipliers:
-	dw GetEighthMaxHP
-	dw GetQuarterMaxHP
-	dw GetHalfMaxHP
-	dw GetMaxHP
 
 INCLUDE "engine/battle/move_effects/hidden_power.asm"
 

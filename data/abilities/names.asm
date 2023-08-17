@@ -33,7 +33,6 @@ AbilityNames::
 	li "SandStream"
 	li "Chlorophyl"
 	li "Swift Swim"
-	li "Rain Dish"
 	li "Dry Skin"
 	li "Wtr Absorb"
 	li "EarthEater"

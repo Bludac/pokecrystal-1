@@ -110,7 +110,7 @@ BattleCommandPointers:
 	dw BattleCommand_BatonPass
 	dw BattleCommand_Pursuit
 	dw BattleCommand_ClearHazards
-	dw BattleCommand_HealMorn
+	dw BattleCommand_Unused6a
 	dw BattleCommand_CloseCombat
 	dw BattleCommand_Unused6C
 	dw BattleCommand_HiddenPower

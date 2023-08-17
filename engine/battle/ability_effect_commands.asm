@@ -377,7 +377,7 @@ ContactHitAbilities:
     ret
 .flamebody
     cp FLAME_BODY
-    ret nz
+    jr nz, .icebody
     ld a, BATTLE_VARS_STATUS_OPP
     call GetBattleVar
     and a
@@ -389,6 +389,22 @@ ContactHitAbilities:
     ld hl, FlameBodyText
 	call StdBattleTextbox
     call BattleCommand_BurnTarget
+    call BattleCommand_SwitchTurn
+    ret
+.icebody
+    cp ICE_BODY
+    ret nz
+    ld a, BATTLE_VARS_STATUS_OPP
+    call GetBattleVar
+    and a
+    ret nz
+    call BattleRandom
+    call ThirtyPercentCheck
+    ret nc
+    call BattleCommand_SwitchTurn
+    ld hl, FlameBodyText
+	call StdBattleTextbox
+    call BattleCommand_FreezeTarget
     call BattleCommand_SwitchTurn
     ret
 
@@ -416,27 +432,19 @@ ThirtyPercentCheck:
 
 SturdyEffect:
     ;check to see if pkmn is at max hp
-    call BattleCommand_SwitchTurn
-    ld hl, GetMaxHP
-    call CallBattleCore
-    call BattleCommand_SwitchTurn
-    ld hl, wEnemyMonHP
+    ld hl, wBattleMonMaxHP
+	ld de, wBattleMonHP
 	ldh a, [hBattleTurn]
 	and a
-	jr z, .got_hp
-	ld hl, wBattleMonHP
-.got_hp
-    ;this perfroms hl-bc and will set the carry flag unless they return zero
-    ;since currentHP cannot be greater than maxHP
-    ld a, l
-	sub c
-	ld l, a
-	ld a, h
-	sbc b
-	ld h, a
-    ret c
-    ;give them the endure substatus if we get this far
+	jr nz, .start
+	ld hl, wEnemyMonMaxHP
+	ld de, wEnemyMonHP
+.start
     push bc
+    ld c, 2
+    call CompareBytes
+    ret nz
+    ;give them the endure substatus if we get this far
     ldh a, [hBattleTurn]
 	and a
     jr z, .enemy_substatus

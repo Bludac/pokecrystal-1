@@ -110,7 +110,7 @@ ENDM
 	command batonpass               ; 67
 	command pursuit                 ; 68
 	command clearhazards            ; 69
-	command healmorn                ; 6a
+	command unused6a                ; 6a
 	command closecombat             ; 6b healday
 	command unused6c                ; 6c healnite
 	command hiddenpower             ; 6d

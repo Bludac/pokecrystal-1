@@ -133,7 +133,7 @@ MoveEffectsPointers:
 	dw RapidSpin
 	dw NormalHit
 	dw NormalHit
-	dw MorningSun
+	dw NormalHit
 	dw NormalHit
 	dw NormalHit
 	dw HiddenPower

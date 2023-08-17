@@ -1624,12 +1624,6 @@ RapidSpin:
 	kingsrock
 	endmove
 
-MorningSun:	
-	usedmovetext
-	doturn
-	healmorn
-	endmove
-
 HiddenPower:	
 	usedmovetext
 	doturn

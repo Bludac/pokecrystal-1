@@ -32,7 +32,6 @@
 	const SAND_STREAM
 	const CHLOROPHYLL
 	const SWIFT_SWIM
-	const RAIN_DISH
 	const DRY_SKIN
 	const WATER_ABSORB
 	const EARTH_EATER

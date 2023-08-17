@@ -1178,3 +1178,18 @@ BattleText_Panic:
 	text "<USER>"
 	line "is in a Panic!"
 	done
+
+LeechSeedOozeText:
+	text "LEECH SEED saps"
+	line "Liquid Ooze"
+	prompt
+
+HyperCutterText:
+	text "<TARGET>'s"
+	line "has Hyper Cutter."
+	prompt
+
+VenomText:
+	text "<TARGET>'s"
+	line "been PSN by Venom"
+	prompt

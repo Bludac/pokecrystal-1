@@ -361,7 +361,6 @@ AI_Smart_EffectHandlers:
 	dbw EFFECT_BATON_PASS,       AI_Smart_BatonPass
 	dbw EFFECT_PURSUIT,          AI_Smart_Pursuit
 	dbw EFFECT_RAPID_SPIN,       AI_Smart_RapidSpin
-	dbw EFFECT_MORNING_SUN,      AI_Smart_MorningSun
 	dbw EFFECT_HIDDEN_POWER,     AI_Smart_HiddenPower
 	dbw EFFECT_RAIN_DANCE,       AI_Smart_RainDance
 	dbw EFFECT_SUNNY_DAY,        AI_Smart_SunnyDay
@@ -873,7 +872,6 @@ AI_Smart_ForceSwitch:
 	ret
 
 AI_Smart_Heal:
-AI_Smart_MorningSun:
 ; 90% chance to greatly encourage this move if enemy's HP is below 25%.
 ; Discourage this move if enemy's HP is higher than 50%.
 ; Do nothing otherwise.
@@ -1047,24 +1045,24 @@ AI_Smart_SpDefenseUp2:
 
 ; 80% chance to greatly encourage this move if
 ; enemy's Special Defense level is lower than +2,
-; and the player's Pokémon is Special-oriented.
+; and the player's Pokï¿½mon is Special-oriented.
 	cp BASE_STAT_LEVEL + 2
 	ret nc
 
 	push hl
-; Get the pointer for the player's Pokémon's base Attack
+; Get the pointer for the player's Pokï¿½mon's base Attack
 	ld a, [wBattleMonSpecies]
 	ld hl, BaseData + BASE_ATK
 	ld bc, BASE_DATA_SIZE
 	call AddNTimes
-; Get the Pokémon's base Attack
+; Get the Pokï¿½mon's base Attack
 	ld a, BANK(BaseData)
 	call GetFarByte
 	ld d, a
-; Get the pointer for the player's Pokémon's base Special Attack
+; Get the pointer for the player's Pokï¿½mon's base Special Attack
 	ld bc, BASE_SAT - BASE_ATK
 	add hl, bc
-; Get the Pokémon's base Special Attack
+; Get the Pokï¿½mon's base Special Attack
 	ld a, BANK(BaseData)
 	call GetFarByte
 	pop hl
