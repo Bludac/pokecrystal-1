@@ -1552,6 +1552,7 @@ Return:
 Safeguard:	
 	usedmovetext
 	doturn
+	mist
 	safeguard
 	endmove
 

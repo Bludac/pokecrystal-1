@@ -1,92 +1,65 @@
 BattleCommand_Teleport:
-	ld a, [wBattleType]
-	cp BATTLETYPE_SHINY
-	jr z, .failed
-	cp BATTLETYPE_TRAP
-	jr z, .failed
-	cp BATTLETYPE_SUICUNE
-	jr z, .failed
-
-	ld a, BATTLE_VARS_SUBSTATUS5_OPP
-	call GetBattleVar
-	bit SUBSTATUS_CANT_RUN, a
-	jr nz, .failed
 	ldh a, [hBattleTurn]
 	and a
-	jr nz, .enemy_turn
+	jp nz, .Enemy
 
-	; Can't teleport from a trainer battle
-	ld a, [wBattleMode]
-	dec a
-	jr nz, .failed
-	; b = player level
-	ld a, [wCurPartyLevel]
-	ld b, a
-	; If player level >= enemy level, Teleport will succeed
-	ld a, [wBattleMonLevel]
-	cp b
-	jr nc, .run_away
-	; c = player level + enemy level + 1
-	add b
-	ld c, a
-	inc c
-	; Generate a number less than c
-.loop_player
-	call BattleRandom
-	cp c
-	jr nc, .loop_player
-	; b = enemy level / 4
-	srl b
-	srl b
-	; If the random number >= enemy level / 4, Teleport will succeed
-	cp b
-	jr nc, .run_away
+; Need something to switch to
+	call CheckAnyOtherAlivePartyMons
+	jp z, FailedBatonPass
 
-.failed
-	call AnimateFailedMove
-	jp PrintButItFailed
-
-.enemy_turn
-	; Can't teleport from a trainer battle
-	ld a, [wBattleMode]
-	dec a
-	jr nz, .failed
-	; b = enemy level
-	ld a, [wBattleMonLevel]
-	ld b, a
-	; If enemy level >= player level, Teleport will succeed
-	ld a, [wCurPartyLevel]
-	cp b
-	jr nc, .run_away
-	; c = enemy level + player level + 1
-	add b
-	ld c, a
-	inc c
-	; Generate a number less than c
-.loop_enemy
-; If a random number >= player level / 4, Teleport will succeed
-	call BattleRandom
-	cp c
-	jr nc, .loop_enemy
-	; b = player level / 4
-	srl b
-	srl b
-	cp b
-	jr c, .failed
-
-.run_away
 	call UpdateBattleMonInParty
-	xor a
-	ld [wNumHits], a
-	inc a
-	ld [wForcedSwitch], a
-	ld [wBattleAnimParam], a
-	call SetBattleDraw
-	call BattleCommand_LowerSub
-	call LoadMoveAnim
-	ld c, 20
-	call DelayFrames
-	call SetBattleDraw
+	call AnimateCurrentMove
 
-	ld hl, FledFromBattleText
-	jp StdBattleTextbox
+	ld c, 50
+	call DelayFrames
+
+; Transition into switchmon menu
+	call LoadStandardMenuHeader
+	farcall SetUpBattlePartyMenu
+
+	farcall ForcePickSwitchMonInBattle
+
+; Return to battle scene
+	call ClearPalettes
+	farcall _LoadBattleFontsHPBar
+	call CloseWindow
+	call ClearSprites
+	hlcoord 1, 0
+	lb bc, 4, 10
+	call ClearBox
+	ld b, SCGB_BATTLE_COLORS
+	call GetSGBLayout
+	call SetPalettes
+
+	call SwitchOutAbility	
+	ld hl, PassedBattleMonEntrance
+	call CallBattleCore
+	call EnterBattleAbility
+	ret
+
+.Enemy:
+; Wildmons don't have anything to switch to
+	ld a, [wBattleMode]
+	dec a ; WILDMON
+	jp z, FailedBatonPass
+
+	call CheckAnyOtherAliveEnemyMons
+	jp z, FailedBatonPass
+
+	call UpdateEnemyMonInParty
+	call AnimateCurrentMove
+
+	call SwitchOutAbility	
+	
+; Passed enemy PartyMon entrance
+	xor a
+	ld [wEnemySwitchMonIndex], a
+	ld hl, EnemySwitch_SetMode
+	call CallBattleCore
+	ld hl, ResetBattleParticipants
+	call CallBattleCore
+
+	ld hl, SpikesDamage
+	call CallBattleCore
+	call EnterBattleAbility
+	ret
