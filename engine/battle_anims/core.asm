@@ -262,15 +262,6 @@ InitBattleAnimBuffer:
 	or a
 	jr nz, .no_sub
 	ld a, [wFXAnimID]
-	cp SOFTBOILED
-	jr z, .do_sub
-	cp MILK_DRINK
-	jr nz, .no_sub
-.do_sub
-	pop af
-	sub 1 * 8
-	jr .done
-
 .no_sub
 	pop af
 .done

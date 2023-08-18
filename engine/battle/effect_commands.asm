@@ -2501,7 +2501,9 @@ PlayerAttackDamage:
 	ret
 
 INCLUDE "engine/battle/ability_effect_commands.asm"
+
 INCLUDE "engine/battle/ten_percent.asm"
+
 INCLUDE "data/abilities/ability_moves.asm"
 
 TruncateHL_BC:
@@ -3213,8 +3215,6 @@ INCLUDE "engine/battle/move_effects/pain_split.asm"
 
 INCLUDE "engine/battle/move_effects/snore.asm"
 
-INCLUDE "engine/battle/move_effects/lock_on.asm"
-
 BattleCommand_DefrostOpponent:
 ; Thaw the opponent if frozen, and
 ; raise the user's Attack one stage.
@@ -3243,8 +3243,6 @@ BattleCommand_DefrostOpponent:
 INCLUDE "engine/battle/move_effects/sleep_talk.asm"
 
 INCLUDE "engine/battle/move_effects/destiny_bond.asm"
-
-INCLUDE "engine/battle/move_effects/spite.asm"
 
 INCLUDE "engine/battle/move_effects/heal_bell.asm"
 
@@ -5183,11 +5181,6 @@ BattleCommand_Charge:
 	call GetBattleVarAddr
 	set SUBSTATUS_CHARGED, [hl]
 
-	ld hl, IgnoredOrders2Text
-	ld a, [wAlreadyDisobeyed]
-	and a
-	call nz, StdBattleTextbox
-
 	call BattleCommand_LowerSub
 	xor a
 	ld [wNumHits], a
@@ -5265,10 +5258,6 @@ BattleCommand_Charge:
 
 .BattleTookSunlightText:
 	text_far _BattleTookSunlightText
-	text_end
-
-.BattleGlowingText:
-	text_far _BattleGlowingText
 	text_end
 
 .BattleFlewText:
@@ -5846,6 +5835,8 @@ BattleCommand_Screen:
 	jr .good
 
 .Reflect:
+	cp EFFECT_REFLECT
+	jr nz, .StrongWinds
 	bit SCREENS_REFLECT, [hl]
 	jr nz, .failed
 	set SCREENS_REFLECT, [hl]
@@ -5856,6 +5847,21 @@ BattleCommand_Screen:
 	ld a, 5
 	ld [bc], a
 	ld hl, ReflectEffectText
+	jr .good
+
+.StrongWinds
+	bit SCREENS_TAILWIND, [hl]
+	ret nz
+	set SCREENS_TAILWIND, [hl]
+
+	; LightScreenCount -> ReflectCount -> TailwindCount
+	inc bc
+	inc bc
+
+	ld a, 5
+	ld [bc], a
+	ld hl, TailwindEffectText
+	jp StdBattleTextbox
 
 .good
 	call AnimateCurrentMove
@@ -5912,6 +5918,8 @@ CheckSubstituteOpp:
 INCLUDE "engine/battle/move_effects/selfdestruct.asm"
 
 INCLUDE "engine/battle/move_effects/metronome.asm"
+
+INCLUDE "engine/battle/move_effects/strong_winds.asm"
 
 CheckUserMove:
 ; Return z if the user has move a.
@@ -6028,6 +6036,8 @@ INCLUDE "engine/battle/move_effects/spikes.asm"
 
 INCLUDE "engine/battle/move_effects/toxic_spikes.asm"
 
+INCLUDE "engine/battle/move_effects/stealth_rock.asm"
+
 INCLUDE "engine/battle/move_effects/foresight.asm"
 
 INCLUDE "engine/battle/move_effects/perish_song.asm"
@@ -6038,7 +6048,9 @@ INCLUDE "engine/battle/move_effects/rollout.asm"
 
 BattleCommand_Unused02:
 BattleCommand_Unused26:
+BattleCommand_Unused45:
 BattleCommand_Unused46:
+BattleCommand_Unused4A:
 BattleCommand_Unused52:
 BattleCommand_Unused5F:
 BattleCommand_Unused61:

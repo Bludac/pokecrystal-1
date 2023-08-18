@@ -521,11 +521,13 @@ wPlayerMinimized:: db
 wPlayerScreens::
 ; bit
 ; 0 spikes
-; 1
+; 1 toxic spikes
 ; 2 safeguard
 ; 3 light screen
 ; 4 reflect
-; 5-7 unused
+; 5 stealth rock
+; 6 tailwind
+; 7 unused
 	db
 
 wEnemyScreens::
@@ -535,12 +537,12 @@ wEnemyScreens::
 wPlayerSafeguardCount:: db
 wPlayerLightScreenCount:: db
 wPlayerReflectCount:: db
-	ds 1
+wPlayerTailwindCount:: db
 
 wEnemySafeguardCount:: db
 wEnemyLightScreenCount:: db
 wEnemyReflectCount:: db
-	ds 1
+wEnemyTailwindCount:: db
 
 	ds 1
 

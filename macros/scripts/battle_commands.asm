@@ -6,7 +6,7 @@ ENDM
 ; BattleCommandPointers indexes (see data/battle/effect_command_pointers.asm)
 	const_def 1
 	command checkturn               ; 01
-	command unused02	            ; 02
+	command stealthrock	            ; 02
 	command usedmovetext            ; 03
 	command doturn                  ; 04
 	command critical                ; 05
@@ -42,7 +42,7 @@ ENDM
 	command forceswitch             ; 23
 	command endloop                 ; 24
 	command flinchtarget            ; 25
-	command unused26                ; 26
+	command strongwinds             ; 26
 	command recoil                  ; 27
 	command mist                    ; 28
 	command focusenergy             ; 29
@@ -73,12 +73,12 @@ ENDM
 	command painsplit               ; 42
 	command snore                   ; 43
 	command toxicspikes	            ; 44
-	command lockon                  ; 45
+	command unused45                ; 45
 	command unused46                ; 46
 	command defrostopponent         ; 47
 	command sleeptalk               ; 48
 	command destinybond             ; 49
-	command spite                   ; 4a
+	command unused4a                ; 4a
 	command bulkup	                ; 4b
 	command healbell                ; 4c
 	command kingsrock               ; 4d
@@ -165,14 +165,14 @@ ENDM
 	command skipsuncharge           ; 9e
 	command thunderaccuracy         ; 9f
 	command teleport                ; a0
-	command beatup                  ; a1
+	command unuseda1                ; a1
 	command ragedamage              ; a2
 	command resettypematchup        ; a3
 	command allstatsup              ; a4
 	command unuseda5	            ; a5
 	command raisesubnoanim          ; a6
 	command lowersubnoanim          ; a7
-	command beatupfailtext          ; a8
+	command unuseda8	            ; a8
 	command clearmissdamage         ; a9
 	command movedelay               ; aa
 	command moveanim                ; ab

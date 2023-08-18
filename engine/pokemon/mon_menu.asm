@@ -135,8 +135,6 @@ PokemonActionSubmenu:
 	dbw MONMENUITEM_WHIRLPOOL,  MonMenu_Whirlpool
 	dbw MONMENUITEM_DIG,        MonMenu_Dig
 	dbw MONMENUITEM_TELEPORT,   MonMenu_Teleport
-	dbw MONMENUITEM_SOFTBOILED, MonMenu_Softboiled_MilkDrink
-	dbw MONMENUITEM_MILKDRINK,  MonMenu_Softboiled_MilkDrink
 	dbw MONMENUITEM_HEADBUTT,   MonMenu_Headbutt
 	dbw MONMENUITEM_WATERFALL,  MonMenu_Waterfall
 	dbw MONMENUITEM_ROCKSMASH,  MonMenu_RockSmash
@@ -710,47 +708,6 @@ MonMenu_Dig:
 
 .Fail:
 	ld a, $3
-	ret
-
-MonMenu_Softboiled_MilkDrink:
-	call .CheckMonHasEnoughHP
-	jr nc, .NotEnoughHP
-	farcall Softboiled_MilkDrinkFunction
-	jr .finish
-
-.NotEnoughHP:
-	ld hl, .PokemonNotEnoughHPText
-	call PrintText
-
-.finish
-	xor a
-	ld [wPartyMenuActionText], a
-	ld a, $3
-	ret
-
-.PokemonNotEnoughHPText:
-	text_far _PokemonNotEnoughHPText
-	text_end
-
-.CheckMonHasEnoughHP:
-; Need to have at least (MaxHP / 5) HP left.
-	ld a, MON_MAXHP
-	call GetPartyParamLocation
-	ld a, [hli]
-	ldh [hDividend + 0], a
-	ld a, [hl]
-	ldh [hDividend + 1], a
-	ld a, 5
-	ldh [hDivisor], a
-	ld b, 2
-	call Divide
-	ld a, MON_HP + 1
-	call GetPartyParamLocation
-	ldh a, [hQuotient + 3]
-	sub [hl]
-	dec hl
-	ldh a, [hQuotient + 2]
-	sbc [hl]
 	ret
 
 MonMenu_Headbutt:

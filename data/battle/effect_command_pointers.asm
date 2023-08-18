@@ -6,7 +6,7 @@ BattleCommandPointers:
 ; entries correspond to macros/scripts/battle_commands.asm
 	table_width 2, BattleCommandPointers
 	dw BattleCommand_CheckTurn
-	dw BattleCommand_Unused02
+	dw BattleCommand_StealthRock
 	dw BattleCommand_UsedMoveText
 	dw BattleCommand_DoTurn
 	dw BattleCommand_Critical
@@ -42,7 +42,7 @@ BattleCommandPointers:
 	dw BattleCommand_ForceSwitch
 	dw BattleCommand_EndLoop
 	dw BattleCommand_FlinchTarget
-	dw BattleCommand_Unused26
+	dw BattleCommand_StrongWinds
 	dw BattleCommand_Recoil
 	dw BattleCommand_Mist
 	dw BattleCommand_FocusEnergy
@@ -73,12 +73,12 @@ BattleCommandPointers:
 	dw BattleCommand_PainSplit
 	dw BattleCommand_Snore
 	dw BattleCommand_ToxicSpikes
-	dw BattleCommand_LockOn
+	dw BattleCommand_Unused45
 	dw BattleCommand_Unused46
 	dw BattleCommand_DefrostOpponent
 	dw BattleCommand_SleepTalk
 	dw BattleCommand_DestinyBond
-	dw BattleCommand_Spite
+	dw BattleCommand_Unused4A
 	dw BattleCommand_BulkUp
 	dw BattleCommand_HealBell
 	dw BattleCommand_HeldFlinch

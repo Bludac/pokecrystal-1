@@ -1193,3 +1193,37 @@ VenomText:
 	text "<TARGET>'s"
 	line "been PSN by Venom"
 	prompt
+
+StealthRockText:
+	text "Stealth Rocks"
+	line "surround"
+	cont "<TARGET>!"
+	prompt
+
+StealthRockRemovedText:
+	text "<USER>"
+	line "smashed the"
+	cont "Stealth Rocks."
+	prompt
+
+BattleText_UserHurtByRocks:
+	text "<USER>'s"
+	line "hurt by ROCKS!"
+	prompt
+
+BattleText_MonsTailwindFaded:
+	text_ram wStringBuffer1
+	text " #MON's"
+	line "TAILWIND faded!"
+	prompt
+
+TailwindEffectText:
+	text "<USER>'s"
+	line "SPEED rose!"
+	prompt
+
+StrongWindsText:
+	text "A Strong Wind"
+	line "is blown in."
+	done
+	

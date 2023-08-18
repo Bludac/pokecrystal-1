@@ -23,7 +23,7 @@ MoveDescriptions::
 	dw DragonDanceDescription
 	dw AquaJetDescription
 	dw VineWhipDescription
-	dw StompDescription
+	dw StoneShardsDescription
 	dw DoubleKickDescription
 	dw OminousWindDescription
 	dw AirCutterDescription
@@ -135,7 +135,7 @@ MoveDescriptions::
 	dw MagnetBombDescription
 	dw AmnesiaDescription
 	dw ScorchdSandDescription
-	dw SoftboiledDescription
+	dw SpiritBombDescription
 	dw HiJumpKickDescription
 	dw GlareDescription
 	dw DreamEaterDescription
@@ -180,7 +180,7 @@ MoveDescriptions::
 	dw AeroblastDescription
 	dw EarthPowerDescription
 	dw ReversalDescription
-	dw SpiteDescription
+	dw SteelBeamDescription
 	dw PowderSnowDescription
 	dw ProtectDescription
 	dw MachPunchDescription
@@ -199,7 +199,7 @@ MoveDescriptions::
 	dw IcyWindDescription
 	dw DetectDescription
 	dw StruggleBugDescription
-	dw LockOnDescription
+	dw MeteorBeamDescription
 	dw OutrageDescription
 	dw SandstormDescription
 	dw GigaDrainDescription
@@ -208,7 +208,7 @@ MoveDescriptions::
 	dw RolloutDescription
 	dw BulkUpDescription
 	dw SwaggerDescription
-	dw MilkDrinkDescription
+	dw StrongWindsDescription
 	dw SparkDescription
 	dw FuryCutterDescription
 	dw SteelWingDescription
@@ -217,7 +217,7 @@ MoveDescriptions::
 	dw SleepTalkDescription
 	dw HealBellDescription
 	dw ReturnDescription
-	dw PresentDescription
+	dw StealthRockDescription
 	dw FrustrationDescription
 	dw SafeguardDescription
 	dw PainSplitDescription
@@ -233,8 +233,8 @@ MoveDescriptions::
 	dw SweetScentDescription
 	dw IronTailDescription
 	dw MetalClawDescription
-	dw VitalThrowDescription
-	dw MorningSunDescription
+	dw DesafioDescription
+	dw IronHeadDescription
 	dw PsyAntlersDescription
 	dw DrainKissDescription
 	dw HiddenPowerDescription
@@ -251,7 +251,7 @@ MoveDescriptions::
 	dw FutureSightDescription
 	dw RockSmashDescription
 	dw WhirlpoolDescription
-	dw BeatUpDescription
+	dw ToxicSpikesDescription
 	dw HailDescription
 	dw WoodHammerDescription
 	dw MoonblastDescription
@@ -352,9 +352,9 @@ VineWhipDescription:
 	db   "Whips the foe with"
 	next "slender vines.@"
 
-StompDescription:
+StoneShardsDescription:
 	db   "An attack that may"
-	next "cause flinching.@"
+	next "lower SPCL.DEF.@"
 
 DoubleKickDescription:
 	db   "A double kicking"
@@ -800,9 +800,9 @@ ScorchdSandDescription:
 	db   "An attack that may"
 	next "cause a burn.@"
 
-SoftboiledDescription:
-	db   "Restores HP by 1/2"
-	next "the user's max HP.@"
+SpiritBombDescription:
+	db   "Set up Safeguard"
+	next "2nd turn: Attack@"
 
 HiJumpKickDescription:
 	db   "May miss and hurt"
@@ -980,9 +980,9 @@ ReversalDescription:
 	db   "Stronger if the"
 	next "user's HP is low.@"
 
-SpiteDescription:
-	db   "Cuts the PP of the"
-	next "foe's last move.@"
+SteelBeamDescription:
+	db   "A blast that also"
+	next "hurts the user.@"
 
 PowderSnowDescription:
 	db   "An attack that may"
@@ -1026,7 +1026,7 @@ PowerGemDescription:
 
 SpikesDescription:
 	db   "Hurts foes when"
-	next "they switch out.@"
+	next "they switch in.@"
 
 ZapCannonDescription:
 	db   "An attack that"
@@ -1056,9 +1056,9 @@ StruggleBugDescription:
 	db   "An attack that"
 	next "lowers SPCL.ATK.@"
 
-LockOnDescription:
-	db   "Ensures the next"
-	next "attack will hit.@"
+MeteorBeamDescription:
+	db   "Charge SpAtk then"
+	next "2nd turn: Attack@"
 
 OutrageDescription:
 	db   "Works 2-3 turns"
@@ -1092,9 +1092,9 @@ SwaggerDescription:
 	db   "Raises the users"
 	next "ATK. and SPATK.@"
 
-MilkDrinkDescription:
-	db   "Restores HP by 1/2"
-	next "the max HP.@"
+StrongWindsDescription:
+	db   "Clear hazards and"
+	next "weather. Tailwind.@"
 
 SparkDescription:
 	db   "An attack that may"
@@ -1128,9 +1128,9 @@ ReturnDescription:
 	db   "An attack that is"
 	next "based on loyalty.@"
 
-PresentDescription:
-	db   "A bomb that may"
-	next "restore HP.@"
+StealthRockDescription:
+	db   "Hurts foes when"
+	next "they switch in.@"
 
 FrustrationDescription:
 	db   "An attack that"
@@ -1186,19 +1186,19 @@ SweetScentDescription:
 
 IronTailDescription:
 	db   "An attack that may"
-	next "make foe flinch.@"
+	next "lower DEF.@"
 
 MetalClawDescription:
 	db   "An attack that may"
 	next "up user's ATTACK.@"
 
-VitalThrowDescription:
-	db   "A 2nd-strike move"
-	next "that never misses.@"
+DesafioDescription:
+	db   "Raises crit chance"
+	next "& clears hazards.@"
 
-MorningSunDescription:
-	db   "Restores HP"
-	next "(varies by time).@"
+IronHeadDescription:
+	db   "An attack that may"
+	next "make foe flinch.@"
 
 PsyAntlersDescription:
 	db   "An attack that"
@@ -1230,7 +1230,7 @@ SunnyDayDescription:
 
 CrunchDescription:
 	db   "An attack that may"
-	next "lower SPCL.DEF.@"
+	next "lower DEF.@"
 
 MirrorCoatDescription:
 	db   "Counters a SPCL."
@@ -1264,9 +1264,9 @@ WhirlpoolDescription:
 	db   "Traps the foe for"
 	next "2-5 turns.@"
 
-BeatUpDescription:
-	db   "Party #MON join"
-	next "in the attack.@"
+ToxicSpikesDescription:
+	db   "PSNs foes when"
+	next "they switch in.@"
 
 HailDescription:
 	db   "Inflicts damage"

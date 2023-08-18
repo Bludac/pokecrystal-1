@@ -58,7 +58,6 @@ SpearowEggMoves:
 EkansEggMoves:
 	db PURSUIT
 	db BODY_SLAM
-	db SPITE
 	db CRUNCH
 	db -1 ; end
 
@@ -92,7 +91,6 @@ VulpixEggMoves:
 	db FAINT_ATTACK
 	db HYPNOSIS
 	db REVERSAL
-	db SPITE
 	db DISABLE
 	db -1 ; end
 
@@ -107,7 +105,6 @@ OddishEggMoves:
 	db SWORDS_DANCE
 	db RAZOR_LEAF
 	db REVERSAL
-	db MORNING_SUN
 	db -1 ; end
 
 ParasEggMoves:
@@ -133,7 +130,6 @@ DiglettEggMoves:
 	db -1 ; end
 
 MeowthEggMoves:
-	db SPITE
 	db CHARM
 	db HYPNOSIS
 	db AMNESIA
@@ -190,7 +186,6 @@ BellsproutEggMoves:
 	db SWORDS_DANCE
 	db ENCORE
 	db REFLECT
-	db MORNING_SUN
 	db LEECH_LIFE
 	db -1 ; end
 
@@ -220,7 +215,6 @@ SlowpokeEggMoves:
 	db SAFEGUARD
 	db BELLY_DRUM
 	db FUTURE_SIGHT
-	db STOMP
 	db -1 ; end
 
 FarfetchDEggMoves:
@@ -285,7 +279,6 @@ KrabbyEggMoves:
 	db -1 ; end
 
 ExeggcuteEggMoves:
-	db MORNING_SUN
 	db REFLECT
 	db MEGA_DRAIN
 	db ANCIENTPOWER
@@ -337,7 +330,6 @@ TangelaEggMoves:
 	db -1 ; end
 
 KangaskhanEggMoves:
-	db STOMP
 	db FORESIGHT
 	db FOCUS_ENERGY
 	db SAFEGUARD
@@ -547,7 +539,6 @@ AipomEggMoves:
 	db SCREECH
 	db PURSUIT
 	db AGILITY
-	db SPITE
 	db BODY_SLAM
 	db FURY_ATTACK
 	db -1 ; end
@@ -630,7 +621,6 @@ HeracrossEggMoves:
 
 SneaselEggMoves:
 	db COUNTER
-	db SPITE
 	db FORESIGHT
 	db REFLECT
 	db BITE
@@ -698,7 +688,6 @@ HoundourEggMoves:
 	db POUND
 	db PURSUIT
 	db COUNTER
-	db SPITE
 	db REVERSAL
 	db -1 ; end
 
@@ -711,7 +700,6 @@ PhanpyEggMoves:
 
 StantlerEggMoves:
 	db REFLECT
-	db SPITE
 	db DISABLE
 	db LIGHT_SCREEN
 	db BITE
@@ -751,7 +739,6 @@ MiltankEggMoves:
 
 LarvitarEggMoves:
 	db PURSUIT
-	db STOMP
 	db OUTRAGE
 	db FOCUS_ENERGY
 	db ANCIENTPOWER

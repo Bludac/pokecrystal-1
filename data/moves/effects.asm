@@ -928,10 +928,46 @@ RecoilHit:
 	kingsrock
 	endmove
 
+FlareBlitz:	
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	effectchance
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	recoil
+	checkfaint
+	buildopponentrage
+	burntarget
+	kingsrock
+	endmove
+
 Mist:	
 	usedmovetext
 	doturn
 	mist
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
 	endmove
 
 FocusEnergy:	
@@ -1286,14 +1322,6 @@ Snore:
 	checkfaint
 	buildopponentrage
 	flinchtarget
-	kingsrock
-	endmove
-
-LockOn:	
-	usedmovetext
-	doturn
-	checkhit
-	lockon
 	endmove
 
 DefrostOpponent:	
@@ -1312,13 +1340,6 @@ DestinyBond:
 	usedmovetext
 	doturn
 	destinybond
-	endmove
-
-Spite:	
-	usedmovetext
-	doturn
-	checkhit
-	spite
 	endmove
 
 HealBell:	
@@ -1378,7 +1399,22 @@ Thief:
 MeanLook:	
 	usedmovetext
 	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	effectchance
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
 	arenatrap
+	buildopponentrage
+	kingsrock
 	endmove
 
 FlameWheel:	
@@ -1425,6 +1461,12 @@ ToxicSpikes:
 	usedmovetext
 	doturn
 	toxicspikes
+	endmove
+
+StealthRock:	
+	usedmovetext
+	doturn
+	stealthrock
 	endmove
 
 Foresight:	
@@ -1604,6 +1646,18 @@ RapidSpin:
 	kingsrock
 	endmove
 
+Desafio:
+	usedmovetext
+	doturn
+	clearhazards
+	attackup
+	lowersub
+	statupanim
+	raisesub
+	statupmessage
+	statupfailtext
+	endmove
+
 HiddenPower:	
 	usedmovetext
 	doturn
@@ -1767,6 +1821,53 @@ Solarbeam:
 	kingsrock
 	endmove
 
+MeteorBeam:
+	checkcharge	
+	doturn
+	specialattackup
+	statupmessage
+	charge
+	usedmovetext
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	moveanimnosub
+	raisesub
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
+	endmove
+
+SpiritBomb:
+	checkcharge	
+	doturn
+	safeguard
+	charge
+	usedmovetext
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	moveanimnosub
+	raisesub
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	buildopponentrage
+	kingsrock
+	endmove
+
 Thunder:	
 	usedmovetext
 	doturn
@@ -1795,32 +1896,6 @@ Teleport:
 	teleport
 	endmove
 
-BeatUp:	
-	usedmovetext
-	movedelay
-	doturn
-	startloop
-	lowersub
-	checkhit
-	critical
-	beatup
-	damagecalc
-	damagevariation
-	clearmissdamage
-	moveanimnosub
-	failuretext
-	applydamage
-	criticaltext
-	cleartext
-	supereffectivetext
-	checkfaint
-	buildopponentrage
-	kingsrock
-	endloop
-	beatupfailtext
-	raisesub
-	endmove
-
 DefenseCurl:	
 	usedmovetext
 	doturn
@@ -1837,4 +1912,12 @@ Hail:
 	usedmovetext
 	doturn
 	starthail
+	endmove
+
+StrongWinds:
+	usedmovetext
+	doturn
+	screen
+	strongwinds
+	clearhazards
 	endmove

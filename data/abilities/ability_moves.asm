@@ -7,7 +7,6 @@ ContactMoves:
 	db WING_ATTACK
 	db FLY
 	db VINE_WHIP
-	db STOMP
 	db DOUBLE_KICK
 	db HEADBUTT
 	db FURY_ATTACK
@@ -49,7 +48,7 @@ ContactMoves:
 	db RAPID_SPIN
 	db IRON_TAIL
 	db METAL_CLAW
-	db VITAL_THROW
+	db IRON_HEAD
 	db CRUNCH
 	db ROCK_SMASH
 	db DRAGON_CLAW
@@ -87,7 +86,6 @@ ContactMoves:
 	db EXTREMESPEED
 	db -1
 	
-
 PunchMoves:
 	db POUND		;non canon
 	db FIRE_PUNCH
@@ -113,7 +111,7 @@ LauncherMoves:
 	db SEED_BOMB	;non canon
 	db TRI_ATTACK	;non canon
 	db VACUUM_WAVE	;non canon
-	db DRAGONBREATH
+	db DRAGONBREATH ;reminder this is dragon pulse
 	db SHADOW_BALL	;non canon
 	db MOONBLAST	;non canon
 	db -1

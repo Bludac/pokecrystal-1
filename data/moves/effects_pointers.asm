@@ -95,23 +95,23 @@ MoveEffectsPointers:
 	dw PainSplit
 	dw Snore
 	dw ToxicSpikes
-	dw LockOn
-	dw NormalHit
+	dw MeteorBeam
+	dw StealthRock
 	dw DefrostOpponent
 	dw SleepTalk
 	dw DestinyBond
 	dw Reversal
-	dw Spite
+	dw NormalHit
 	dw NormalHit
 	dw HealBell
 	dw NormalHit
 	dw TripleKick
 	dw Thief
 	dw MeanLook
-	dw NormalHit
+	dw FlareBlitz
 	dw FlameWheel
 	dw Curse
-	dw NormalHit
+	dw Desafio
 	dw Protect
 	dw Spikes
 	dw Foresight
@@ -121,9 +121,9 @@ MoveEffectsPointers:
 	dw Rollout
 	dw WorkUp
 	dw FuryCutter
-	dw NormalHit
+	dw SpiritBomb
 	dw Return
-	dw NormalHit
+	dw StrongWinds
 	dw NormalHit
 	dw Safeguard
 	dw SacredFire
@@ -155,7 +155,7 @@ MoveEffectsPointers:
 	dw Solarbeam
 	dw Thunder
 	dw Teleport
-	dw BeatUp
+	dw NormalHit
 	dw Fly
 	dw DefenseCurl
 	dw FreezeHit ; for Blizzard, purposefully with different EFFECT_* constant

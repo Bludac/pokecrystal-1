@@ -28,7 +28,7 @@
 	const DRAGON_DANCE ; 14 BIND
 	const AQUA_JET     ; 15 SLAM
 	const VINE_WHIP    ; 16
-	const STOMP        ; 17
+	const STONE_SHARDS ; 17 STOMP
 	const DOUBLE_KICK  ; 18
 	const OMINOUS_WIND ; 19 MEGA_KICK
 	const AIR_CUTTER   ; 1a JUMP_KICK
@@ -140,7 +140,7 @@
 	const MAGNET_BOMB  ; 84 CONSTRICT
 	const AMNESIA      ; 85
 	const SCORCHD_SAND ; 86 KINESIS
-	const SOFTBOILED   ; 87
+	const SPIRIT_BOMB  ; 87 SOFTBOILED
 	const HI_JUMP_KICK ; 88
 	const GLARE        ; 89
 	const DREAM_EATER  ; 8a
@@ -185,7 +185,7 @@
 	const AEROBLAST    ; b1
 	const EARTH_POWER  ; b2 COTTON_SPORE
 	const REVERSAL     ; b3
-	const SPITE        ; b4
+	const STEEL_BEAM   ; b4 SPITE
 	const POWDER_SNOW  ; b5
 	const PROTECT      ; b6
 	const MACH_PUNCH   ; b7
@@ -204,7 +204,7 @@
 	const ICY_WIND     ; c4
 	const DETECT       ; c5
 	const STRUGGLE_BUG ; c6 BONE_RUSH
-	const LOCK_ON      ; c7
+	const METEOR_BEAM  ; c7 LOCK_ON
 	const OUTRAGE      ; c8
 	const SANDSTORM    ; c9
 	const GIGA_DRAIN   ; ca
@@ -213,7 +213,7 @@
 	const ROLLOUT      ; cd
 	const BULK_UP	   ; ce FALSE_SWIPE
 	const SWAGGER      ; cf works like Work Up
-	const MILK_DRINK   ; d0
+	const STRONG_WINDS ; d0 MILK_DRINK
 	const SPARK        ; d1
 	const FURY_CUTTER  ; d2
 	const STEEL_WING   ; d3
@@ -222,7 +222,7 @@
 	const SLEEP_TALK   ; d6
 	const HEAL_BELL    ; d7
 	const RETURN       ; d8
-	const PRESENT      ; d9
+	const STEALTH_ROCK ; d9 PRESENT
 	const FRUSTRATION  ; da works like Spirt Break
 	const SAFEGUARD    ; db
 	const PAIN_SPLIT   ; dc
@@ -236,10 +236,10 @@
 	const PURSUIT      ; e4
 	const RAPID_SPIN   ; e5
 	const SWEET_SCENT  ; e6
-	const IRON_TAIL    ; e7 works like Iron Head now
+	const IRON_TAIL    ; e7 110bp, 85acc
 	const METAL_CLAW   ; e8
-	const VITAL_THROW  ; e9
-	const MORNING_SUN  ; ea
+	const DESAFIO	   ; e9 VITAL_THROW
+	const IRON_HEAD    ; ea MORNING_SUN
 	const PSY_ANTLERS  ; eb SYNTHESIS
 	const DRAIN_KISS   ; ec MOONLIGHT
 	const HIDDEN_POWER ; ed

@@ -11,5 +11,4 @@ SunnyDayMoves:
 	db FIRE_BLAST
 	db FLAME_WHEEL
 	db SACRED_FIRE
-	db MORNING_SUN
 	db -1 ; end

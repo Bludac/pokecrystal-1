@@ -227,7 +227,9 @@ DEF ALL_STATUS EQU (1 << PSN) | (1 << BRN) | (1 << FRZ) | (1 << PAR) | SLP_MASK
 	const SCREENS_SAFEGUARD
 	const SCREENS_LIGHT_SCREEN
 	const SCREENS_REFLECT
-	;room for 3 more here before other measures would be necessary
+	const SCREENS_STEALTH_ROCK
+	const SCREENS_TAILWIND
+	;room for 1 more here before other measures would be necessary
 
 ; values in wBattleWeather
 	const_def

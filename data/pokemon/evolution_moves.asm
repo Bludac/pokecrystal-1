@@ -30,7 +30,7 @@ EvolutionMoves::
 	db SLASH        ; SANDSLASH
 	db NO_MOVE      ; NIDORAN_F
 	db NO_MOVE      ; NIDORINA
-	db MILK_DRINK   ; NIDOQUEEN
+	db BODY_SLAM    ; NIDOQUEEN
 	db NO_MOVE      ; NIDORAN_M
 	db NO_MOVE      ; NIDORINO
 	db EARTHQUAKE   ; NIDOKING
@@ -102,7 +102,7 @@ EvolutionMoves::
 	db NO_MOVE      ; VOLTORB
 	db CHLOROBLAST  ; ELECTRODE
 	db NO_MOVE      ; EXEGGCUTE
-	db STOMP        ; EXEGGUTOR
+	db HEADBUTT     ; EXEGGUTOR
 	db NO_MOVE      ; CUBONE
 	db SWORDS_DANCE ; MAROWAK
 	db DOUBLE_KICK  ; HITMONLEE

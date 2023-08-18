@@ -776,12 +776,6 @@ GetMovePriority:
 ; Return the priority (0-3) of move a.
 
 	ld b, a
-
-	; Vital Throw goes last.
-	cp VITAL_THROW
-	ld a, 0
-	ret z
-
 	call GetMoveEffect
 	ld hl, MoveEffectPriorities
 .loop
@@ -1621,6 +1615,8 @@ HandleScreens:
 	call nz, .LightScreenTick
 	bit SCREENS_REFLECT, [hl]
 	call nz, .ReflectTick
+	bit SCREENS_TAILWIND, [hl]
+	call nz, .TailwindTick
 	ret
 
 .Copy:
@@ -1651,9 +1647,21 @@ HandleScreens:
 	ld a, [de]
 	dec a
 	ld [de], a
+	dec de
 	ret nz
 	res SCREENS_REFLECT, [hl]
 	ld hl, BattleText_MonsReflectFaded
+	jp StdBattleTextbox
+
+.TailwindTick:
+	inc de
+	inc de
+	ld a, [de]
+	dec a
+	ld [de], a
+	ret nz
+	res SCREENS_TAILWIND, [hl]
+	ld hl, BattleText_MonsTailwindFaded
 	jp StdBattleTextbox
 
 HandleWeather:
@@ -4041,6 +4049,62 @@ SpikesDamage:
 	ld bc, UpdateEnemyHUD
 .ok
 
+	bit SCREENS_STEALTH_ROCK, [hl]
+	jr z, .spikes
+
+	ld a, [de]
+	cp FLYING
+	jr z, .double
+	inc de
+	ld a, [de]
+	cp FLYING
+	jr z, .double
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp LEVITATE
+	jr z, .double
+
+	ld a, [de]
+	cp ROCK
+	jr z, .smash_rocks
+	inc de
+	ld a, [de]
+	cp ROCK
+	jr z, .smash_rocks
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp ROCK_HEAD
+	jr z, .smash_rocks
+
+	push bc
+	ld hl, BattleText_UserHurtByRocks ; "hurt by SPIKES!"
+	call StdBattleTextbox
+	call GetSixteenthMaxHP
+	call SubtractHPFromTarget
+	pop hl
+	call .hl
+	call WaitBGMap
+	jr .spikes
+
+.smash_rocks
+	res SCREENS_STEALTH_ROCK, [hl]
+	push hl
+	ld hl, StealthRockRemovedText
+	call StdBattleTextbox
+	pop hl
+	ret
+
+.double
+	push bc
+	ld hl, BattleText_UserHurtBySpikes ; "hurt by SPIKES!"
+	call StdBattleTextbox
+	call GetEighthMaxHP
+	call SubtractHPFromTarget
+	pop hl
+	call .hl
+	call WaitBGMap
+
+.spikes
 	bit SCREENS_SPIKES, [hl]
 	jr z, .toxic_spikes
 
@@ -4091,22 +4155,20 @@ SpikesDamage:
 	;this should remove toxic spikes if the pokemon is a grounded poison type
 	ld a, [de]
 	cp POISON
-	res SCREENS_TOXIC_SPIKES, [hl]
-	push hl
-	ld hl, ToxicSpikesRemovedText
-	call StdBattleTextbox
-	pop hl
-	ret z
+	jr z, .remove_toxic_spikes
 	inc de
 	ld a, [de]
 	cp POISON
+	jr nz, .spikes_poison
+.remove_toxic_spikes
 	res SCREENS_TOXIC_SPIKES, [hl]
 	push hl
 	ld hl, ToxicSpikesRemovedText
 	call StdBattleTextbox
 	pop hl
-	ret z
+	ret
 
+.spikes_poison
 	;we should only get here if the pokemon is grounded and not poison
 	;don't want any confusing text if the pokemon has a status already
 	push bc
@@ -4114,9 +4176,13 @@ SpikesDamage:
 	call GetBattleVar
 	cp 0
 	ret nz
+	push af
+	farcall BattleCommand_PoisonTarget
+	pop af
+	cp PSN
+	ret nz
 	ld hl, BattleText_PoisonedBySpikes
 	call StdBattleTextbox
-	farcall BattleCommand_PoisonTarget
 	pop hl
 	call .hl
 	jp WaitBGMap
