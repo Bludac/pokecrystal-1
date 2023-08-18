@@ -78,7 +78,7 @@ HandlePoisonHeal:   ;eigthmaxhp stored in bc
 .overflow
     jp UpdateHPBarBattleHuds
 
-HandleBetweenTurnAbilities:
+HandleBetweenTurnAbilitiesItems:
 	ld a, [wEnemyGoesFirst]
 	jr z, .DoEnemyFirst
 	call SetPlayerTurn
@@ -91,6 +91,49 @@ HandleBetweenTurnAbilities:
 	call .do_it
 	call SetPlayerTurn
 .do_it
+
+	callfar GetUserItem
+	ld a, b
+	cp HELD_PSN
+	jr nz, .flameorb
+	ld a, BATTLE_VARS_STATUS
+	cp PSN
+	jr c, .abilities
+	ld a, [hBattleTurn]
+	and a
+	push af
+	ld a, PSN
+	ld de, ANIM_PSN
+	ld hl, BattleText_ToxicOrb
+	call StdBattleTextbox
+	call UpdateBattleHUDs
+	call Call_PlayBattleAnim_OnlyIfVisible
+	pop af
+	jr nz, .enemyorb
+.playerorb
+	ld [wBattleMonStatus], a
+	jr .abilities
+.flameorb
+	cp HELD_BRN
+	jr nz, .abilities
+	ld a, BATTLE_VARS_STATUS
+	cp PSN
+	jr c, .abilities
+	ld a, [hBattleTurn]
+	and a
+	push af
+	ld a, BRN
+	ld de, ANIM_BRN
+	ld hl, BattleText_FlameOrb
+	call StdBattleTextbox
+	call UpdateBattleHUDs
+	call Call_PlayBattleAnim_OnlyIfVisible
+	pop af
+	jr z, .playerorb
+.enemyorb
+	ld [wEnemyMonStatus], a
+
+.abilities
 	ld a, BATTLE_VARS_ABILITY
 	call GetBattleVar
 	cp SPEED_BOOST

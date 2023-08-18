@@ -145,16 +145,16 @@ ItemDescriptions:
 	dw EscapeDesc
 	dw MetalCoatDesc
 	dw DragonFangDesc
-	dw TeruSama14Desc
+	dw ToxicOrbDesc
 	dw LeftoversDesc
-	dw TeruSama15Desc
-	dw TeruSama16Desc
-	dw TeruSama17Desc
+	dw FlameOrbDesc
+	dw HeatRockDesc
+	dw DampRockDesc
 	dw MysteryBerryDesc
 	dw DragonScaleDesc
 	dw BerserkGeneDesc
-	dw TeruSama18Desc
-	dw TeruSama19Desc
+	dw SmoothRockDesc
+	dw IcyRockDesc
 	dw TeruSama20Desc
 	dw SacredAshDesc
 	dw HeavyBallDesc
@@ -826,21 +826,25 @@ DragonFangDesc:
 	db   "Powers up dragon-"
 	next "type moves. (HOLD)@"
 
-TeruSama14Desc:
-	db   "?@"
+ToxicOrbDesc:
+	db   "Badly poisons the"
+	next "holder. (HOLD)@"
 
 LeftoversDesc:
 	db   "Restores HP during"
 	next "battle. (HOLD)@"
 
-TeruSama15Desc:
-	db   "?@"
+FlameOrbDesc:
+	db   "Burns the"
+	next "holder. (HOLD)@"
 
-TeruSama16Desc:
-	db   "?@"
+HeatRockDesc:
+	db   "2 extra sun turns"
+	next "when held. (HOLD)@"
 
-TeruSama17Desc:
-	db   "?@"
+DampRockDesc:
+	db   "2 extra rain turns"
+	next "when held. (HOLD)@"
 
 MysteryBerryDesc:
 	db   "A self-restore"
@@ -854,11 +858,13 @@ BerserkGeneDesc:
 	db   "Boosts ATTACK but"
 	next "causes confusion.@"
 
-TeruSama18Desc:
-	db   "?@"
+SmoothRockDesc:
+	db   "2 more sand turns"
+	next "when held. (HOLD)@"
 
-TeruSama19Desc:
-	db   "?@"
+IcyRockDesc:
+	db   "2 extra hail turns"
+	next "when held. (HOLD)@"
 
 TeruSama20Desc:
 	db   "?@"

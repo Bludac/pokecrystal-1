@@ -245,13 +245,13 @@ HandleBetweenTurnEffects:
 	call HalfHPAbility		;called before leftovers in case the above put the pokemon below half
 	call HandleLeftovers
 	call ResidualDamage
-	call HalfHPAbility		;called twice since damage is taken down here sometimes
+	call HalfHPAbility		;called twice since we want a check after residual damage
 	call HandleMysteryberry
 	call HandleSafeguard
 	call HandleScreens
 	call HandleStatBoostingHeldItems
 	call HandleHealingItems
-	call HandleBetweenTurnAbilities
+	call HandleBetweenTurnAbilitiesItems
 	call UpdateBattleMonInParty
 	call LoadTilemapToTempTilemap
 	jp HandleEncore

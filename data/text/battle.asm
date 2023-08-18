@@ -1227,3 +1227,14 @@ StrongWindsText:
 	line "is blown in."
 	done
 	
+BattleText_ToxicOrb:
+	text "<USER>"
+	line "was PSN by their"
+	cont "Toxic Orb.@"
+	done
+
+BattleText_FlameOrb:
+	text "<USER>"
+	line "was BRN by their"
+	cont "Flame Orb.@"
+	done

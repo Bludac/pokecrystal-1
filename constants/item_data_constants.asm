@@ -73,11 +73,12 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_BERRY
 	const HELD_2
 	const HELD_LEFTOVERS
-	const_skip
+	const HELD_PSN
 	const HELD_5
 	const HELD_RESTORE_PP
-	const_skip
+	const HELD_BRN
 	const HELD_CLEANSE_TAG
+	const HELD_DAMP_ROCK
 
 	const_next 10
 	const HELD_HEAL_POISON
@@ -87,6 +88,9 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_HEAL_PARALYZE
 	const HELD_HEAL_STATUS
 	const HELD_HEAL_CONFUSION
+	const HELD_HEAT_ROCK
+	const HELD_SMOOTH_ROCK
+	const HELD_ICY_ROCK
 
 	const_next 20
 	const HELD_PREVENT_POISON
