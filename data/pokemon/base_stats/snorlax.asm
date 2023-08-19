@@ -8,7 +8,7 @@
 	db 154 ; base exp
 	db LEFTOVERS, LEFTOVERS ; items
 	db GENDER_F12_5 ; gender ratio
-	db NO_ABILITY
+	db IMMUNITY
 	db 40 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/snorlax/front.dimensions"

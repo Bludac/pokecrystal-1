@@ -8,7 +8,7 @@
 	db 65 ; base exp
 	db NO_ITEM, NO_ITEM ; items
 	db GENDER_F12_5 ; gender ratio
-	db NO_ABILITY
+	db FLAME_BODY
 	db 20 ; step cycles to hatch
 	db 5 ; unknown 2
 	INCBIN "gfx/pokemon/cyndaquil/front.dimensions"
