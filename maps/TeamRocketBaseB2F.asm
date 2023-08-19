@@ -286,6 +286,7 @@ RocketBaseElectrodeScript:
 	writetext RocketBaseLanceElectrodeDoneText
 	promptbutton
 	verbosegiveitem HM_WHIRLPOOL
+	verbosegiveitem GLIDE
 	setevent EVENT_GOT_HM06_WHIRLPOOL
 	writetext RocketBaseLanceWhirlpoolText
 	waitbutton

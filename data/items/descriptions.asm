@@ -155,14 +155,14 @@ ItemDescriptions:
 	dw BerserkGeneDesc
 	dw SmoothRockDesc
 	dw IcyRockDesc
-	dw TeruSama20Desc
+	dw PunchGloveDesc
 	dw SacredAshDesc
 	dw HeavyBallDesc
 	dw FlowerMailDesc
 	dw LevelBallDesc
 	dw LureBallDesc
 	dw FastBallDesc
-	dw TeruSama21Desc
+	dw SteelBootsDesc
 	dw LightBallDesc
 	dw FriendBallDesc
 	dw MoonBallDesc
@@ -171,15 +171,15 @@ ItemDescriptions:
 	dw GorgeousBoxDesc
 	dw SunStoneDesc
 	dw PolkadotBowDesc
-	dw TeruSama22Desc
+	dw RockyHelmetDesc
 	dw UpGradeDesc
 	dw BerryDesc
 	dw GoldBerryDesc
 	dw SquirtBottleDesc
-	dw TeruSama23Desc
+	dw MuscleBandDesc
 	dw ParkBallDesc
 	dw RainbowWingDesc
-	dw TeruSama24Desc
+	dw WiseGlassesDesc
 	dw BrickPieceDesc
 	dw SurfMailDesc
 	dw LiteBlueMailDesc
@@ -866,8 +866,9 @@ IcyRockDesc:
 	db   "2 extra hail turns"
 	next "when held. (HOLD)@"
 
-TeruSama20Desc:
-	db   "?@"
+PunchGloveDesc:
+	db   "Prevents contact &"
+	next "boost Punch.(HOLD)@"
 
 SacredAshDesc:
 	db   "Fully revives all"
@@ -893,8 +894,9 @@ FastBallDesc:
 	db   "A BALL for catch-"
 	next "ing fast #MON.@"
 
-TeruSama21Desc:
-	db   "?@"
+SteelBootsDesc:
+	db   "Prevents hazard"
+	next "effects. (HOLD)@"
 
 LightBallDesc:
 	db   "An odd, electrical"
@@ -928,8 +930,9 @@ PolkadotBowDesc:
 	db   "Powers up fairy-"
 	next "type moves. (HOLD)@"
 
-TeruSama22Desc:
-	db   "?@"
+RockyHelmetDesc:
+	db   "Hurts attacker who"
+	next "make contact(HOLD)@"
 
 UpGradeDesc:
 	db   "Evolve Lv35 PORY-"
@@ -947,8 +950,9 @@ SquirtBottleDesc:
 	db   "A bottle used for"
 	next "watering plants.@"
 
-TeruSama23Desc:
-	db   "?@"
+MuscleBandDesc:
+	db   "Powers up physical"
+	text "type moves. (HOLD)@"
 
 ParkBallDesc:
 	db   "The Bug-Catching"
@@ -958,8 +962,9 @@ RainbowWingDesc:
 	db   "A mystical feather"
 	next "of rainbow colors.@"
 
-TeruSama24Desc:
-	db   "?@"
+WiseGlassesDesc:
+	db   "Powers up special"
+	text "type moves. (HOLD)@"
 
 BrickPieceDesc:
 	db   "A rare chunk of"

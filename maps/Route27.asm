@@ -40,6 +40,7 @@ FirstStepIntoKantoScene_Continue:
 	writetext Route27FisherText
 	waitbutton
 	closetext
+	verbosegiveitem JETS
 	setscene SCENE_ROUTE27_NOOP
 	end
 

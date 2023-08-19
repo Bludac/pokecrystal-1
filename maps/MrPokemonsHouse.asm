@@ -72,7 +72,7 @@ MrPokemonsHouse_MrPokemonScript:
 	writetext MrPokemonText_GimmeTheScale
 	yesorno
 	iffalse .refused
-	verbosegiveitem EXP_SHARE
+	verbosegiveitem MASTER_BALL
 	iffalse .full
 	takeitem RED_SCALE
 	sjump .AlwaysNewDiscoveries
@@ -268,10 +268,6 @@ MrPokemonIntroText3:
 	para "They gave me that"
 	line "EGG."
 
-	para "I was intrigued,"
-	line "so I sent mail to"
-	cont "PROF.ELM."
-
 	para "For #MON evolu-"
 	line "tion, PROF.ELM is"
 	cont "the authority."
@@ -341,46 +337,6 @@ MrPokemonsHouse_OakText1:
 	text "OAK: Aha! So"
 	line "you're <PLAY_G>!"
 
-	para "I'm OAK! A #MON"
-	line "researcher."
-
-	para "I was just visit-"
-	line "ing my old friend"
-	cont "MR.#MON."
-
-	para "I heard you were"
-	line "running an errand"
-
-	para "for PROF.ELM, so I"
-	line "waited here."
-
-	para "Oh! What's this?"
-	line "A rare #MON!"
-
-	para "Let's see…"
-
-	para "Hm, I see!"
-
-	para "I understand why"
-	line "PROF.ELM gave you"
-
-	para "a #MON for this"
-	line "errand."
-
-	para "To researchers"
-	line "like PROF.ELM and"
-
-	para "I, #MON are our"
-	line "friends."
-
-	para "He saw that you"
-	line "would treat your"
-
-	para "#MON with love"
-	line "and care."
-
-	para "…Ah!"
-
 	para "You seem to be"
 	line "dependable."
 
@@ -396,9 +352,6 @@ MrPokemonsHouse_OakText1:
 
 	para "#MON you've"
 	line "seen or caught."
-
-	para "It's a hi-tech"
-	line "encyclopedia!"
 	done
 
 MrPokemonsHouse_GetDexText:
@@ -450,9 +403,6 @@ MrPokemonsHouse_OakText2:
 	para "complete that"
 	line "#DEX!"
 
-	para "But I've stayed"
-	line "too long."
-
 	para "I have to get to"
 	line "GOLDENROD for my"
 	cont "usual radio show."
@@ -473,7 +423,7 @@ MrPokemonText_GimmeTheScale:
 	line "care to trade it?"
 
 	para "I can offer this"
-	line "EXP.SHARE I got"
+	line "MASTER BALL I got"
 	cont "from PROF.OAK."
 	done
 
@@ -486,9 +436,6 @@ MrPokemonText_Disappointed:
 MrPokemonsHouse_ForeignMagazinesText:
 	text "It's packed with"
 	line "foreign magazines."
-
-	para "Can't even read"
-	line "their titles…"
 	done
 
 MrPokemonsHouse_BrokenComputerText:
@@ -500,9 +447,6 @@ MrPokemonsHouse_BrokenComputerText:
 MrPokemonsHouse_StrangeCoinsText:
 	text "A whole pile of"
 	line "strange coins!"
-
-	para "Maybe they're from"
-	line "another country…"
 	done
 
 MrPokemonsHouse_MapEvents:

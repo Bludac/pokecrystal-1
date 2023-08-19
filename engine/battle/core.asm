@@ -4038,6 +4038,11 @@ BreakAttraction:
 	ret
 
 SpikesDamage:
+	farcall GetUserItem
+	ld a, b
+	cp HELD_PREVENT_SPIKES
+	ret z
+
 	ld hl, wPlayerScreens
 	ld de, wBattleMonType
 	ld bc, UpdatePlayerHUD

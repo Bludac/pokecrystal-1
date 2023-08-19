@@ -1705,12 +1705,6 @@ BellyDrum:
 	bellydrum
 	endmove
 
-PsychUp:	
-	usedmovetext
-	doturn
-	psychup
-	endmove
-
 MirrorCoat:	
 	usedmovetext
 	doturn

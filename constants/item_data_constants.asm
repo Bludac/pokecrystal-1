@@ -78,7 +78,7 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_RESTORE_PP
 	const HELD_BRN
 	const HELD_CLEANSE_TAG
-	const HELD_DAMP_ROCK
+	const HELD_DAMP_ROCK		;10 full
 
 	const_next 10
 	const HELD_HEAL_POISON
@@ -90,7 +90,7 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_HEAL_CONFUSION
 	const HELD_HEAT_ROCK
 	const HELD_SMOOTH_ROCK
-	const HELD_ICY_ROCK
+	const HELD_ICY_ROCK			;20 full
 
 	const_next 20
 	const HELD_PREVENT_POISON
@@ -98,7 +98,9 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_PREVENT_FREEZE
 	const HELD_PREVENT_SLEEP
 	const HELD_PREVENT_PARALYZE
-	const HELD_PREVENT_CONFUSE
+	const HELD_PREVENT_CONFUSE	;26
+	const HELD_PREVENT_CONTACT	;27
+	const HELD_PREVENT_SPIKES	;28
 
 	const_next 30
 	const HELD_30
@@ -109,12 +111,13 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_SP_DEFENSE_UP
 	const HELD_ACCURACY_UP
 	const HELD_EVASION_UP
-	const HELD_38
+	const HELD_38				;38
+	const HELD_ROUGH_SKIN		;39
 
 	const_next 40
-	const_skip
-	const_skip
-	const HELD_METAL_POWDER
+	const HELD_SPECIAL_BOOST
+	const HELD_PHYSICAL_BOOST
+	const HELD_METAL_POWDER		;42
 
 	const_next 50
 	const HELD_NORMAL_BOOST
@@ -134,7 +137,7 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_DRAGON_BOOST
 	const HELD_DARK_BOOST
 	const HELD_STEEL_BOOST
-	const HELD_FAIRY_BOOST
+	const HELD_FAIRY_BOOST		;67
 
 	const_next 70
 	const HELD_CATCH_CHANCE
@@ -146,4 +149,4 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_AMULET_COIN
 	const HELD_BRIGHTPOWDER
 	const_skip
-	const HELD_FOCUS_BAND
+	const HELD_FOCUS_BAND		;79

@@ -2365,16 +2365,23 @@ PlayerAttackDamage:
 
 	push bc
 	push hl
-	ld a, BATTLE_VARS_ABILITY
-	call GetBattleVar
-
-	push de
-	ld hl, DamageBoostingAbilities
-	call IsInByteArray
-	pop de
-	jr nc, .skipboostingabilities
 	call AbilityDamageBoost
-.skipboostingabilities
+
+	call GetUserItem
+	ld a, b
+	cp HELD_PREVENT_CONTACT
+	jr nz, .nogloves
+	push de
+    ld a, c
+    ld hl, PunchMoves
+    call IsInByteArray
+    pop de
+    jr nc, .nogloves
+    call GetTenPercent		;only for move power
+    add a
+    add d
+    ld d, a
+.nogloves
 	pop hl
 	pop bc
 
@@ -2383,6 +2390,13 @@ PlayerAttackDamage:
 	jr nc, .special
 
 ; physical
+	call GetUserItem
+	ld a, b
+	cp HELD_PHYSICAL_BOOST
+	jr nz, .noMuscleBand
+	call GetTenPercent
+	add d
+.noMuscleBand
 	ld hl, wEnemyMonDefense
 	ld a, [hli]
 	ld b, a
@@ -2396,7 +2410,13 @@ PlayerAttackDamage:
 	rl b
 
 .physicalcrit
+	call SpecialPunchCheck
+	jr nz, .nospecialpunch
+	ld hl, wBattleMonSpclAtk
+	jr .nextstep
+.nospecialpunch
 	ld hl, wBattleMonAttack
+.nextstep
 	call CheckDamageStatsCritical
 	jr c, .thickclub
 
@@ -2405,9 +2425,7 @@ PlayerAttackDamage:
 	ld b, a
 	ld c, [hl]
 
-	ld a, BATTLE_VARS_ABILITY
-	call GetBattleVar
-	cp SPECIAL_PUNCH
+	call SpecialPunchCheck
 	jr nz, .attack
 	ld hl, wPlayerSpAtk
 	jr .thickclub
@@ -2416,6 +2434,13 @@ PlayerAttackDamage:
 	jr .thickclub
 
 .special
+	call GetUserItem
+	ld a, b
+	cp HELD_SPECIAL_BOOST
+	jr nz, .noWiseGlasses
+	call GetTenPercent
+	add d
+.noWiseGlasses
 	ld hl, wEnemyMonSpclDef
 	ld a, [hli]
 	ld b, a
@@ -2570,7 +2595,13 @@ CheckDamageStatsCritical:
 	ld a, [wEnemySDefLevel]
 	jr nc, .end
 ; physical
+	call SpecialPunchCheck
+	jr nz, .use_player_attack
+	ld a, [wPlayerSAtkLevel]
+	jr .enemydef
+.use_player_attack
 	ld a, [wPlayerAtkLevel]
+.enemydef
 	ld b, a
 	ld a, [wEnemyDefLevel]
 	jr .end
@@ -2584,7 +2615,13 @@ CheckDamageStatsCritical:
 	ld a, [wPlayerSDefLevel]
 	jr nc, .end
 ; physical
+	call SpecialPunchCheck
+	jr nz, .use_enemy_attack
+	ld a, [wEnemySAtkLevel]
+	jr .playerdef
+.use_enemy_attack
 	ld a, [wEnemyAtkLevel]
+.playerdef
 	ld b, a
 	ld a, [wPlayerDefLevel]
 .end
@@ -2704,6 +2741,13 @@ EnemyAttackDamage:
 	jr nc, .special
 
 ; physical
+	call GetUserItem
+	ld a, b
+	cp HELD_PHYSICAL_BOOST
+	jr nz, .noMuscleBand
+	call GetTenPercent
+	add d
+.noMuscleBand
 	ld hl, wBattleMonDefense
 	ld a, [hli]
 	ld b, a
@@ -2717,7 +2761,13 @@ EnemyAttackDamage:
 	rl b
 
 .physicalcrit
+	call SpecialPunchCheck
+	jr nz, .nospecialpunch
+	ld hl, wEnemyMonSpclAtk
+	jr .nextstep
+.nospecialpunch
 	ld hl, wEnemyMonAttack
+.nextstep
 	call CheckDamageStatsCritical
 	jr c, .thickclub
 
@@ -2726,9 +2776,7 @@ EnemyAttackDamage:
 	ld b, a
 	ld c, [hl]
 	
-	ld a, BATTLE_VARS_ABILITY
-	call GetBattleVar
-	cp SPECIAL_PUNCH
+	call SpecialPunchCheck
 	jr nz, .attack
 	ld hl, wEnemySpAtk
 	jr .thickclub
@@ -2737,6 +2785,13 @@ EnemyAttackDamage:
 	jr .thickclub
 
 .special
+	call GetUserItem
+	ld a, b
+	cp HELD_SPECIAL_BOOST
+	jr nz, .noWiseGlasses
+	call GetTenPercent
+	add d
+.noWiseGlasses
 	ld hl, wBattleMonSpclDef
 	ld a, [hli]
 	ld b, a
@@ -6078,6 +6133,7 @@ BattleCommand_Unused61:
 BattleCommand_Unused63:
 BattleCommand_Unused6a:
 BattleCommand_Unused6C:
+BattleCommand_Unused96:
 BattleCommand_Unused9D:
 BattleCommand_UnusedA1:
 BattleCommand_UnusedA5:
@@ -6134,8 +6190,6 @@ INCLUDE "engine/battle/move_effects/rain_dance.asm"
 INCLUDE "engine/battle/move_effects/sunny_day.asm"
 
 INCLUDE "engine/battle/move_effects/belly_drum.asm"
-
-INCLUDE "engine/battle/move_effects/psych_up.asm"
 
 INCLUDE "engine/battle/move_effects/mirror_coat.asm"
 

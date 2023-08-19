@@ -60,56 +60,56 @@ PokecenterNurseScript:
 ; EVENT_WELCOMED_TO_POKECOM_CENTER is never set
 
 	opentext
-	checktime MORN
-	iftrue .morn
-	checktime DAY
-	iftrue .day
-	checktime NITE
-	iftrue .nite
-	sjump .ok
+; 	checktime MORN
+; 	iftrue .morn
+; 	checktime DAY
+; 	iftrue .day
+; 	checktime NITE
+; 	iftrue .nite
+; 	sjump .ok
 
-.morn
-	checkevent EVENT_WELCOMED_TO_POKECOM_CENTER
-	iftrue .morn_comcenter
-	farwritetext NurseMornText
-	promptbutton
-	sjump .ok
-.morn_comcenter
-	farwritetext PokeComNurseMornText
-	promptbutton
-	sjump .ok
+; .morn
+; 	checkevent EVENT_WELCOMED_TO_POKECOM_CENTER
+; 	iftrue .morn_comcenter
+; 	farwritetext NurseMornText
+; 	promptbutton
+; 	sjump .ok
+; .morn_comcenter
+; 	farwritetext PokeComNurseMornText
+; 	promptbutton
+; 	sjump .ok
 
-.day
-	checkevent EVENT_WELCOMED_TO_POKECOM_CENTER
-	iftrue .day_comcenter
-	farwritetext NurseDayText
-	promptbutton
-	sjump .ok
-.day_comcenter
-	farwritetext PokeComNurseDayText
-	promptbutton
-	sjump .ok
+; .day
+; 	checkevent EVENT_WELCOMED_TO_POKECOM_CENTER
+; 	iftrue .day_comcenter
+; 	farwritetext NurseDayText
+; 	promptbutton
+; 	sjump .ok
+; .day_comcenter
+; 	farwritetext PokeComNurseDayText
+; 	promptbutton
+; 	sjump .ok
 
-.nite
-	checkevent EVENT_WELCOMED_TO_POKECOM_CENTER
-	iftrue .nite_comcenter
-	farwritetext NurseNiteText
-	promptbutton
-	sjump .ok
-.nite_comcenter
-	farwritetext PokeComNurseNiteText
-	promptbutton
-	sjump .ok
+; .nite
+; 	checkevent EVENT_WELCOMED_TO_POKECOM_CENTER
+; 	iftrue .nite_comcenter
+; 	farwritetext NurseNiteText
+; 	promptbutton
+; 	sjump .ok
+; .nite_comcenter
+; 	farwritetext PokeComNurseNiteText
+; 	promptbutton
+; 	sjump .ok
 
-.ok
-	; only do this once
-	clearevent EVENT_WELCOMED_TO_POKECOM_CENTER
+; .ok
+; 	; only do this once
+; 	clearevent EVENT_WELCOMED_TO_POKECOM_CENTER
 
 	farwritetext NurseAskHealText
 	yesorno
 	iffalse .done
 
-	farwritetext NurseTakePokemonText
+	;farwritetext NurseTakePokemonText
 	pause 20
 	; special StubbedTrainerRankings_Healings
 	turnobject LAST_TALKED, LEFT
@@ -131,7 +131,7 @@ PokecenterNurseScript:
 	iftrue .pokerus
 .no
 
-	farwritetext NurseReturnPokemonText
+	;farwritetext NurseReturnPokemonText
 	pause 20
 
 .done

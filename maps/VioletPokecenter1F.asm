@@ -18,6 +18,7 @@ VioletPokecenter1F_ElmsAideScript:
 	opentext
 	checkevent EVENT_REFUSED_TO_TAKE_EGG_FROM_ELMS_AIDE
 	iftrue .SecondTimeAsking
+	verbosegiveitem TELEPORTER
 	writetext VioletPokecenterElmsAideFavorText
 .AskTakeEgg:
 	yesorno

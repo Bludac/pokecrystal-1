@@ -350,6 +350,7 @@ IlexForestCharcoalMasterScript:
 	writetext Text_CharcoalMasterIntro
 	promptbutton
 	verbosegiveitem HM_CUT
+	verbosegiveitem CHAINSAW
 	setevent EVENT_GOT_HM01_CUT
 	writetext Text_CharcoalMasterOutro
 	waitbutton
@@ -375,6 +376,7 @@ IlexForestHeadbuttGuyScript:
 	iftrue .AlreadyGotHeadbutt
 	writetext Text_HeadbuttIntro
 	promptbutton
+	verbosegiveitem CLUB
 	verbosegiveitem TM_HEADBUTT
 	iffalse .BagFull
 	setevent EVENT_GOT_TM02_HEADBUTT
@@ -795,10 +797,10 @@ Text_CharcoalMasterIntro:
 	done
 
 Text_CharcoalMasterOutro:
-	text "That's the CUT HM."
-	line "Teach that to a"
+	text "That's a CHAINSAW."
+	line "You can use it"
 
-	para "#MON to clear"
+	para "to clear"
 	line "small trees."
 
 	para "Of course, you"
@@ -823,7 +825,7 @@ Text_HeadbuttIntro:
 	text "What am I doing?"
 
 	para "I'm shaking trees"
-	line "using HEADBUTT."
+	line "using this CLUB."
 
 	para "It's fun. Here,"
 	line "you try it too!"
@@ -831,7 +833,7 @@ Text_HeadbuttIntro:
 
 Text_HeadbuttOutro:
 	text "Rattle trees with"
-	line "HEADBUTT. Some-"
+	line "a CLUB. Some-"
 	cont "times, sleeping"
 	cont "#MON fall out."
 	done

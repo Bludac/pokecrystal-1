@@ -338,10 +338,6 @@ GuideGentIntroText:
 	line "trainer, aren't"
 	cont "you? I can tell!"
 
-	para "That's OK! Every-"
-	line "one is a rookie"
-	cont "at some point!"
-
 	para "If you'd like, I"
 	line "can teach you a"
 	cont "few things."
@@ -358,51 +354,25 @@ GuideGentPokecenterText:
 
 	para "your #MON in no"
 	line "time at all."
-
-	para "You'll be relying"
-	line "on them a lot, so"
-
-	para "you better learn"
-	line "about them."
 	done
 
 GuideGentMartText:
 	text "This is a #MON"
 	line "MART."
-
-	para "They sell BALLS"
-	line "for catching wild"
-
-	para "#MON and other"
-	line "useful items."
 	done
 
 GuideGentRoute30Text:
 	text "ROUTE 30 is out"
 	line "this way."
-
-	para "Trainers will be"
-	line "battling their"
-
-	para "prized #MON"
-	line "there."
 	done
 
 GuideGentSeaText:
 	text "This is the sea,"
 	line "as you can see."
-
-	para "Some #MON are"
-	line "found only in"
-	cont "water."
 	done
 
 GuideGentGiftText:
 	text "Here…"
-
-	para "It's my house!"
-	line "Thanks for your"
-	cont "company."
 
 	para "Let me give you a"
 	line "small gift."
@@ -423,10 +393,7 @@ GuideGentPokegearText:
 	done
 
 GuideGentNoText:
-	text "Oh… It's something"
-	line "I enjoy doing…"
-
-	para "Fine. Come see me"
+	text "Fine. Come see me"
 	line "when you like."
 	done
 

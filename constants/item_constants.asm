@@ -30,7 +30,7 @@
 	const FIRE_STONE   ; 16
 	const THUNDERSTONE ; 17
 	const WATER_STONE  ; 18
-	const CHAINSAW     ; 19 for cut
+	const CHAINSAW     ; 19 for cut with HM in ILEX
 	const HP_UP        ; 1a
 	const PROTEIN      ; 1b
 	const IRON         ; 1c
@@ -50,12 +50,12 @@
 	const SUPER_REPEL  ; 2a
 	const MAX_REPEL    ; 2b
 	const DIRE_HIT     ; 2c
-	const TAXI_CALL    ; 2d for fly
+	const TAXI_CALL    ; 2d for fly with HM in cianwood
 	const FRESH_WATER  ; 2e
 	const SODA_POP     ; 2f
 	const LEMONADE     ; 30
 	const X_ATTACK     ; 31
-	const KAYAK        ; 32 for surf
+	const KAYAK        ; 32 for surf with HM in DANCE THEATER
 	const X_DEFEND     ; 33
 	const X_SPEED      ; 34
 	const X_SPECIAL    ; 35
@@ -95,7 +95,7 @@
 	const BIG_MUSHROOM ; 57
 	const SILVERPOWDER ; 58
 	const BLU_APRICORN ; 59
-	const BELT         ; 5a for strength
+	const BELT         ; 5a for strength in OLIVINE CAFE with HM
 	const AMULET_COIN  ; 5b
 	const YLW_APRICORN ; 5c
 	const GRN_APRICORN ; 5d
@@ -105,7 +105,7 @@
 	const WHT_APRICORN ; 61
 	const BLACKBELT_I  ; 62
 	const BLK_APRICORN ; 63
-	const LANTERN      ; 64 for flash
+	const LANTERN      ; 64 for flash in sprout tower, HM no longer there
 	const PNK_APRICORN ; 65
 	const BLACKGLASSES ; 66
 	const SLOWPOKETAIL ; 67
@@ -125,7 +125,7 @@
 	const MIRACLE_SEED ; 75
 	const THICK_CLUB   ; 76
 	const FOCUS_BAND   ; 77
-	const GLIDE        ; 78 for whirlpool
+	const GLIDE        ; 78 for whirlpool with HM from Lance in rocket hideout
 	const ENERGYPOWDER ; 79
 	const ENERGY_ROOT  ; 7a
 	const HEAL_POWDER  ; 7b
@@ -140,14 +140,14 @@
 	const STAR_PIECE   ; 84
 	const BASEMENT_KEY ; 85
 	const PASS         ; 86
-	const JETS         ; 87 for waterfall
-	const TELEPORTER   ; 88 for teleport
-	const CLUB         ; 89 for headbutt
+	const JETS         ; 87 for waterfall route 27 first step in kanto
+	const TELEPORTER   ; 88 for teleport from ELM aide in VIOLET POKECENTER
+	const CLUB         ; 89 for headbutt with TM in ILEX FOREST
 	const CHARCOAL     ; 8a
 	const BERRY_JUICE  ; 8b
 	const SCOPE_LENS   ; 8c
-	const PICK         ; 8d for rock smash
-	const ESCAPE       ; 8e for dig
+	const PICK         ; 8d for rock smash with HM on route 36
+	const ESCAPE       ; 8e for dig wtih old rod on route 32 pokecenter
 	const METAL_COAT   ; 8f
 	const DRAGON_FANG  ; 90
 	const TOXIC_ORB    ; 91
@@ -160,14 +160,14 @@
 	const BERSERK_GENE ; 98
 	const SMOOTH_ROCK  ; 99
 	const ICY_ROCK     ; 9a
-	const ITEM_9B      ; 9b
+	const PUNCH_GLOVES ; 9b
 	const SACRED_ASH   ; 9c
 	const HEAVY_BALL   ; 9d
 	const FLOWER_MAIL  ; 9e
 	const LEVEL_BALL   ; 9f
 	const LURE_BALL    ; a0
 	const FAST_BALL    ; a1
-	const ITEM_A2      ; a2
+	const STEEL_BOOTS  ; a2
 	const LIGHT_BALL   ; a3
 	const FRIEND_BALL  ; a4
 	const MOON_BALL    ; a5
@@ -176,15 +176,15 @@
 	const GORGEOUS_BOX ; a8
 	const SUN_STONE    ; a9
 	const POLKADOT_BOW ; aa
-	const ITEM_AB      ; ab
+	const ROCKY_HELMET ; ab
 	const UP_GRADE     ; ac
 	const BERRY        ; ad
 	const GOLD_BERRY   ; ae
 	const SQUIRTBOTTLE ; af
-	const ITEM_B0      ; b0
+	const MUSCLE_BAND  ; b0
 	const PARK_BALL    ; b1
 	const RAINBOW_WING ; b2
-	const ITEM_B3      ; b3
+	const WISE_GLASSES ; b3
 	const BRICK_PIECE  ; b4
 	const SURF_MAIL    ; b5
 	const LITEBLUEMAIL ; b6

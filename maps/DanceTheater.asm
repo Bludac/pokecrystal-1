@@ -106,6 +106,7 @@ DanceTheaterSurfGuy:
 	writetext SurfGuyLikeADanceText
 	promptbutton
 	verbosegiveitem HM_SURF
+	verbosegiveitem KAYAK
 	setevent EVENT_GOT_HM03_SURF
 	writetext SurfGuySurfExplanationText
 	waitbutton

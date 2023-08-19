@@ -22,6 +22,7 @@ Route32Pokecenter1FFishingGuruScript:
 	writetext Route32Pokecenter1FFishingGuruText_Yes
 	promptbutton
 	verbosegiveitem OLD_ROD
+	verbosegiveitem ESCAPE
 	writetext Route32Pokecenter1FFishingGuruText_GiveOldRod
 	waitbutton
 	closetext

@@ -1,6 +1,6 @@
 AbilityDamageBoost:
-    push bc
-
+	ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
     ld b, a                 ;preserves the ability for later
     ld a, BATTLE_VARS_MOVE
     call GetBattleVar       ;returns with cur move in a
@@ -14,12 +14,12 @@ AbilityDamageBoost:
     ld hl, ContactMoves
     call IsInByteArray
     pop de
-    jp nc, .done
+    ret nc
     call GetTenPercent
     add a
     add d
     ld d, a
-    jp .done
+    ret
 .ironfist
 	cp IRON_FIST
 	jr nz, .megalauncher
@@ -28,12 +28,12 @@ AbilityDamageBoost:
     ld hl, PunchMoves
     call IsInByteArray
     pop de
-    jp nc, .done
+    ret nc
     call GetTenPercent
     add a
     add d
     ld d, a
-    jp .done
+    ret
 .megalauncher
 	cp MEGA_LAUNCHER
 	jr nz, .sharpness
@@ -42,7 +42,7 @@ AbilityDamageBoost:
     ld hl, LauncherMoves
     call IsInByteArray
     pop de
-    jp nc, .done
+    ret nc
     call GetTenPercent
     add a
     add a
@@ -50,7 +50,7 @@ AbilityDamageBoost:
     add a
     add d
     ld d, a
-    jp .done
+    ret
 .sharpness
 	cp SHARPNESS
 	jr nz, .technician
@@ -59,7 +59,7 @@ AbilityDamageBoost:
     ld hl, SlashMoves
     call IsInByteArray
     pop de
-    jp nc, .done
+    ret nc
     call GetTenPercent
     add a
     add a
@@ -67,13 +67,13 @@ AbilityDamageBoost:
     add a
     add d
     ld d, a
-    jp .done
+    ret
 .technician
 	cp TECHNICIAN
 	jr nz, .sheerforce
     ld a, d
     cp 61
-    jp nc, .done
+    ret nc
     call GetTenPercent
     add a
     add a
@@ -81,7 +81,7 @@ AbilityDamageBoost:
     add a
     add d
     ld d, a
-    jp .done
+    ret
 .sheerforce
 	cp SHEER_FORCE
 	jr nz, .reckless
@@ -89,7 +89,7 @@ AbilityDamageBoost:
 	call GetBattleVar
     and STATUS
     cp STATUS
-    jr z, .done
+    ret z
     ld hl, wPlayerMoveStruct + MOVE_CHANCE
 	ldh a, [hBattleTurn]
 	and a
@@ -98,32 +98,32 @@ AbilityDamageBoost:
 .got_move_chance
     ld a, [hl]
     and a
-    jr z, .done
+    ret z
     call GetTenPercent
     add a
     add a
     add d
     ld d, a
-    jr .done
+    ret
 .reckless
 	cp RECKLESS
     jr nz, .galvanize
     ld a, BATTLE_VARS_MOVE_EFFECT
 	call GetBattleVar
     cp EFFECT_RECOIL_HIT
-    jr nz, .done
+    ret nz
     call GetTenPercent
     add a
     add d
     ld d, a
-    jr .done
+    ret
 .galvanize
 	cp GALVANIZE
     jr nz, .analytic
     ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar
     and TYPE_MASK
-    jr nz, .done    ; normal type is zero
+    ret nz   ; normal type is zero
     ldh a, [hBattleTurn]
     and a
     jr nz, .EnemyMoveGalvanize
@@ -139,29 +139,27 @@ AbilityDamageBoost:
     add a
     add d
     ld d, a
-    jr .done
+    ret
 .analytic
 	cp ANALYTIC
-    jr nz, .done
+    ret nz
     ldh a, [hBattleTurn]
     and a
     jr nz, .EnemyMoveAnalytic
     ld a, [wEnemyGoesFirst]
     and a
-    jr z, .done
+    ret z
     jr .contAnalytic
 .EnemyMoveAnalytic
     ld a, [wEnemyGoesFirst]
     and a
-    jr nz, .done
+    ret nz
 .contAnalytic
     call GetTenPercent
     add a
     add a
     add d
     ld d, a
-.done
-    pop bc
     ret
 
 GetTenPercent:
@@ -317,15 +315,27 @@ ContactHitAbilities:
 	call GetBattleVar
 	bit SUBSTATUS_SUBSTITUTE, a
 	ret nz
+
     ld a, BATTLE_VARS_MOVE
     call GetBattleVar
     ld hl, ContactMoves
     call IsInByteArray
     ret nc
+
+    call GetUserItem
+    ld a, b
+	cp HELD_PREVENT_CONTACT
+    ret z
+    call GetOpponentItem
+    ld a, b
+    cp ROCKY_HELMET
+    call z, .RoughSkin
+
     ld a, BATTLE_VARS_ABILITY_OPP
     call GetBattleVar
     cp ROUGH_SKIN
     jr nz, .poisonpoint
+.RoughSkin:
     ld hl, GetEighthMaxHP
     call CallBattleCore
     ld hl, SubtractHPFromUser
@@ -563,6 +573,21 @@ SwitchOutAbility:
     ld [wBattleMonStatus], a
 .enemycure
 	ld [wEnemyMonStatus], a
+    ret
+
+SpecialPunchCheck:
+    ld a, BATTLE_VARS_ABILITY
+	call GetBattleVar
+	cp SPECIAL_PUNCH
+    ret nz
+    ld a, BATTLE_VARS_MOVE
+    call GetBattleVar
+    and a ;this should ensure that the zero flag is not set if we dont have a punching move
+    ld hl, PunchMoves
+    call IsInByteArray
+    ret nc
+    xor a
+    and a
     ret
 
 DamageBoostingAbilities:

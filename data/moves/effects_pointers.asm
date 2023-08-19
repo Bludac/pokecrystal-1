@@ -144,7 +144,7 @@ MoveEffectsPointers:
 	dw AllUpHit
 	dw FakeOut
 	dw BellyDrum
-	dw PsychUp
+	dw NormalHit
 	dw MirrorCoat
 	dw NormalHit
 	dw Twister

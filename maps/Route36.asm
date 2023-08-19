@@ -139,6 +139,7 @@ Route36RockSmashGuyScript:
 	writetext RockSmashGuyText2
 	promptbutton
 	verbosegiveitem TM_ROCK_SMASH
+	verbosegiveitem PICK
 	iffalse .NoRoomForTM
 	setevent EVENT_GOT_TM08_ROCK_SMASH
 .AlreadyGotRockSmash:
