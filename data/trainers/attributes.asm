@@ -131,7 +131,7 @@ TrainerClassAttributes:
 ; Youngster
 	db NO_ITEM, NO_ITEM ; items
 	db 4 ; base reward
-	dw AI_BASIC | AI_STATUS
+	dw AI_BASIC | AI_TYPES | AI_STATUS
 	dw CONTEXT_USE | SWITCH_SOMETIMES
 
 ; Schoolboy

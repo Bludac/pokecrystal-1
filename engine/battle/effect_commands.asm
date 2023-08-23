@@ -1926,6 +1926,13 @@ BattleCommand_ApplyDamage:
 	ld a, BATTLE_VARS_ABILITY_OPP
 	call GetBattleVar
 	cp STURDY
+	jr nz, .focus_sash
+	call SturdyEffect
+	jr .endure_check
+.focus_sash
+	call GetUserItem
+	ld a, b
+	cp HELD_FOCUS_SASH
 	jr nz, .endure_check
 	call SturdyEffect
 .endure_check

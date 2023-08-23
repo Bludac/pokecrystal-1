@@ -189,7 +189,7 @@ ItemNames::
 	li "BLUESKY MAIL"
 	li "MUSIC MAIL"
 	li "MIRAGE MAIL"
-	li "TERU-SAMA"
+	li "FOCUS SASH"
 	li "TERU-SAMA"
 	li "TERU-SAMA"
 	assert_list_length NUM_ITEMS

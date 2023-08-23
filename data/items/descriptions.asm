@@ -190,7 +190,7 @@ ItemDescriptions:
 	dw BlueSkyMailDesc
 	dw MusicMailDesc
 	dw MirageMailDesc
-	dw TeruSama25Desc
+	dw FocusSashDesc
 	dw TeruSama26Desc
 	dw TeruSama26Desc
 	assert_table_length NUM_ITEMS
@@ -1006,8 +1006,9 @@ MirageMailDesc:
 	db   "MEW-print MAIL."
 	next "(HOLD)@"
 
-TeruSama25Desc:
-	db   "?@"
+FocusSashDesc:
+	db   "ENDURE Status when"
+	next "at MaxHP (HOLD)@"
 
 TeruSama26Desc:
 	db   "?@"

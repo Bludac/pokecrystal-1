@@ -792,9 +792,9 @@ ParasectEvosAttacks:
 VenonatEvosAttacks:
 	db EVOLVE_LEVEL, 31, VENOMOTH
 	db 0 ; no more evolutions
-	db 1, POUND
-	db 1, DISABLE
 	db 1, FORESIGHT
+	db 1, DISABLE
+	db 1, POUND
 	db 7, STRUGGLE_BUG
 	db 10, CONFUSE_RAY
 	db 14, CONFUSION
@@ -961,8 +961,8 @@ GrowlitheEvosAttacks:
 	db EVOLVE_ITEM, FIRE_STONE, ARCANINE
 	db EVOLVE_ITEM, THUNDERSTONE, LUGIA
 	db 0 ; no more evolutions
-	db 1, BITE
 	db 1, ROAR
+	db 1, BITE
 	db 1, LEER
 	db 7, EMBER
 	db 12, ROCK_THROW
@@ -1136,7 +1136,7 @@ BellsproutEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, VINE_WHIP
 	db 4, GROWTH
-	db 9, WRAP
+	db 8, WRAP
 	db 13, SLEEP_POWDER
 	db 17, RAZOR_LEAF
 	db 19, STUN_SPORE
@@ -1388,8 +1388,8 @@ DoduoEvosAttacks:
 	db 1, PECK
 	db 1, GROWL
 	db 5, QUICK_ATTACK
-	db 9, PURSUIT
-	db 13, DOUBLE_KICK
+	db 9, DOUBLE_KICK
+	db 13, PURSUIT
 	db 18, WING_ATTACK
 	db 24, LOW_KICK
 	db 30, DRILL_PECK
@@ -1731,8 +1731,8 @@ ExeggutorEvosAttacks:
 CuboneEvosAttacks:
 	db EVOLVE_LEVEL, 28, MAROWAK
 	db 0 ; no more evolutions
-	db 1, POUND
 	db 1, GROWL
+	db 1, POUND
 	db 5, LICK
 	db 9, BULLDOZE
 	db 13, SHADOW_SNEAK
@@ -1814,7 +1814,7 @@ LickitungEvosAttacks:
 
 KoffingEvosAttacks:
 	db EVOLVE_LEVEL, 35, WEEZING
-	db EVOLVE_ITEM, WATER_STONE, HO_OH
+	db EVOLVE_ITEM, WATER_STONE, HO_OH ;Freezing
 	db 0 ; no more evolutions
 	db 1, TOXIC
 	db 1, POUND
@@ -2648,10 +2648,10 @@ FeraligatrEvosAttacks:
 SentretEvosAttacks:
 	db EVOLVE_LEVEL, 15, FURRET
 	db 0 ; no more evolutions
-	db 1, POUND
+	db 1, QUICK_ATTACK
 	db 1, DEFENSE_CURL
 	db 1, MEDITATE
-	db 7, QUICK_ATTACK
+	db 7, SAND_TOMB
 	db 12, FAINT_ATTACK
 	db 17, BATON_PASS
 	db 22, DIG
@@ -2667,10 +2667,10 @@ SentretEvosAttacks:
 FurretEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, AGILITY
-	db 1, POUND
+	db 1, QUICK_ATTACK
 	db 1, DEFENSE_CURL
 	db 1, MEDITATE
-	db 7, QUICK_ATTACK
+	db 7, SAND_TOMB
 	db 12, FAINT_ATTACK
 	db 19, BATON_PASS
 	db 24, DIG
@@ -2686,9 +2686,10 @@ FurretEvosAttacks:
 HoothootEvosAttacks:
 	db EVOLVE_LEVEL, 20, NOCTOWL
 	db 0 ; no more evolutions
-	db 1, PECK
 	db 1, GROWL
+	db 1, PECK
 	db 6, FORESIGHT
+	db 9, NIGHT_SHADE
 	db 11, CONFUSION
 	db 16, HYPNOSIS
 	db 21, AIR_CUTTER
@@ -2834,9 +2835,9 @@ PichuEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, THUNDERSHOCK
 	db 1, GROWL
-	db 6, LEER
+	db 6, QUICK_ATTACK
 	db 8, ATTRACT
-	db 11, QUICK_ATTACK
+	db 11, LEER
 	db 15, FAIRY_WIND
 	db 19, FLASH
 	db 24, CHARM
@@ -3398,7 +3399,7 @@ GligarEvosAttacks:
 	db 1, POISON_STING
 	db 1, DEFENSE_CURL
 	db 6, MUD_SLAP
-	db 12, WING_ATTACK
+	db 11, WING_ATTACK
 	db 18, BULLDOZE
 	db 24, FAINT_ATTACK
 	db 30, SLASH

@@ -313,15 +313,13 @@ AI_Smart_EffectHandlers:
 	dbw EFFECT_LEECH_HIT,        AI_Smart_LeechHit
 	dbw EFFECT_SELFDESTRUCT,     AI_Smart_Selfdestruct
 	dbw EFFECT_DREAM_EATER,      AI_Smart_DreamEater
-	dbw EFFECT_EVASION_UP,       AI_Smart_EvasionUp
 	dbw EFFECT_ALWAYS_HIT,       AI_Smart_AlwaysHit
-	dbw EFFECT_ACCURACY_DOWN,    AI_Smart_AccuracyDown
 	dbw EFFECT_RESET_STATS,      AI_Smart_ResetStats
+	dbw EFFECT_CLEAR_SMOG,		 AI_Smart_ClearSmog
 	dbw EFFECT_FORCE_SWITCH,     AI_Smart_ForceSwitch
 	dbw EFFECT_HEAL,             AI_Smart_Heal
 	dbw EFFECT_TOXIC,            AI_Smart_Toxic
 	dbw EFFECT_LIGHT_SCREEN,     AI_Smart_LightScreen
-	dbw EFFECT_OHKO,             AI_Smart_Ohko
 	dbw EFFECT_SUPER_FANG,       AI_Smart_SuperFang
 	dbw EFFECT_TRAP_TARGET,      AI_Smart_TrapTarget
 	dbw EFFECT_CONFUSE,          AI_Smart_Confuse
@@ -342,10 +340,8 @@ AI_Smart_EffectHandlers:
 	dbw EFFECT_SLEEP_TALK,       AI_Smart_SleepTalk
 	dbw EFFECT_DESTINY_BOND,     AI_Smart_DestinyBond
 	dbw EFFECT_REVERSAL,         AI_Smart_Reversal
-	dbw EFFECT_SPITE,            AI_Smart_Spite
 	dbw EFFECT_HEAL_BELL,        AI_Smart_HealBell
 	dbw EFFECT_PRIORITY_HIT,     AI_Smart_PriorityHit
-	dbw EFFECT_THIEF,            AI_Smart_Thief
 	dbw EFFECT_MEAN_LOOK,        AI_Smart_MeanLook
 	dbw EFFECT_FLAME_WHEEL,      AI_Smart_FlameWheel
 	dbw EFFECT_CURSE,            AI_Smart_Curse
@@ -473,116 +469,6 @@ AI_Smart_DreamEater:
 	dec [hl]
 	ret
 
-AI_Smart_EvasionUp:
-; Dismiss this move if enemy's evasion can't raise anymore.
-	ld a, [wEnemyEvaLevel]
-	cp MAX_STAT_LEVEL
-	jp nc, AIDiscourageMove
-
-; If enemy's HP is full...
-	call AICheckEnemyMaxHP
-	jr nc, .hp_mismatch_1
-
-; ...greatly encourage this move if player is badly poisoned.
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_TOXIC, a
-	jr nz, .greatly_encourage
-
-; ...70% chance to greatly encourage this move if player is not badly poisoned.
-	call Random
-	cp 70 percent
-	jr nc, .not_encouraged
-
-.greatly_encourage
-	dec [hl]
-	dec [hl]
-	ret
-
-.hp_mismatch_1
-
-; Greatly discourage this move if enemy's HP is below 25%.
-	call AICheckEnemyQuarterHP
-	jr nc, .hp_mismatch_2
-
-; If enemy's HP is above 25% but not full, 4% chance to greatly encourage this move.
-	call Random
-	cp 4 percent
-	jr c, .greatly_encourage
-
-; If enemy's HP is between 25% and 50%,...
-	call AICheckEnemyHalfHP
-	jr nc, .hp_mismatch_3
-
-; If enemy's HP is above 50% but not full, 20% chance to greatly encourage this move.
-	call AI_80_20
-	jr c, .greatly_encourage
-	jr .not_encouraged
-
-.hp_mismatch_3
-; ...50% chance to greatly discourage this move.
-	call AI_50_50
-	jr c, .not_encouraged
-
-.hp_mismatch_2
-	inc [hl]
-	inc [hl]
-
-; 30% chance to end up here if enemy's HP is full and player is not badly poisoned.
-; 77% chance to end up here if enemy's HP is above 50% but not full.
-; 96% chance to end up here if enemy's HP is between 25% and 50%.
-; 100% chance to end up here if enemy's HP is below 25%.
-; In other words, we only end up here if the move has not been encouraged or dismissed.
-.not_encouraged
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_TOXIC, a
-	jr nz, .maybe_greatly_encourage
-
-	ld a, [wPlayerSubStatus4]
-	bit SUBSTATUS_LEECH_SEED, a
-	jr nz, .maybe_encourage
-
-; Discourage this move if enemy's evasion level is higher than player's accuracy level.
-	ld a, [wEnemyEvaLevel]
-	ld b, a
-	ld a, [wPlayerAccLevel]
-	cp b
-	jr c, .discourage
-
-; Greatly encourage this move if the player is in the middle of Fury Cutter or Rollout.
-	ld a, [wPlayerFuryCutterCount]
-	and a
-	jr nz, .greatly_encourage
-
-	ld a, [wPlayerSubStatus1]
-	bit SUBSTATUS_ROLLOUT, a
-	jr nz, .greatly_encourage
-
-.discourage
-	inc [hl]
-	ret
-
-; Player is badly poisoned.
-; 70% chance to greatly encourage this move.
-; This would counter any previous discouragement.
-.maybe_greatly_encourage
-	call Random
-	cp 31 percent + 1
-	ret c
-
-	dec [hl]
-	dec [hl]
-	ret
-
-; Player is seeded.
-; 50% chance to encourage this move.
-; This would partly counter any previous discouragement.
-.maybe_encourage
-	call AI_50_50
-	ret c
-
-	dec [hl]
-	ret
-
 AI_Smart_AlwaysHit:
 ; 80% chance to greatly encourage this move if either...
 
@@ -604,111 +490,7 @@ AI_Smart_AlwaysHit:
 	dec [hl]
 	ret
 
-AI_Smart_AccuracyDown:
-; If player's HP is full...
-	call AICheckPlayerMaxHP
-	jr nc, .hp_mismatch_1
-
-; ...and enemy's HP is above 50%...
-	call AICheckEnemyHalfHP
-	jr nc, .hp_mismatch_1
-
-; ...greatly encourage this move if player is badly poisoned.
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_TOXIC, a
-	jr nz, .greatly_encourage
-
-; ...70% chance to greatly encourage this move if player is not badly poisoned.
-	call Random
-	cp 70 percent
-	jr nc, .not_encouraged
-
-.greatly_encourage
-	dec [hl]
-	dec [hl]
-	ret
-
-.hp_mismatch_1
-
-; Greatly discourage this move if player's HP is below 25%.
-	call AICheckPlayerQuarterHP
-	jr nc, .hp_mismatch_2
-
-; If player's HP is above 25% but not full, 4% chance to greatly encourage this move.
-	call Random
-	cp 4 percent
-	jr c, .greatly_encourage
-
-; If player's HP is between 25% and 50%,...
-	call AICheckPlayerHalfHP
-	jr nc, .hp_mismatch_3
-
-; If player's HP is above 50% but not full, 20% chance to greatly encourage this move.
-	call AI_80_20
-	jr c, .greatly_encourage
-	jr .not_encouraged
-
-; ...50% chance to greatly discourage this move.
-.hp_mismatch_3
-	call AI_50_50
-	jr c, .not_encouraged
-
-.hp_mismatch_2
-	inc [hl]
-	inc [hl]
-
-; We only end up here if the move has not been already encouraged.
-.not_encouraged
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_TOXIC, a
-	jr nz, .maybe_greatly_encourage
-
-	ld a, [wPlayerSubStatus4]
-	bit SUBSTATUS_LEECH_SEED, a
-	jr nz, .encourage
-
-; Discourage this move if enemy's evasion level is higher than player's accuracy level.
-	ld a, [wEnemyEvaLevel]
-	ld b, a
-	ld a, [wPlayerAccLevel]
-	cp b
-	jr c, .discourage
-
-; Greatly encourage this move if the player is in the middle of Fury Cutter or Rollout.
-	ld a, [wPlayerFuryCutterCount]
-	and a
-	jr nz, .greatly_encourage
-
-	ld a, [wPlayerSubStatus1]
-	bit SUBSTATUS_ROLLOUT, a
-	jr nz, .greatly_encourage
-
-.discourage
-	inc [hl]
-	ret
-
-; Player is badly poisoned.
-; 70% chance to greatly encourage this move.
-; This would counter any previous discouragement.
-.maybe_greatly_encourage
-	call Random
-	cp 31 percent + 1
-	ret c
-
-	dec [hl]
-	dec [hl]
-	ret
-
-; Player is seeded.
-; 50% chance to encourage this move.
-; This would partly counter any previous discouragement.
-.encourage
-	call AI_50_50
-	ret c
-
-	dec [hl]
-	ret
-
+AI_Smart_ClearSmog:
 AI_Smart_ResetStats:
 ; 85% chance to encourage this move if any of enemy's stat levels is lower than -2.
 	push hl
@@ -802,20 +584,6 @@ AI_Smart_Reflect:
 	ret c
 	call Random
 	cp 8 percent
-	ret c
-	inc [hl]
-	ret
-
-AI_Smart_Ohko:
-; Dismiss this move if player's level is higher than enemy's level.
-; Else, discourage this move is player's HP is below 50%.
-
-	ld a, [wBattleMonLevel]
-	ld b, a
-	ld a, [wEnemyMonLevel]
-	cp b
-	jp c, AIDiscourageMove
-	call AICheckPlayerHalfHP
 	ret c
 	inc [hl]
 	ret
@@ -1288,65 +1056,6 @@ AI_Smart_DefrostOpponent:
 	dec [hl]
 	ret
 
-AI_Smart_Spite:
-	ld a, [wLastPlayerCounterMove]
-	and a
-	jr nz, .usedmove
-
-	call AICompareSpeed
-	jp c, AIDiscourageMove
-
-	call AI_50_50
-	ret c
-	inc [hl]
-	ret
-
-.usedmove
-	push hl
-	ld b, a
-	ld c, NUM_MOVES
-	ld hl, wBattleMonMoves
-	ld de, wBattleMonPP
-
-.moveloop
-	ld a, [hli]
-	cp b
-	jr z, .foundmove
-
-	inc de
-	dec c
-	jr nz, .moveloop
-
-	pop hl
-	ret
-
-.foundmove
-	pop hl
-	ld a, [de]
-	cp 6
-	jr c, .encourage
-	cp 15
-	jr nc, .discourage
-
-	call Random
-	cp 39 percent + 1
-	ret nc
-
-.discourage
-	inc [hl]
-	ret
-
-.encourage
-	call Random
-	cp 39 percent + 1
-	ret c
-	dec [hl]
-	dec [hl]
-	ret
-
-.dismiss ; unreferenced
-	jp AIDiscourageMove
-
 AI_Smart_DestinyBond:
 AI_Smart_Reversal:
 ; Discourage this move if enemy's HP is above 25%.
@@ -1442,14 +1151,6 @@ AI_Smart_PriorityHit:
 	dec [hl]
 	dec [hl]
 	dec [hl]
-	ret
-
-AI_Smart_Thief:
-; Don't use Thief unless it's the only move available.
-
-	ld a, [hl]
-	add $1e
-	ld [hl], a
 	ret
 
 AI_Smart_Disable:

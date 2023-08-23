@@ -101,6 +101,7 @@ DEF MAIL_STRUCT_LENGTH_JP EQU $2a ; mailmsg_jp struct
 	const HELD_PREVENT_CONFUSE	;26
 	const HELD_PREVENT_CONTACT	;27
 	const HELD_PREVENT_SPIKES	;28
+	const HELD_FOCUS_SASH		;29
 
 	const_next 30
 	const HELD_30

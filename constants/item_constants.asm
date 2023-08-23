@@ -195,7 +195,7 @@
 	const BLUESKY_MAIL ; bb
 	const MUSIC_MAIL   ; bc
 	const MIRAGE_MAIL  ; bd
-	const ITEM_BE      ; be
+	const FOCUS_SASH   ; be
 	const ITEM_C3      ; c3
 	const ITEM_DC      ; dc
 DEF NUM_ITEMS EQU const_value - 1
