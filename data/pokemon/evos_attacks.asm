@@ -2724,13 +2724,13 @@ LedybaEvosAttacks:
 	db 8, CONFUSE_RAY
 	db 12, LIGHT_SCREEN
 	db 12, REFLECT
-	db 15, THUNDERSHOCK
-	db 20, STRUGGLE_BUG
+	db 15, WING_ATTACK
+	db 20, SILVER_WIND
 	db 25, BATON_PASS
 	db 29, SUBSTITUTE
-	db 36, BUG_BUZZ
+	db 36, LEECH_LIFE
 	db 43, AGILITY
-	db 50, THUNDERBOLT
+	db 50, STRONG_WINDS
 	db 0 ; no more level-up moves
 
 LedianEvosAttacks:
@@ -2741,13 +2741,13 @@ LedianEvosAttacks:
 	db 8, CONFUSE_RAY
 	db 12, LIGHT_SCREEN
 	db 12, REFLECT
-	db 15, THUNDERSHOCK
-	db 20, STRUGGLE_BUG
+	db 15, WING_ATTACK
+	db 20, SILVER_WIND
 	db 27, BATON_PASS
 	db 32, SUBSTITUTE
-	db 39, BUG_BUZZ
+	db 39, LEECH_LIFE
 	db 47, AGILITY
-	db 55, ZAP_CANNON
+	db 55, STRONG_WINDS
 	db 0 ; no more level-up moves
 
 SpinarakEvosAttacks:
