@@ -22,125 +22,35 @@ HealParty:
 .done
 	ret
 
-HealPartyMon:
-	ld a, MON_SPECIES
-	call GetPartyParamLocation
-	ld d, h
-	ld e, l
-
-	;status restored
-	ld hl, MON_STATUS
-	add hl, de
-	xor a
-	ld [hli], a
-	ld [hl], a
-
-	;creates a floor for stat exp when healing at pokemon center as a catchup mechanic
-	ld hl, MON_LEVEL
-	add hl, de
-	ld a, [hl]
-	ld b, a
-	xor a
-	ld c, a
-.divide_by_5
-	inc c
-	add 5
-	cp b
-	jr c, .divide_by_5
-	dec c
-	ld b, 0
-	ld hl, StatExpMinimumTable
-	add hl, bc
-	ld a, [hli]
-	ld b, a
-	ld a, [hl]
-	ld c, a
-	;bc contains the stat exp minimum
-	ld hl, MON_STAT_EXP
-	add hl, de
-	push de
-	xor a
-	ld d, a
-	dec hl
-.next
-	;we want to get here looking at the low byte of the stat before the stat we want so we inc to the high byte
-	inc hl
-	ld a, d
-	cp 5
-	jr nc, .stat_exp_done
-	inc a
-	ld d, a
-	;loop business above, below compares the current stat exp to the minimum stat exp from the table
-	ld a, b
-	cp [hl]
-	inc hl
-	jr c, .next
-	jr z, .checklowbyte
-	;if stat exp is lower than the minimum from the table, we replace it with the minimum
-.use_min_stat_exp
-	dec hl
-	ld a, b
-	ld [hl], a
-	inc hl
-	ld a, c
-	ld [hl], a
-	jr .next
-
-.checklowbyte
-	ld a, c
-	cp [hl]
-	jr nc, .use_min_stat_exp
-	jr .next
-
-.stat_exp_done
-	pop de
-
-	push hl
-	push de
-
-	ld a, [wCurPartyMon]
-	ld e, a
-	ld d, 0
-	ld hl, wPartySpecies
-	add hl, de
-	ld a, [hl]
-	ld [wCurSpecies], a
-	call GetBaseData
-
-	ld a, d
-	ld b, a
-	ld a, e
-	ld c, a
-
-	ld hl, MON_MAXHP
-	add hl, bc
-	ld d, h
-	ld e, l
-	ld hl, MON_STAT_EXP - 1
-	add hl, bc
-	ld b, TRUE
-	predef CalcMonStats
-	pop de
-	pop hl
-
-	;health restored
-	ld hl, MON_MAXHP
-	add hl, de
-
-	; bc = MON_HP
-	ld b, h
-	ld c, l
-	dec bc
-	dec bc
-
-	ld a, [hli]
-	ld [bc], a
-	inc bc
-	ld a, [hl]
-	ld [bc], a
-
-	farcall RestoreAllPP
-	ret
+	HealPartyMon:
+		ld a, MON_SPECIES
+		call GetPartyParamLocation
+		ld d, h
+		ld e, l
+	
+		ld hl, MON_STATUS
+		add hl, de
+		xor a
+		ld [hli], a
+		ld [hl], a
+	
+		ld hl, MON_MAXHP
+		add hl, de
+	
+		; bc = MON_HP
+		ld b, h
+		ld c, l
+		dec bc
+		dec bc
+	
+		ld a, [hli]
+		ld [bc], a
+		inc bc
+		ld a, [hl]
+		ld [bc], a
+	
+		farcall RestoreAllPP
+		ret
 
 ComputeHPBarPixels:
 ; e = bc * (6 * 8) / de
