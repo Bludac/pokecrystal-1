@@ -794,16 +794,27 @@ MACRO reloadmappart
 	db reloadmappart_command
 ENDM
 
-	const writecmdqueue_command ; $7d
+/* 	const writecmdqueue_command ; $7d
 MACRO writecmdqueue
 	db writecmdqueue_command
 	dw \1 ; queue_pointer
+ENDM */
+
+	const usestonetable_command ; $7d (replaces the commented out code above)
+MACRO usestonetable
+	db usestonetable_command
+	dw \1 ; stonetable_pointer
 ENDM
 
-	const delcmdqueue_command ; $7e
+/* 	const delcmdqueue_command ; $7e
 MACRO delcmdqueue
 	db delcmdqueue_command
 	db \1 ; byte
+ENDM */
+
+	const clearstonetable_command ; $7e (replaces the commented out code above)
+MACRO clearstonetable
+	db clearstonetable_command
 ENDM
 
 	const playmusic_command ; $7f

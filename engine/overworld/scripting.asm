@@ -189,8 +189,10 @@ ScriptCommandTable:
 	dw Script_changeblock                ; 7a
 	dw Script_reloadmap                  ; 7b
 	dw Script_reloadmappart              ; 7c
-	dw Script_writecmdqueue              ; 7d
-	dw Script_delcmdqueue                ; 7e
+/* 	dw Script_writecmdqueue              ; 7d
+	dw Script_delcmdqueue                ; 7e */
+	dw Script_usestonetable              ; 7d
+	dw Script_clearstonetable            ; 7e replaces the two comments above
 	dw Script_playmusic                  ; 7f
 	dw Script_encountermusic             ; 80
 	dw Script_musicfadeout               ; 81
@@ -2110,7 +2112,7 @@ Script_dontrestartmapmusic:
 	ld [wDontPlayMapMusicOnReload], a
 	ret
 
-Script_writecmdqueue:
+/* Script_writecmdqueue:
 	call GetScriptByte
 	ld e, a
 	call GetScriptByte
@@ -2118,9 +2120,9 @@ Script_writecmdqueue:
 	ld a, [wScriptBank]
 	ld b, a
 	farcall WriteCmdQueue ; no need to farcall
-	ret
+	ret */
 
-Script_delcmdqueue:
+/* Script_delcmdqueue:
 	xor a
 	ld [wScriptVar], a
 	call GetScriptByte
@@ -2129,7 +2131,20 @@ Script_delcmdqueue:
 	ret c
 	ld a, TRUE
 	ld [wScriptVar], a
+	ret */
+
+Script_usestonetable:
+ 	call GetScriptByte
+	ld [wStoneTableAddress], a
+ 	call GetScriptByte
+	ld [wStoneTableAddress+1], a
 	ret
+
+Script_clearstonetable:
+	xor a
+	ld [wStoneTableAddress], a
+	ld [wStoneTableAddress+1], a
+	ret									;replaces commented out section above
 
 Script_changemapblocks:
 	call GetScriptByte

@@ -1,4 +1,4 @@
-ClearCmdQueue::
+/* ClearCmdQueue::
 	ld hl, wCmdQueue
 	ld de, CMDQUEUE_ENTRY_SIZE
 	ld c, CMDQUEUE_CAPACITY
@@ -254,7 +254,16 @@ CmdQueue_Type3:
 	pop bc
 	ret
 
-CmdQueue_StoneTable:
+CmdQueue_StoneTable: */
+
+HandleStoneTable::
+	ld hl, wStoneTableAddress
+	ld a, [hli]
+	ld b, [hl]
+	ld c, a
+	or b
+	ret z	;this line up to comments replaces all the commented code above
+	
 	ld de, wPlayerStruct
 	ld a, NUM_OBJECT_STRUCTS
 .loop

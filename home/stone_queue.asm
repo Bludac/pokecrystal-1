@@ -102,11 +102,13 @@ HandleStoneQueue::
 
 .IsObjectInStoneTable:
 	inc e
-	ld hl, CMDQUEUE_ADDR
+/* 	ld hl, CMDQUEUE_ADDR
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
-	ld l, a
+	ld l, a */
+	ld h, b
+	ld l, c	;these two lines replace above as part of command queue removal
 .loop2
 	ld a, [hli]
 	cp $ff

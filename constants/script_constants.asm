@@ -144,8 +144,8 @@ DEF NUM_BGEVENTS EQU const_value
 	const OBJECTTYPE_6
 DEF NUM_OBJECT_TYPES EQU const_value
 
-; command queue members
-rsreset
+; command queue members (commenting out this section as part of removing the unused command queue)
+/* rsreset
 DEF CMDQUEUE_TYPE            rb
 DEF CMDQUEUE_ADDR            rb
 DEF CMDQUEUE_02              rb
@@ -153,16 +153,16 @@ DEF CMDQUEUE_03              rb
 DEF CMDQUEUE_04              rb
 DEF CMDQUEUE_JUMPTABLE_INDEX rb
 DEF CMDQUEUE_ENTRY_SIZE EQU _RS
-DEF CMDQUEUE_CAPACITY EQU 4
+DEF CMDQUEUE_CAPACITY EQU 4 */
 
 ; HandleQueuedCommand.Jumptable indexes (see engine/overworld/events.asm)
-	const_def
+/* 	const_def
 	const CMDQUEUE_NULL
 	const CMDQUEUE_TYPE1
 	const CMDQUEUE_STONETABLE
 	const CMDQUEUE_TYPE3
 	const CMDQUEUE_TYPE4
-DEF NUM_CMDQUEUE_TYPES EQU const_value
+DEF NUM_CMDQUEUE_TYPES EQU const_value */
 
 ; elevfloor macro values
 ; ElevatorFloorNames indexes (see data/events/elevator_floors.asm)

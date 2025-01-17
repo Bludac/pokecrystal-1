@@ -7,8 +7,12 @@ HandleNewMap:
 	ld a, MAPCALLBACK_NEWMAP
 	call RunMapCallback
 HandleContinueMap:
-	farcall ClearCmdQueue
-	ld a, MAPCALLBACK_CMDQUEUE
+	;farcall ClearCmdQueue
+	xor a
+	ld [wStoneTableAddress], a
+	ld [wStoneTableAddress+1], a
+	;ld a, MAPCALLBACK_CMDQUEUE
+	ld a, MAPCALLBACK_STONETABLE	;changes above part of removing command queue
 	call RunMapCallback
 	call GetMapTimeOfDay
 	ld [wMapTimeOfDay], a
